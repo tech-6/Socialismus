@@ -27,7 +27,7 @@
         <maven.assembly.version>3.3.0</maven.assembly.version>
         <maven.antrun.version>3.1.0</maven.antrun.version>
         <maven.resources.version>3.3.1</maven.resources.version>
-        <maven.source.version>3.6.3</maven.source.version>
+        <maven.javadoc.version>3.6.3</maven.javadoc.version>
 
         <!-- Dependencies -->
         <guice.version>7.0.0</guice.version>
@@ -45,6 +45,9 @@
         <placeholderapi.version>2.11.5</placeholderapi.version>
         <protocollib.version>5.1.0</protocollib.version>
         <folialib.version>0.3.4</folialib.version>
+
+        <!-- CVE Overrides -->
+        <guava.version>33.1.0-jre</guava.version>
     </properties>
 
     <profiles>
@@ -118,6 +121,18 @@
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
             <version>${guice.version}</version>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

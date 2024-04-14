@@ -37,15 +37,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${maven.source.version}</version>
+                <version>${maven.javadoc.version}</version>
                 <inherited>false</inherited>
                 <configuration>
-                    <excludePackageNames>
-                        me.whereareiam.socialismus.api.type:
-                        me.whereareiam.socialismus.api.type.*:
-                        me.whereareiam.socialismus.api.model:
-                        me.whereareiam.socialismus.api.model.*
-                    </excludePackageNames>
+                    <doctitle>${project.parent.name}API ${project.parent.version}</doctitle>
+                    <windowtitle>${project.parent.name}API ${project.parent.version}</windowtitle>
+                    <additionalOptions>
+                        <additionalOption>-Xdoclint:none</additionalOption>
+                    </additionalOptions>
                 </configuration>
                 <executions>
                     <execution>
