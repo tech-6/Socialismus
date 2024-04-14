@@ -64,6 +64,8 @@ public class ChatCommandTemplate extends CommandBase {
 			messageUtil.sendMessage(issuer, messages.commands.onlyForPlayer);
 
 		Player player = issuer.getIssuer();
+
+		//TODO Replace
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 			ChatMessage chatMessage = chatMessageFactory.createChatMessage(player, List.of(), message, Optional.of(chat.usage.command));
 			chatService.distributeMessage(chatMessage);

@@ -1,9 +1,9 @@
-package me.whereareiam.socialismus.core.command.commands;
+package me.whereareiam.socialismus.core.command.commands.privatemessage;
 
 import co.aikar.commands.CommandIssuer;
 import co.aikar.commands.annotation.*;
 import com.google.inject.Inject;
-import me.whereareiam.socialismus.core.Scheduler;
+import com.google.inject.Singleton;
 import me.whereareiam.socialismus.core.command.base.CommandBase;
 import me.whereareiam.socialismus.core.config.command.CommandsConfig;
 import me.whereareiam.socialismus.core.config.message.MessagesConfig;
@@ -13,27 +13,23 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
+@Singleton
 public class PrivateMessageCommand extends CommandBase {
 	private final FormatterUtil formatterUtil;
 	private final MessageUtil messageUtil;
 	private final CommandsConfig commands;
 	private final MessagesConfig messages;
 
-	private final Map<Player, Player> lastSenderMap = new HashMap<>();
+	private final PrivateMessagingService messagingService;
 
 	@Inject
-	public PrivateMessageCommand(Scheduler scheduler, FormatterUtil formatterUtil, MessageUtil messageUtil,
-	                             CommandsConfig commands, MessagesConfig messages) {
+	public PrivateMessageCommand(FormatterUtil formatterUtil, MessageUtil messageUtil, CommandsConfig commands, MessagesConfig messages,
+	                             PrivateMessagingService messagingService) {
 		this.formatterUtil = formatterUtil;
 		this.messageUtil = messageUtil;
 		this.commands = commands;
 		this.messages = messages;
-
-		scheduler.scheduleAtFixedRate(lastSenderMap::clear, 0, 10, TimeUnit.MINUTES, java.util.Optional.empty());
+		this.messagingService = messagingService;
 	}
 
 	@CommandAlias("%command.privateMessage")
@@ -57,32 +53,26 @@ public class PrivateMessageCommand extends CommandBase {
 		if (!issuer.isPlayer())
 			messageUtil.sendMessage(issuer, messages.commands.onlyForPlayer);
 
-		Player player = issuer.getIssuer();
+		Player sender = issuer.getIssuer();
 		Player recipient = Bukkit.getPlayer(targetPlayerName);
 
 		if (recipient == null) {
-			messageUtil.sendMessage(player, messages.commands.playerNotFound);
+			messageUtil.sendMessage(sender, messages.commands.playerNotFound);
 			return;
 		}
 
-		if (recipient == player) {
-			messageUtil.sendMessage(player, messages.commands.samePlayer);
+		if (recipient == sender) {
+			messageUtil.sendMessage(sender, messages.commands.samePlayer);
 			return;
 		}
 
-		Component format = formatterUtil.formatMessage(player, messages.commands.privateMessageCommand.format, true);
+		Component format = formatterUtil.formatMessage(sender, messages.commands.privateMessageCommand.format, true);
 
-		format = messageUtil.replacePlaceholder(format, "{senderName}", player.getName());
+		format = messageUtil.replacePlaceholder(format, "{senderName}", sender.getName());
 		format = messageUtil.replacePlaceholder(format, "{recipientName}", recipient.getName());
 		format = messageUtil.replacePlaceholder(format, "{message}", message);
 
-		lastSenderMap.put(recipient, player);
-		messageUtil.sendMessage(player, format);
-		messageUtil.sendMessage(recipient, format);
-	}
-
-	public Player getLastSender(Player player) {
-		return lastSenderMap.get(player);
+		messagingService.sendPrivateMessage(sender, recipient, format);
 	}
 
 	@Override

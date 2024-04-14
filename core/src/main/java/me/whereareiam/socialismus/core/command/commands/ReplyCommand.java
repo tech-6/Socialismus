@@ -9,6 +9,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.core.command.base.CommandBase;
+import me.whereareiam.socialismus.core.command.commands.privatemessage.PrivateMessagingService;
 import me.whereareiam.socialismus.core.config.command.CommandsConfig;
 import me.whereareiam.socialismus.core.config.message.MessagesConfig;
 import me.whereareiam.socialismus.core.util.FormatterUtil;
@@ -24,14 +25,17 @@ public class ReplyCommand extends CommandBase {
 	private final CommandsConfig commands;
 	private final MessagesConfig messages;
 
+	private final PrivateMessagingService messagingService;
+
 	@Inject
 	public ReplyCommand(Injector injector, FormatterUtil formatterUtil, MessageUtil messageUtil, CommandsConfig commands,
-	                    MessagesConfig messages) {
+	                    MessagesConfig messages, PrivateMessagingService messagingService) {
 		this.injector = injector;
 		this.formatterUtil = formatterUtil;
 		this.messageUtil = messageUtil;
 		this.commands = commands;
 		this.messages = messages;
+		this.messagingService = messagingService;
 	}
 
 	@CommandAlias("%command.reply")
@@ -56,22 +60,21 @@ public class ReplyCommand extends CommandBase {
 			return;
 		}
 
-		Player player = issuer.getIssuer();
-		Player recipient = injector.getInstance(PrivateMessageCommand.class).getLastSender(player);
+		Player sender = issuer.getIssuer();
+		Player recipient = messagingService.getLastSender(sender);
 
 		if (recipient == null) {
-			messageUtil.sendMessage(player, messages.commands.replyCommand.noRecipient);
+			messageUtil.sendMessage(sender, messages.commands.replyCommand.noRecipient);
 			return;
 		}
 
-		Component format = formatterUtil.formatMessage(player, messages.commands.privateMessageCommand.format, true);
+		Component format = formatterUtil.formatMessage(sender, messages.commands.privateMessageCommand.format, true);
 
-		format = messageUtil.replacePlaceholder(format, "{senderName}", player.getName());
+		format = messageUtil.replacePlaceholder(format, "{senderName}", sender.getName());
 		format = messageUtil.replacePlaceholder(format, "{recipientName}", recipient.getName());
 		format = messageUtil.replacePlaceholder(format, "{message}", message);
 
-		messageUtil.sendMessage(player, format);
-		messageUtil.sendMessage(recipient, format);
+		messagingService.sendPrivateMessage(sender, recipient, format);
 	}
 
 	@Override

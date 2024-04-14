@@ -6,6 +6,7 @@ import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.model.chat.Chat;
 import me.whereareiam.socialismus.api.type.ChatUseType;
 import me.whereareiam.socialismus.core.command.commands.*;
+import me.whereareiam.socialismus.core.command.commands.privatemessage.PrivateMessageCommand;
 
 @Singleton
 public class CommandRegistrar {

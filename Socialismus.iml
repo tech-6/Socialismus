@@ -6,13 +6,4 @@
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
   </component>
-  <component name="FacetManager">
-    <facet type="minecraft" name="Minecraft">
-      <configuration>
-        <autoDetectTypes>
-          <platformType>SPIGOT</platformType>
-        </autoDetectTypes>
-      </configuration>
-    </facet>
-  </component>
 </module>
