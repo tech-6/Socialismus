@@ -10,7 +10,7 @@ public class ChatMessagesConfig {
 			},
 			at = Comment.At.PREPEND
 	)
-	public String noOnlinePlayers = "<gold>ꜱᴏᴄɪᴀʟɪꜱᴍᴜꜱ <dark_gray>| <white>Nobody received your message because there are no players on the server.";
+	public String noOnlinePlayers = " <gold>ꜱᴏᴄɪᴀʟɪꜱᴍᴜꜱ <dark_gray>| <white>Nobody received your message because there are no players on the server.";
 	@Comment(
 			value = {
 					@CommentValue(" Set 'no-nearby-players: null' to disable the message"),

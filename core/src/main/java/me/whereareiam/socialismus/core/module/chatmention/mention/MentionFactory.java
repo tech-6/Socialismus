@@ -5,6 +5,7 @@ import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.model.BubbleMessage;
 import me.whereareiam.socialismus.api.model.chat.Chat;
 import me.whereareiam.socialismus.api.model.chat.ChatMessage;
+import me.whereareiam.socialismus.api.model.chatmention.ChatMentionSettings;
 import me.whereareiam.socialismus.api.model.chatmention.mention.Mention;
 import me.whereareiam.socialismus.core.config.module.bubblechat.BubbleChatConfig;
 import me.whereareiam.socialismus.core.config.module.chatmention.ChatMentionConfig;
@@ -46,19 +47,28 @@ public class MentionFactory {
 
 	private Mention createMention(Player sender, Collection<? extends Player> players, Component content, Optional<Chat> optionalChat) {
 		List<String> plainContent = List.of(PlainTextComponentSerializer.plainText().serialize(content).split(" "));
+		Chat chat = optionalChat.orElse(null);
+		if (chat != null && !chat.mentions.enabled) return new Mention(content, null, null, sender, players);
 
-		String usedAllTag = chatMentionConfig.settings.allTagSettings.tags.stream()
-				.filter(plainContent::contains)
-				.findFirst()
-				.orElse(null);
+		ChatMentionSettings settings = chat.mentions;
 
-		String usedNearbyTag = chatMentionConfig.settings.nearbyTagSettings.tags.stream()
-				.filter(plainContent::contains)
-				.findFirst()
-				.orElse(null);
+		String usedAllTag = null;
+		if (settings.mentionAll) {
+			usedAllTag = chatMentionConfig.settings.allTagSettings.tags.stream()
+					.filter(plainContent::contains)
+					.findFirst()
+					.orElse(null);
+		}
+
+		String usedNearbyTag = null;
+		if (settings.mentionNearby) {
+			usedNearbyTag = chatMentionConfig.settings.nearbyTagSettings.tags.stream()
+					.filter(plainContent::contains)
+					.findFirst()
+					.orElse(null);
+		}
 
 		Collection<? extends Player> recipients = getRecipients(sender, players, plainContent, usedAllTag, usedNearbyTag, optionalChat);
-
 		Mention mention = new Mention(content, usedAllTag, usedNearbyTag, sender, recipients);
 
 		loggerUtil.debug(" "
@@ -118,13 +128,13 @@ public class MentionFactory {
 				}
 			}
 
-			if (recipients.size() > chat.mentions.maxMentions) {
+			if (recipients.size() > chat.mentions.maxMentions && chat.mentions.maxMentions != -1) {
 				int maxMentions = getMaxMentions(chat, sender);
 				recipients = recipients.stream().limit(maxMentions).toList();
 			}
 		}
 
-		if (chat == null) {
+		if (chat == null && bubbleChatConfig.settings.maxMentions != -1) {
 			recipients = recipients.stream()
 					.limit(bubbleChatConfig.settings.maxMentions)
 					.filter(p -> !p.equals(sender))
@@ -136,6 +146,8 @@ public class MentionFactory {
 
 	private int getMaxMentions(Chat chat, Player player) {
 		int maxMentions = chat.mentions.maxMentions;
+		if (maxMentions == -1) return Integer.MAX_VALUE;
+
 		String prefix = chatMentionConfig.settings.maxMentionPermission;
 
 		return player.getEffectivePermissions().stream()
