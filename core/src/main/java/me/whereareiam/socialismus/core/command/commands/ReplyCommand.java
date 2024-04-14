@@ -6,7 +6,6 @@ import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Description;
 import co.aikar.commands.annotation.Syntax;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.core.command.base.CommandBase;
 import me.whereareiam.socialismus.core.command.commands.privatemessage.PrivateMessagingService;
@@ -19,7 +18,6 @@ import org.bukkit.entity.Player;
 
 @Singleton
 public class ReplyCommand extends CommandBase {
-	private final Injector injector;
 	private final FormatterUtil formatterUtil;
 	private final MessageUtil messageUtil;
 	private final CommandsConfig commands;
@@ -28,9 +26,8 @@ public class ReplyCommand extends CommandBase {
 	private final PrivateMessagingService messagingService;
 
 	@Inject
-	public ReplyCommand(Injector injector, FormatterUtil formatterUtil, MessageUtil messageUtil, CommandsConfig commands,
+	public ReplyCommand(FormatterUtil formatterUtil, MessageUtil messageUtil, CommandsConfig commands,
 	                    MessagesConfig messages, PrivateMessagingService messagingService) {
-		this.injector = injector;
 		this.formatterUtil = formatterUtil;
 		this.messageUtil = messageUtil;
 		this.commands = commands;

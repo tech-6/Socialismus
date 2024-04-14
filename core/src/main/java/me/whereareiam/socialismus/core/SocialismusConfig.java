@@ -4,6 +4,7 @@ import co.aikar.commands.BukkitCommandManager;
 import com.google.inject.AbstractModule;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
+import com.tcoded.folialib.FoliaLib;
 import me.whereareiam.socialismus.api.Socialismus;
 import me.whereareiam.socialismus.api.SocialismusAPI;
 import me.whereareiam.socialismus.core.cache.CacheInterceptor;
@@ -11,6 +12,7 @@ import me.whereareiam.socialismus.core.cache.Cacheable;
 import me.whereareiam.socialismus.core.config.setting.SettingsConfig;
 import me.whereareiam.socialismus.core.util.LoggerUtil;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.Path;
 
@@ -47,6 +49,7 @@ public abstract class SocialismusConfig extends AbstractModule {
 		);
 
 		bind(Updater.class).asEagerSingleton();
+		bind(FoliaLib.class).toInstance(new FoliaLib((JavaPlugin) plugin));
 
 		configurePlatformSpecifics();
 	}

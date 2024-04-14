@@ -5,6 +5,7 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.CommandPermission;
 import com.google.inject.Inject;
+import com.tcoded.folialib.FoliaLib;
 import me.whereareiam.socialismus.api.model.chat.Chat;
 import me.whereareiam.socialismus.api.model.chat.ChatMessage;
 import me.whereareiam.socialismus.core.chat.ChatService;
@@ -13,9 +14,7 @@ import me.whereareiam.socialismus.core.command.base.CommandBase;
 import me.whereareiam.socialismus.core.config.message.MessagesConfig;
 import me.whereareiam.socialismus.core.util.LoggerUtil;
 import me.whereareiam.socialismus.core.util.MessageUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,18 +24,18 @@ public class ChatCommandTemplate extends CommandBase {
 	private final MessagesConfig messages;
 	private final ChatMessageFactory chatMessageFactory;
 	private final ChatService chatService;
-	private final Plugin plugin;
+	private final FoliaLib foliaLib;
 
 	private Chat chat;
 
 	@Inject
 	public ChatCommandTemplate(LoggerUtil loggerUtil, MessageUtil messageUtil, MessagesConfig messages,
-	                           ChatMessageFactory chatMessageFactory, ChatService chatService, Plugin plugin) {
+	                           ChatMessageFactory chatMessageFactory, ChatService chatService, FoliaLib foliaLib) {
 		this.messageUtil = messageUtil;
 		this.messages = messages;
 		this.chatMessageFactory = chatMessageFactory;
 		this.chatService = chatService;
-		this.plugin = plugin;
+		this.foliaLib = foliaLib;
 
 		loggerUtil.trace("Initializing class: " + this);
 	}
@@ -65,8 +64,7 @@ public class ChatCommandTemplate extends CommandBase {
 
 		Player player = issuer.getIssuer();
 
-		//TODO Replace
-		Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+		foliaLib.getImpl().runAsync(a -> {
 			ChatMessage chatMessage = chatMessageFactory.createChatMessage(player, List.of(), message, Optional.of(chat.usage.command));
 			chatService.distributeMessage(chatMessage);
 		});
