@@ -32,6 +32,7 @@ public class SocialismusPaperLoader implements PluginLoader {
 				new RemoteRepository.Builder("aikar", "default", "https://repo.aikar.co/content/groups/aikar/").build()
 		);
 
+		addDependency(resolver, "com.google.guava:guava", prop.getProperty("guava"));
 		addDependency(resolver, "com.google.inject:guice", prop.getProperty("guice"));
 		addDependency(resolver, "net.elytrium:serializer", prop.getProperty("serializer"));
 		addDependency(resolver, "co.aikar:acf-paper", prop.getProperty("acf-paper") + "-SNAPSHOT");

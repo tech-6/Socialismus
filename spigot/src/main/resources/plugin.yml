@@ -9,5 +9,6 @@ softdepend: [
 ]
 
 libraries:
+  - com.google.guava:guava:${guava.version}
   - com.google.inject:guice:${guice.version}
   - net.elytrium:serializer:${serializer.version}

@@ -10,6 +10,7 @@ import me.whereareiam.socialismus.core.util.LoggerUtil;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -25,7 +26,7 @@ public class AsyncChatListener implements ChatListener {
 		loggerUtil.trace("Initializing class: " + this);
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEvent(AsyncChatEvent event) {
 		Player player = event.getPlayer();
 		Collection<? extends Player> recipients = event.viewers().stream()
@@ -41,7 +42,8 @@ public class AsyncChatListener implements ChatListener {
 		event.message(chatMessage.getContent());
 		event.renderer((source, sourceDisplayName, message, viewer) -> chatMessage.getContent());
 
-		event.setCancelled(chatMessage.isCancelled());
+		if (chatMessage.isCancelled()) event.setCancelled(chatMessage.isCancelled());
+		System.out.println("cancelled: " + chatMessage.isCancelled());
 	}
 
 	@Override
