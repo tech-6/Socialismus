@@ -43,7 +43,6 @@ public class AsyncChatListener implements ChatListener {
 		event.renderer((source, sourceDisplayName, message, viewer) -> chatMessage.getContent());
 
 		if (chatMessage.isCancelled()) event.setCancelled(chatMessage.isCancelled());
-		System.out.println("cancelled: " + chatMessage.isCancelled());
 	}
 
 	@Override
