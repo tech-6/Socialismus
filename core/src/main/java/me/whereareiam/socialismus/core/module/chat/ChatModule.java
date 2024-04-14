@@ -106,31 +106,55 @@ public class ChatModule implements me.whereareiam.socialismus.api.module.ChatMod
 	}
 
 	private void createExampleChat() {
-		Chat chat = new Chat();
+		Chat global = new Chat();
 
-		chat.id = "global";
-		chat.usage.command = "global";
-		chat.usage.symbol = "";
-		chat.usage.type = ChatUseType.SYMBOL_COMMAND;
+		global.id = "global";
+		global.usage.command = "global";
+		global.usage.symbol = "!";
+		global.usage.type = ChatUseType.SYMBOL_COMMAND;
 
-		ChatMessageFormat messageFormat = new ChatMessageFormat();
-		messageFormat.format = "<gold><bold><globalChat>G</globalChat></bold></gold> <dark_gray>| <gray><click:run_command:/tpa {playerName><playerInformation>{playerName}</playerInformation></click>: <white><messageInformation>{message}</messageInformation>";
+		ChatMessageFormat globalMessageFormat = new ChatMessageFormat();
+		globalMessageFormat.format = "<gold><bold><globalChat>G</globalChat></bold></gold> <dark_gray>| <gray><click:run_command:/tpa {playerName><playerInformation>{playerName}</playerInformation></click>: <white><messageInformation>{message}</messageInformation>";
 
-		chat.formats.add(messageFormat);
+		global.formats.add(globalMessageFormat);
 
-		chat.requirements.enabled = true;
-		chat.requirements.recipient.radius = -1;
-		chat.requirements.recipient.seePermission = "";
-		chat.requirements.recipient.seeOwnMessage = true;
-		chat.requirements.recipient.worlds = new ArrayList<>();
+		global.requirements.enabled = true;
+		global.requirements.recipient.radius = -1;
+		global.requirements.recipient.seePermission = "";
+		global.requirements.recipient.seeOwnMessage = true;
+		global.requirements.recipient.worlds = new ArrayList<>();
 
-		chat.requirements.sender.minOnline = 0;
-		chat.requirements.sender.usePermission = "";
-		chat.requirements.sender.worlds = new ArrayList<>();
-		chat.requirements.sender.symbolCountThreshold = 0;
+		global.requirements.sender.minOnline = 0;
+		global.requirements.sender.usePermission = "";
+		global.requirements.sender.worlds = new ArrayList<>();
+		global.requirements.sender.symbolCountThreshold = 0;
+		
+		Chat local = new Chat();
 
-		chatsConfig.chats.add(chat);
-		registerChat(chat);
+		local.id = "local";
+		local.usage.command = "local";
+		local.usage.symbol = "";
+		local.usage.type = ChatUseType.SYMBOL_COMMAND;
+
+		ChatMessageFormat localMessageFormat = new ChatMessageFormat();
+		localMessageFormat.format = "<gold><bold><localChat>L</localChat></bold></gold> <dark_gray>| <gray><click:run_command:/tpa {playerName><playerInformation>{playerName}</playerInformation></click>: <white><messageInformation>{message}</messageInformation>";
+
+		local.formats.add(localMessageFormat);
+
+		local.requirements.enabled = true;
+		local.requirements.recipient.radius = 100;
+		local.requirements.recipient.seePermission = "";
+		local.requirements.recipient.seeOwnMessage = true;
+		local.requirements.recipient.worlds = new ArrayList<>();
+
+		local.requirements.sender.minOnline = 0;
+		local.requirements.sender.usePermission = "";
+		local.requirements.sender.worlds = new ArrayList<>();
+		local.requirements.sender.symbolCountThreshold = 0;
+
+		chatsConfig.chats.addAll(List.of(global, local));
+		registerChat(global);
+		registerChat(local);
 	}
 
 	@Override

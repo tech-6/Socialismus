@@ -42,32 +42,33 @@ public class ChatService {
 		if (!chatRequirementValidator.validatePlayer(chatMessage)) {
 			chatMessage.setCancelled(true);
 			loggerUtil.trace(sender.getName() + " didn't met requirements");
+
 			return;
 		}
 
-		if (chatMessage.getRecipients().isEmpty())
-			chatMessage.setRecipients(Bukkit.getOnlinePlayers());
+		if (chatMessage.getRecipients().isEmpty()) chatMessage.setRecipients(Bukkit.getOnlinePlayers());
+		chatMessage.setRecipients(chatRequirementValidator.validatePlayers(chatMessage));
 
 		BeforeChatSendMessageEvent event = new BeforeChatSendMessageEvent(chatMessage);
 		Bukkit.getPluginManager().callEvent(event);
 
-		if (event.isCancelled()) {
-			return;
-		}
-
 		chatMessage = event.getChatMessage();
-		chatMessage.setRecipients(chatRequirementValidator.validatePlayers(chatMessage));
+		if (event.isCancelled()) return;
 
 		if (chat.requirements.recipient.radius != -1 && chatMessage.getRecipients().size() == 1) {
 			String noOnlinePlayers = messages.chat.noOnlinePlayers;
 			if (noOnlinePlayers != null) {
 				messageUtil.sendMessage(sender, noOnlinePlayers);
+				chatMessage.setCancelled(true);
+
 				return;
 			}
 
 			String noNearbyPlayers = messages.chat.noNearbyPlayers;
 			if (noNearbyPlayers != null) {
 				messageUtil.sendMessage(sender, noNearbyPlayers);
+				chatMessage.setCancelled(true);
+
 				return;
 			}
 		}

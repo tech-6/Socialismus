@@ -53,7 +53,6 @@ public class ChatBroadcaster {
 
 		chatMessage = event.getChatMessage();
 
-		System.out.println(chatMessage.getUseType());
 		if ((!PlatformIdentifier.isPaper() || !settingsConfig.modules.chats.useVanillaChat) || chatMessage.getUseType().equals(ChatUseType.COMMAND)) {
 			ChatMessage finalChatMessage = chatMessage;
 			chatMessage.getRecipients().forEach(recipient -> messageUtil.sendMessage(recipient, finalChatMessage.getContent()));
