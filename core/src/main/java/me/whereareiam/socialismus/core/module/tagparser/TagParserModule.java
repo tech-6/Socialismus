@@ -47,6 +47,21 @@ public class TagParserModule implements Module {
 				" "
 		);
 
+		TagParser localChat = new TagParser();
+
+		localChat.tag = "localChat";
+		localChat.enabled = true;
+		localChat.type = TagParserType.HOVER;
+		localChat.content = List.of(
+				" ",
+				"<dark_gray> Information</dark_gray>",
+				"<white>  Chat: <green>Local</green></white>  ",
+				" ",
+				"<gray> Local chat is a chat where you can  ",
+				"<gray> talk nearby players  ",
+				" "
+		);
+
 		TagParser playerInformation = new TagParser();
 
 		playerInformation.tag = "playerInformation";
@@ -71,7 +86,7 @@ public class TagParserModule implements Module {
 				" "
 		);
 
-		tagParserConfig.tagParsers.addAll(List.of(globalChat, playerInformation, messageInformation));
+		tagParserConfig.tagParsers.addAll(List.of(globalChat, localChat, playerInformation, messageInformation));
 	}
 
 	public List<TagParser> getTagParsers() {
