@@ -47,9 +47,9 @@ public class MentionFactory {
 
 	private Mention createMention(Player sender, Collection<? extends Player> players, Component content, Optional<Chat> optionalChat) {
 		List<String> plainContent = List.of(PlainTextComponentSerializer.plainText().serialize(content).split(" "));
-		Chat chat = optionalChat.orElse(null);
-		if (chat == null) return new Mention(content, null, null, sender, players);
+		if (optionalChat.isEmpty()) return new Mention(content, null, null, sender, List.of());
 
+		Chat chat = optionalChat.get();
 		ChatMentionSettings settings = chat.mentions;
 
 		String usedAllTag = null;

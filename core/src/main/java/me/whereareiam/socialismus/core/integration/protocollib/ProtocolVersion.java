@@ -7,7 +7,6 @@ import java.util.List;
 
 @Singleton
 public class ProtocolVersion {
-
 	// Entity Meta
 	private final List<Integer> metaVisibility = List.of(0);
 	// AreaEffectCloud Meta

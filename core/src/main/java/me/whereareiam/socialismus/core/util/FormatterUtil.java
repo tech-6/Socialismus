@@ -106,7 +106,7 @@ public class FormatterUtil {
 			if (integration.getName().equals("PlaceholderAPI")) {
 				MessagingIntegration formatterIntegration = (MessagingIntegration) integration;
 				int tries = 0;
-				while (message.contains("%") && tries < 2) {
+				while (message.contains("%") && tries < 3) {
 					message = formatterIntegration.formatMessage(player, message);
 					tries++;
 					loggerUtil.trace("Hooked with MESSAGING integration: " + formatterIntegration.getName());
