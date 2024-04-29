@@ -121,8 +121,8 @@ public class FormatterUtil {
 
 	private String convertLegacyColorCodes(String message) {
 		for (Map.Entry<String, String> entry : colorMap.entrySet()) {
-			message = message.replace(entry.getKey(), entry.getValue());
-			message = message.replace(entry.getKey().replace("&", "§"), entry.getValue());
+			message = message.replaceAll("(?i)" + entry.getKey(), entry.getValue());
+			message = message.replaceAll("(?i)" + entry.getKey().replace("&", "§"), entry.getValue());
 		}
 
 		Pattern pattern = Pattern.compile("§x((§[0-9a-fA-F]){1,6})");
