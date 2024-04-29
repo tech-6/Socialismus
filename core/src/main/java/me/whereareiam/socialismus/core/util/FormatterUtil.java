@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Singleton
 public class FormatterUtil {
@@ -123,6 +125,19 @@ public class FormatterUtil {
 			message = message.replace(entry.getKey().replace("&", "§"), entry.getValue());
 		}
 
+		Pattern pattern = Pattern.compile("§x(§[0-9a-fA-F]){6}");
+		Matcher matcher = pattern.matcher(message);
+		StringBuilder builder = new StringBuilder();
+
+		while (matcher.find()) {
+			String colorCode = matcher.group().substring(2).replaceAll("§", "");
+			String hexColor = "<#" + colorCode.substring(0, 3) + colorCode.substring(4, 7) + ">";
+			matcher.appendReplacement(builder, hexColor);
+		}
+		matcher.appendTail(builder);
+		message = builder.toString();
+
 		return message;
 	}
+
 }
