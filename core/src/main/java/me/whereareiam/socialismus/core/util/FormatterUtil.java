@@ -125,13 +125,16 @@ public class FormatterUtil {
 			message = message.replace(entry.getKey().replace("&", "§"), entry.getValue());
 		}
 
-		Pattern pattern = Pattern.compile("§x(§[0-9a-fA-F]){6}");
+		Pattern pattern = Pattern.compile("§x((§[0-9a-fA-F]){1,6})");
 		Matcher matcher = pattern.matcher(message);
 		StringBuilder builder = new StringBuilder();
 
 		while (matcher.find()) {
-			String colorCode = matcher.group().substring(2).replaceAll("§", "");
-			String hexColor = "<#" + colorCode.substring(0, 3) + colorCode.substring(4, 7) + ">";
+			StringBuilder colorCode = new StringBuilder(matcher.group(1).replaceAll("§", ""));
+			while (colorCode.length() < 6) {
+				colorCode.append("0");
+			}
+			String hexColor = "<#" + colorCode.substring(0, 3) + colorCode.substring(3, 6) + ">";
 			matcher.appendReplacement(builder, hexColor);
 		}
 		matcher.appendTail(builder);
@@ -139,5 +142,4 @@ public class FormatterUtil {
 
 		return message;
 	}
-
 }
