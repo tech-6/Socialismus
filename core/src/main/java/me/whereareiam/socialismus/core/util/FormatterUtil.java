@@ -3,6 +3,7 @@ package me.whereareiam.socialismus.core.util;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
+import me.whereareiam.socialismus.core.config.setting.SettingsConfig;
 import me.whereareiam.socialismus.core.integration.Integration;
 import me.whereareiam.socialismus.core.integration.IntegrationManager;
 import me.whereareiam.socialismus.core.integration.IntegrationType;
@@ -23,13 +24,15 @@ import java.util.regex.Pattern;
 public class FormatterUtil {
 	private final Injector injector;
 	private final LoggerUtil loggerUtil;
+	private final SettingsConfig settingsConfig;
 
 	private final Map<String, String> colorMap = new HashMap<>();
 
 	@Inject
-	public FormatterUtil(Injector injector, LoggerUtil loggerUtil) {
+	public FormatterUtil(Injector injector, LoggerUtil loggerUtil, SettingsConfig settingsConfig) {
 		this.injector = injector;
 		this.loggerUtil = loggerUtil;
+		this.settingsConfig = settingsConfig;
 
 		loggerUtil.trace("Initializing class: " + this);
 
@@ -88,7 +91,9 @@ public class FormatterUtil {
 		if (player.isPresent())
 			message = hookIntegration(player.get(), message);
 
-		message = convertLegacyColorCodes(message);
+		if (settingsConfig.performance.convertLegacyColors)
+			message = convertLegacyColorCodes(message);
+
 		Component component = miniMessage.deserialize(message);
 		if (allowTagParser)
 			component = injector.getInstance(TagParserService.class).hookTagParser(player, component);
