@@ -82,6 +82,7 @@ public class FormatterUtil {
 	}
 
 	public Component formatMessage(Optional<Player> player, String message, boolean allowTagParser) {
+		System.out.println("formatMessage:" + message);
 		loggerUtil.trace("formatMessage:" + message);
 		final MiniMessage miniMessage = MiniMessage.miniMessage();
 
@@ -125,25 +126,19 @@ public class FormatterUtil {
 	}
 
 	private String convertLegacyColorCodes(String message) {
+		Pattern pattern = Pattern.compile("§x(§[0-9A-Fa-f]){6}");
+		Matcher matcher = pattern.matcher(message);
+		while (matcher.find()) {
+			String colorCode = matcher.group();
+			String newColorCode = "<#" + colorCode.substring(2).replaceAll("§", "") + ">";
+			message = message.replace(colorCode, newColorCode);
+		}
+
 		for (Map.Entry<String, String> entry : colorMap.entrySet()) {
 			message = message.replaceAll("(?i)" + entry.getKey(), entry.getValue());
 			message = message.replaceAll("(?i)" + entry.getKey().replace("&", "§"), entry.getValue());
 		}
 
-		Pattern pattern = Pattern.compile("§x((§[0-9a-fA-F]){1,6})");
-		Matcher matcher = pattern.matcher(message);
-		StringBuilder builder = new StringBuilder();
-
-		while (matcher.find()) {
-			StringBuilder colorCode = new StringBuilder(matcher.group(1).replaceAll("§", ""));
-			while (colorCode.length() < 6) {
-				colorCode.append("0");
-			}
-			String hexColor = "<#" + colorCode.substring(0, 3) + colorCode.substring(3, 6) + ">";
-			matcher.appendReplacement(builder, hexColor);
-		}
-		matcher.appendTail(builder);
-		message = builder.toString();
 
 		return message;
 	}
