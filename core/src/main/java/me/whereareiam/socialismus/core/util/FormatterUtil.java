@@ -27,6 +27,7 @@ public class FormatterUtil {
 	private final SettingsConfig settingsConfig;
 
 	private final Map<String, String> colorMap = new HashMap<>();
+	private final Pattern pattern = Pattern.compile("§x(§[0-9A-Fa-f]){6}");
 
 	@Inject
 	public FormatterUtil(Injector injector, LoggerUtil loggerUtil, SettingsConfig settingsConfig) {
@@ -126,7 +127,6 @@ public class FormatterUtil {
 	}
 
 	private String convertLegacyColorCodes(String message) {
-		Pattern pattern = Pattern.compile("§x(§[0-9A-Fa-f]){6}");
 		Matcher matcher = pattern.matcher(message);
 		while (matcher.find()) {
 			String colorCode = matcher.group();
