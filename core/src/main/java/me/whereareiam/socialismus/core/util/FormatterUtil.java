@@ -83,7 +83,6 @@ public class FormatterUtil {
 	}
 
 	public Component formatMessage(Optional<Player> player, String message, boolean allowTagParser) {
-		System.out.println("formatMessage:" + message);
 		loggerUtil.trace("formatMessage:" + message);
 		final MiniMessage miniMessage = MiniMessage.miniMessage();
 
