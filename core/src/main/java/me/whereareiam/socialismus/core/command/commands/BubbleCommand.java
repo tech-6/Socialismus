@@ -4,6 +4,7 @@ import co.aikar.commands.CommandIssuer;
 import co.aikar.commands.annotation.*;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.tcoded.folialib.FoliaLib;
 import me.whereareiam.socialismus.api.model.chat.ChatMessage;
 import me.whereareiam.socialismus.api.type.BubbleTriggerType;
 import me.whereareiam.socialismus.core.chat.message.ChatMessageFactory;
@@ -24,16 +25,18 @@ public class BubbleCommand extends CommandBase {
 	private final MessagesConfig messages;
 	private final BubbleChatService bubbleChatService;
 	private final ChatMessageFactory chatMessageFactory;
+	private final FoliaLib foliaLib;
 
 	@Inject
 	public BubbleCommand(MessageUtil messageUtil, CommandsConfig commands,
 	                     MessagesConfig messages, BubbleChatService bubbleChatService,
-	                     ChatMessageFactory chatMessageFactory) {
+	                     ChatMessageFactory chatMessageFactory, FoliaLib foliaLib) {
 		this.messageUtil = messageUtil;
 		this.commands = commands;
 		this.messages = messages;
 		this.bubbleChatService = bubbleChatService;
 		this.chatMessageFactory = chatMessageFactory;
+		this.foliaLib = foliaLib;
 	}
 
 	@Subcommand("%command.bubble")
@@ -59,8 +62,10 @@ public class BubbleCommand extends CommandBase {
 
 		Player player = issuer.getIssuer();
 
-		ChatMessage chatMessage = chatMessageFactory.createChatMessage(player, List.of(), message, java.util.Optional.empty());
-		bubbleChatService.distributeBubbleMessage(BubbleTriggerType.COMMAND, chatMessage);
+		foliaLib.getImpl().runAsync(a -> {
+			ChatMessage chatMessage = chatMessageFactory.createChatMessage(player, List.of(), message, java.util.Optional.empty());
+			bubbleChatService.distributeBubbleMessage(BubbleTriggerType.COMMAND, chatMessage);
+		});
 
 		messageUtil.sendMessage(player, messages.commands.bubbleCommand.success);
 	}
