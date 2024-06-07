@@ -41,7 +41,7 @@
         <adventure-text-serializer-plain.version>4.16.0</adventure-text-serializer-plain.version>
         <adventure-text-minimessage.version>4.16.0</adventure-text-minimessage.version>
 
-        <placeholderapi.version>2.11.5</placeholderapi.version>
+        <placeholderapi.version>2.11.6</placeholderapi.version>
         <protocollib.version>5.1.0</protocollib.version>
         <folialib.version>0.3.4</folialib.version>
 
