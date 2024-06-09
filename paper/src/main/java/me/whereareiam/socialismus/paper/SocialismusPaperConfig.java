@@ -1,7 +1,7 @@
 package me.whereareiam.socialismus.paper;
 
 import me.whereareiam.socialismus.core.SocialismusConfig;
-import me.whereareiam.socialismus.core.platform.PlatformMessageSender;
+import me.whereareiam.socialismus.core.platform.PlatformCommunicator;
 import org.bukkit.plugin.Plugin;
 
 public class SocialismusPaperConfig extends SocialismusConfig {
@@ -11,6 +11,6 @@ public class SocialismusPaperConfig extends SocialismusConfig {
 
 	@Override
 	protected void configurePlatformSpecifics() {
-		bind(PlatformMessageSender.class).to(PaperMessageSender.class);
+		bind(PlatformCommunicator.class).to(PaperCommunicator.class);
 	}
 }

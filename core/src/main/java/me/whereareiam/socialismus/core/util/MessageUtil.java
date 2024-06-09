@@ -4,7 +4,7 @@ import co.aikar.commands.CommandIssuer;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.core.Scheduler;
-import me.whereareiam.socialismus.core.platform.PlatformMessageSender;
+import me.whereareiam.socialismus.core.platform.PlatformCommunicator;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
@@ -22,15 +22,15 @@ public class MessageUtil {
 	private final Scheduler scheduler;
 	private final LoggerUtil loggerUtil;
 	private final FormatterUtil formatterUtil;
-	private final PlatformMessageSender platformMessageSender;
+	private final PlatformCommunicator platformCommunicator;
 
 	@Inject
 	public MessageUtil(Scheduler scheduler, LoggerUtil loggerUtil, FormatterUtil formatterUtil,
-	                   PlatformMessageSender platformMessageSender) {
+	                   PlatformCommunicator platformCommunicator) {
 		this.scheduler = scheduler;
 		this.loggerUtil = loggerUtil;
 		this.formatterUtil = formatterUtil;
-		this.platformMessageSender = platformMessageSender;
+		this.platformCommunicator = platformCommunicator;
 
 		loggerUtil.trace("Initializing class: " + this);
 	}
@@ -55,7 +55,7 @@ public class MessageUtil {
 
 	public void sendMessage(Player sender, Component message) {
 		loggerUtil.trace("Sending actionbar to " + sender.getName());
-		platformMessageSender.sendMessage(sender, message);
+		platformCommunicator.sendMessage(sender, message);
 	}
 
 	public void sendActionBar(Player sender, String message) {
@@ -68,7 +68,7 @@ public class MessageUtil {
 	public void sendActionBar(Player player, Component message) {
 		loggerUtil.trace("Sending action bar to " + player.getName());
 
-		((Audience) player).sendActionBar(message);
+		platformCommunicator.sendActionBar(player, message);
 	}
 
 	public void sendBossBar(Player player, String message, BossBar.Color color, BossBar.Overlay style, int duration) {
@@ -82,7 +82,7 @@ public class MessageUtil {
 		loggerUtil.trace("Sending boss bar to " + player.getName());
 
 		BossBar bossBar = BossBar.bossBar(message, 1.0f, color, style);
-		((Audience) player).showBossBar(bossBar);
+		platformCommunicator.showBossBar(player, bossBar);
 
 		long startTime = System.currentTimeMillis();
 		scheduler.scheduleAtFixedRate(() -> {
@@ -107,7 +107,7 @@ public class MessageUtil {
 	public void sendTitle(Player player, Component title, Component subtitle, Duration fadeIn, Duration stay, Duration fadeOut) {
 		loggerUtil.trace("Sending title to " + player.getName());
 
-		((Audience) player).showTitle(Title.title(title, subtitle, Title.Times.times(fadeIn, stay, fadeOut)));
+		platformCommunicator.showTitle(player, Title.title(title, subtitle, Title.Times.times(fadeIn, stay, fadeOut)));
 	}
 
 	public Component replacePlaceholder(Component component, Object placeholder, Object content) {

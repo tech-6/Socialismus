@@ -1,7 +1,7 @@
 package me.whereareiam.socialismus.spigot;
 
 import me.whereareiam.socialismus.core.SocialismusConfig;
-import me.whereareiam.socialismus.core.platform.PlatformMessageSender;
+import me.whereareiam.socialismus.core.platform.PlatformCommunicator;
 import org.bukkit.plugin.Plugin;
 
 public class SocialismusSpigotConfig extends SocialismusConfig {
@@ -11,7 +11,7 @@ public class SocialismusSpigotConfig extends SocialismusConfig {
 
 	@Override
 	protected void configurePlatformSpecifics() {
-		bind(PlatformMessageSender.class).to(SpigotMessageSender.class);
+		bind(PlatformCommunicator.class).to(SpigotCommunicator.class);
 	}
 }
 
