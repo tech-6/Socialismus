@@ -1,7 +1,3 @@
-/.idea/
-/.vscode/
-/core/target/
-/paper/target/
-/spigot/target/
-/api/target/
-/target/
+.idea/
+*.iml
+*target/
