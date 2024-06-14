@@ -1,3 +1,11 @@
+# IDE files
 .idea/
 *.iml
+
+# Temporary files
 *target/
+
+# Gradle files
+gradlew
+gradlew.bat
+.gradle

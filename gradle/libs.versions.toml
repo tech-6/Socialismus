@@ -1,0 +1,55 @@
+[versions]
+
+# plugins
+shadow = "8.1.1"
+
+# compile time processing
+lombok = "1.18.32"
+
+# general
+guice = "7.0.0"
+
+# platform api versions
+velocity = "3.3.0-SNAPSHOT"
+spigot = "1.20.6-R0.1-SNAPSHOT"
+paper = "1.20.6-R0.1-SNAPSHOT"
+
+# adventure
+adventure = "4.17.0"
+adventure-minimessage = "4.17.0"
+adventure-legacy = "4.17.0"
+adventure-plain = "4.17.0"
+adventure-gson = "4.17.0"
+adventure-platform-bukkit = "4.3.3"
+
+[libraries]
+
+# compile time processing
+lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
+
+# general
+guice = { group = "com.google.inject", name = "guice", version.ref = "guice" }
+
+# platform api
+velocity = { group = "com.velocitypowered", name = "velocity-api", version.ref = "velocity" }
+spigot = { group = "org.spigotmc", name = "spigot-api", version.ref = "spigot" }
+paper = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
+
+# adventure
+adventure = { group = "net.kyori", name = "adventure", version.ref = "adventure" }
+adventure-minimessage = { group = "net.kyori", name = "adventure-minimessage", version.ref = "adventure-minimessage" }
+adventure-legacy = { group = "net.kyori", name = "adventure-legacy", version.ref = "adventure-legacy" }
+adventure-plain = { group = "net.kyori", name = "adventure-plain", version.ref = "adventure-plain" }
+adventure-gson = { group = "net.kyori", name = "adventure-gson", version.ref = "adventure-gson" }
+adventure-platform-bukkit = { group = "net.kyori", name = "adventure-platform-bukkit", version.ref = "adventure-platform-bukkit" }
+
+[bundles]
+
+adventure = ["adventure", "adventure-minimessage", "adventure-legacy", "adventure-plain", "adventure-gson"]
+spigot = ["spigot", "adventure-platform-bukkit"]
+paper = ["paper"]
+velocity = ["velocity"]
+
+[plugins]
+
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }

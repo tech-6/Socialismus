@@ -1,0 +1,18 @@
+name: @projectName@
+main: me.whereareiam.socialismus.platform.paper.SocialismusPaper
+version: '@projectVersion@'
+api-version: '1.19'
+folia-supported: true
+authors:
+  - whereareiam
+
+dependencies:
+  server:
+    PlaceholderAPI:
+      load: BEFORE
+      required: false
+      join-classpath: true
+    ProtocolLib:
+      load: BEFORE
+      required: false
+      join-classpath: true
