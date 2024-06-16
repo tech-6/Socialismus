@@ -5,6 +5,6 @@ tasks.withType<ShadowJar> {
 }
 
 dependencies {
-    "implementation"(project(":socialismus-platform"))
     "compileOnly"(libs.bundles.spigot)
+    "implementation"("com.saicone.ezlib:ezlib:1.2.3")
 }

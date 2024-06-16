@@ -5,6 +5,5 @@ tasks.withType<ShadowJar> {
 }
 
 dependencies {
-    "implementation"(project(":socialismus-platform"))
     "compileOnly"(libs.bundles.paper)
 }

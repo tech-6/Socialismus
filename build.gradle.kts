@@ -9,11 +9,17 @@ allprojects {
     version = socialismusVersion
 
     apply(plugin = "java")
-}
 
-tasks.withType<JavaCompile>().configureEach {
-  sourceCompatibility = JavaVersion.VERSION_17.toString()
-  targetCompatibility = JavaVersion.VERSION_17.toString()
+    tasks.withType<JavaCompile> {
+        sourceCompatibility = JavaVersion.VERSION_21.toString()
+        targetCompatibility = JavaVersion.VERSION_21.toString()
+    }
+
+    configure<JavaPluginExtension> {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(21))
+        }
+    }
 }
 
 subprojects {
@@ -25,5 +31,8 @@ subprojects {
         // lombok
         "compileOnly"(rootProject.libs.lombok)
         "annotationProcessor"(rootProject.libs.lombok)
+
+        // general
+        "compileOnly"(rootProject.libs.guice)
     }
 }

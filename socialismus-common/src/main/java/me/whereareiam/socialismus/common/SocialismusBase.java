@@ -1,4 +1,4 @@
-package me.whereareiam.socialismus.platform;
+package me.whereareiam.socialismus.common;
 
 public class SocialismusBase {
 	public void onEnable() {

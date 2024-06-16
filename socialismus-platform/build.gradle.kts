@@ -15,6 +15,18 @@ subprojects {
     repositories {
         maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
         maven("https://repo.papermc.io/repository/maven-public/")
+        maven("https://jitpack.io")
+    }
+
+    dependencies {
+        "implementation"(project(":socialismus-adapter-config"))
+        "implementation"(project(":socialismus-adapter-database"))
+        "implementation"(project(":socialismus-adapter-module"))
+        "implementation"(project(":socialismus-adapter-packet"))
+        "implementation"(project(":socialismus-adapter-redis"))
+        "implementation"(project(":socialismus-platform"))
+        "implementation"(project(":socialismus-common-api"))
+        "implementation"(project(":socialismus-common"))
     }
 
     when (name) {
@@ -44,4 +56,8 @@ subprojects {
             }
         }
     }
+}
+
+tasks.named<Jar>("jar") {
+    dependsOn("shadowJar")
 }

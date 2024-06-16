@@ -1,5 +1,5 @@
 name: @projectName@
-main: me.whereareiam.socialismus.platform.paper.SocialismusPaper
+main: me.whereareiam.socialismus.platform.paper.PaperSocialismus
 version: '@projectVersion@'
 api-version: '1.19'
 folia-supported: true
@@ -12,7 +12,7 @@ dependencies:
       load: BEFORE
       required: false
       join-classpath: true
-    ProtocolLib:
+    packetevents:
       load: BEFORE
       required: false
       join-classpath: true

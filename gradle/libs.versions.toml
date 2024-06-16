@@ -8,6 +8,7 @@ lombok = "1.18.32"
 
 # general
 guice = "7.0.0"
+guava = "33.2.1-jre"
 
 # platform api versions
 velocity = "3.3.0-SNAPSHOT"
@@ -29,6 +30,7 @@ lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" 
 
 # general
 guice = { group = "com.google.inject", name = "guice", version.ref = "guice" }
+guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
 
 # platform api
 velocity = { group = "com.velocitypowered", name = "velocity-api", version.ref = "velocity" }

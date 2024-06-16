@@ -1,9 +1,9 @@
 name: @projectName@
-main: me.whereareiam.socialismus.platform.spigot.SocialismusPaper
+main: me.whereareiam.socialismus.platform.spigot.PaperSocialismus
 version: '@projectVersion@'
 api-version: '1.16'
 author: whereareiam
 softdepend: [
   PlaceholderAPI,
-  ProtocolLib
+  packetevents
 ]
