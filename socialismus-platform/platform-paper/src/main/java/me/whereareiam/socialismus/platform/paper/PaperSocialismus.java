@@ -1,6 +1,7 @@
 package me.whereareiam.socialismus.platform.paper;
 
 import me.whereareiam.socialismus.common.base.SocialismusBase;
+import me.whereareiam.socialismus.platform.paper.inject.PaperInjector;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.Path;
@@ -31,6 +32,8 @@ public class PaperSocialismus extends JavaPlugin {
 		}
 
 		new PaperInjector(dependencyResolver, dataPath);
+		PaperLoggingHelper.setLogger(logger);
+
 		socialismusBase.onEnable();
 	}
 

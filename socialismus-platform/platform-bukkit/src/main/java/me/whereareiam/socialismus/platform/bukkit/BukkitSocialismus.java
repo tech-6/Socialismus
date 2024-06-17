@@ -1,6 +1,7 @@
 package me.whereareiam.socialismus.platform.bukkit;
 
 import me.whereareiam.socialismus.common.base.SocialismusBase;
+import me.whereareiam.socialismus.platform.bukkit.inject.BukkitInjector;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.Path;
@@ -25,12 +26,14 @@ public class BukkitSocialismus extends JavaPlugin {
 	public void onEnable() {
 		if (!dataPath.toFile().exists()) {
 			if (!dataPath.toFile().mkdir()) {
-				logger.severe("Failed to create data folder. Disabling proxy.");
+				logger.severe("Failed to create data folder. Disabling server.");
 				this.getServer().shutdown();
 			}
 		}
 
 		new BukkitInjector(dependencyResolver, dataPath);
+		BukkitLoggingHelper.setLogger(logger);
+
 		socialismusBase.onEnable();
 	}
 

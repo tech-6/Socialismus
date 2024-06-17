@@ -12,8 +12,9 @@ tasks.register<Copy>("processSources") {
     into(layout.buildDirectory.dir("processed-src").get().asFile)
     include("**/*.java")
     filter { line ->
-        line
-        .replace("@guiceVersion@", rootProject.libs.versions.guice.get())
+        line.replace("@guiceVersion@", rootProject.libs.versions.guice.get())
+            .replace("@gsonVersion@", rootProject.libs.versions.gson.get())
+            .replace("@version@", rootProject.version.toString())
     }
 }
 

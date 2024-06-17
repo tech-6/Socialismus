@@ -9,6 +9,8 @@ lombok = "1.18.32"
 # general
 guice = "7.0.0"
 guava = "33.2.1-jre"
+gson = "2.11.0"
+libby = "2.0.0-SNAPSHOT"
 
 # platform api versions
 velocity = "3.3.0-SNAPSHOT"
@@ -23,9 +25,6 @@ adventure-plain = "4.17.0"
 adventure-gson = "4.17.0"
 adventure-platform-bukkit = "4.3.3"
 
-# libby
-libby = "2.0.0-SNAPSHOT"
-
 [libraries]
 
 # compile time processing
@@ -34,6 +33,7 @@ lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" 
 # general
 guice = { group = "com.google.inject", name = "guice", version.ref = "guice" }
 guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
 # platform api
 velocity = { group = "com.velocitypowered", name = "velocity-api", version.ref = "velocity" }

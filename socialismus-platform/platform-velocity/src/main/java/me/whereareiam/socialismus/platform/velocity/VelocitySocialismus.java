@@ -8,6 +8,7 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.whereareiam.socialismus.common.base.SocialismusBase;
+import me.whereareiam.socialismus.platform.velocity.inject.VelocityInjector;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;
@@ -37,8 +38,6 @@ public class VelocitySocialismus extends SocialismusBase {
 		dependencyResolver.loadLibraries();
 		dependencyResolver.resolveDependencies();
 
-		super.onEnable();
-
 		if (!dataPath.toFile().exists()) {
 			if (!dataPath.toFile().mkdir()) {
 				logger.error("Failed to create data folder. Disabling proxy.");
@@ -47,6 +46,9 @@ public class VelocitySocialismus extends SocialismusBase {
 		}
 
 		new VelocityInjector(dependencyResolver, dataPath);
+		VelocityLoggingHelper.setLogger(logger);
+
+		super.onEnable();
 	}
 
 	@Subscribe

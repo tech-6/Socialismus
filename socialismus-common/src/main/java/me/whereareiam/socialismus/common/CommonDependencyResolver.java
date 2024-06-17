@@ -14,6 +14,7 @@ public abstract class CommonDependencyResolver implements DependencyResolver {
 		// Common libraries
 
 		addDependency("com.google.inject", "guice", "@guiceVersion@", true);
+		addDependency("com.google.code.gson", "gson", "@gsonVersion@", true);
 	}
 
 	@Override
