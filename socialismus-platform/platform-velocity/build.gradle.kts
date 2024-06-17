@@ -7,5 +7,6 @@ tasks.withType<ShadowJar> {
 
 dependencies {
     "compileOnly"(libs.bundles.velocity)
+    "implementation"(rootProject.libs.libbyVelocity)
 }
 

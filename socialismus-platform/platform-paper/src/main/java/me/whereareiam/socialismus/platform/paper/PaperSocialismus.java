@@ -1,6 +1,6 @@
 package me.whereareiam.socialismus.platform.paper;
 
-import me.whereareiam.socialismus.common.SocialismusBase;
+import me.whereareiam.socialismus.common.base.SocialismusBase;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.Path;
@@ -12,6 +12,15 @@ public class PaperSocialismus extends JavaPlugin {
 	private final Path dataPath = getDataFolder().toPath();
 	private final Logger logger = getLogger();
 
+	private PaperDependencyResolver dependencyResolver;
+
+	@Override
+	public void onLoad() {
+		dependencyResolver = new PaperDependencyResolver(this);
+		dependencyResolver.loadLibraries();
+		dependencyResolver.resolveDependencies();
+	}
+
 	@Override
 	public void onEnable() {
 		if (!dataPath.toFile().exists()) {
@@ -21,7 +30,7 @@ public class PaperSocialismus extends JavaPlugin {
 			}
 		}
 
-		new PaperInjector(dataPath);
+		new PaperInjector(dependencyResolver, dataPath);
 		socialismusBase.onEnable();
 	}
 

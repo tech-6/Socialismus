@@ -6,16 +6,18 @@ plugins {
 }
 
 subprojects {
-    apply(plugin = "com.github.johnrengelman.shadow")
+    apply(plugin = "io.github.goooler.shadow")
 
     tasks.withType<ShadowJar> {
         archiveBaseName.set(rootProject.name)
+
+        relocate("com.alessiodp.libby", "me.whereareiam.socialismus.library.libby")
     }
 
     repositories {
         maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+        maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
         maven("https://repo.papermc.io/repository/maven-public/")
-        maven("https://jitpack.io")
     }
 
     dependencies {
@@ -30,7 +32,7 @@ subprojects {
     }
 
     when (name) {
-        "platform-paper", "platform-spigot" -> {
+        "platform-paper", "platform-bukkit" -> {
             tasks.named<Copy>("processResources") {
                 filter<ReplaceTokens>("tokens" to mapOf(
                             "projectName" to rootProject.name,

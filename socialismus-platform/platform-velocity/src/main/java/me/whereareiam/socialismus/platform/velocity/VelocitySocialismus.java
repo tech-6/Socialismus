@@ -7,10 +7,10 @@ import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
-import me.whereareiam.socialismus.common.SocialismusBase;
+import me.whereareiam.socialismus.common.base.SocialismusBase;
+import org.slf4j.Logger;
 
 import java.nio.file.Path;
-import java.util.logging.Logger;
 
 @Plugin(
 		id = "socialismus",
@@ -33,16 +33,20 @@ public class VelocitySocialismus extends SocialismusBase {
 
 	@Subscribe
 	public void onProxyInitializationEvent(ProxyInitializeEvent event) {
+		VelocityDependencyResolver dependencyResolver = new VelocityDependencyResolver(proxyServer, logger, dataPath, proxyServer.getPluginManager());
+		dependencyResolver.loadLibraries();
+		dependencyResolver.resolveDependencies();
+
 		super.onEnable();
 
 		if (!dataPath.toFile().exists()) {
 			if (!dataPath.toFile().mkdir()) {
-				logger.severe("Failed to create data folder. Disabling proxy.");
+				logger.error("Failed to create data folder. Disabling proxy.");
 				proxyServer.shutdown();
 			}
 		}
 
-		new VelocityInjector(dataPath);
+		new VelocityInjector(dependencyResolver, dataPath);
 	}
 
 	@Subscribe

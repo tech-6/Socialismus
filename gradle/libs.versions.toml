@@ -1,7 +1,7 @@
 [versions]
 
 # plugins
-shadow = "8.1.1"
+shadow = "8.1.7"
 
 # compile time processing
 lombok = "1.18.32"
@@ -23,6 +23,9 @@ adventure-plain = "4.17.0"
 adventure-gson = "4.17.0"
 adventure-platform-bukkit = "4.3.3"
 
+# libby
+libby = "2.0.0-SNAPSHOT"
+
 [libraries]
 
 # compile time processing
@@ -37,6 +40,12 @@ velocity = { group = "com.velocitypowered", name = "velocity-api", version.ref =
 spigot = { group = "org.spigotmc", name = "spigot-api", version.ref = "spigot" }
 paper = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
 
+# libby
+libbyCore = { group = "com.alessiodp.libby", name = "libby-core", version.ref = "libby" }
+libbyBukkit = { group = "com.alessiodp.libby", name = "libby-bukkit", version.ref = "libby" }
+libbyPaper = { group = "com.alessiodp.libby", name = "libby-paper", version.ref = "libby" }
+libbyVelocity = { group = "com.alessiodp.libby", name = "libby-velocity", version.ref = "libby" }
+
 # adventure
 adventure = { group = "net.kyori", name = "adventure", version.ref = "adventure" }
 adventure-minimessage = { group = "net.kyori", name = "adventure-minimessage", version.ref = "adventure-minimessage" }
@@ -48,10 +57,10 @@ adventure-platform-bukkit = { group = "net.kyori", name = "adventure-platform-bu
 [bundles]
 
 adventure = ["adventure", "adventure-minimessage", "adventure-legacy", "adventure-plain", "adventure-gson"]
-spigot = ["spigot", "adventure-platform-bukkit"]
+bukkit = ["spigot", "adventure-platform-bukkit"]
 paper = ["paper"]
 velocity = ["velocity"]
 
 [plugins]
 
-shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
+shadow = { id = "io.github.goooler.shadow", version.ref = "shadow" }

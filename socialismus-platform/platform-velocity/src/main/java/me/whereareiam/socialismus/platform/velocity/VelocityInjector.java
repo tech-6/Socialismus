@@ -11,7 +11,7 @@ import java.nio.file.Path;
 public class VelocityInjector {
 	private final Injector injector;
 
-	public VelocityInjector(Path dataPath) {
-		this.injector = Guice.createInjector(new VelocityInjectorConfiguration(), new ConfigInitializer(dataPath));
+	public VelocityInjector(VelocityDependencyResolver dependencyResolver, Path dataPath) {
+		this.injector = Guice.createInjector(new VelocityInjectorConfiguration(dependencyResolver), new ConfigInitializer(dataPath));
 	}
 }

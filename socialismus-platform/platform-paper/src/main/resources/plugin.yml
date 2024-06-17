@@ -1,5 +1,5 @@
 name: @projectName@
-main: me.whereareiam.socialismus.platform.spigot.PaperSocialismus
+main: me.whereareiam.socialismus.platform.bukkit.PaperSocialismus
 version: '@projectVersion@'
 api-version: '1.16'
 author: whereareiam

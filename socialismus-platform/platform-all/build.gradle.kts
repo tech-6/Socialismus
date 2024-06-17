@@ -5,7 +5,7 @@ tasks.withType<ShadowJar> {
 }
 
 dependencies {
-    "implementation"(project(":socialismus-platform:platform-spigot"))
+    "implementation"(project(":socialismus-platform:platform-bukkit"))
     "implementation"(project(":socialismus-platform:platform-paper"))
     "implementation"(project(":socialismus-platform:platform-velocity"))
 }

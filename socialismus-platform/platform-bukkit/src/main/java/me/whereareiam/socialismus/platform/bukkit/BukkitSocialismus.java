@@ -1,24 +1,24 @@
-package me.whereareiam.socialismus.platform.spigot;
+package me.whereareiam.socialismus.platform.bukkit;
 
-import com.saicone.ezlib.Ezlib;
-import me.whereareiam.socialismus.common.SocialismusBase;
+import me.whereareiam.socialismus.common.base.SocialismusBase;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.nio.file.Path;
 import java.util.logging.Logger;
 
 @SuppressWarnings("unused")
-public class SpigotSocialismus extends JavaPlugin {
+public class BukkitSocialismus extends JavaPlugin {
 	private final SocialismusBase socialismusBase = new SocialismusBase();
 	private final Path dataPath = getDataFolder().toPath();
 	private final Logger logger = getLogger();
 
+	private BukkitDependencyResolver dependencyResolver;
+
 	@Override
 	public void onLoad() {
-		Ezlib ezlib = new Ezlib();
-		ezlib.init();
-
-		ezlib.dependency("com.google.inject:guice:7.0.0").load();
+		dependencyResolver = new BukkitDependencyResolver(this);
+		dependencyResolver.loadLibraries();
+		dependencyResolver.resolveDependencies();
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class SpigotSocialismus extends JavaPlugin {
 			}
 		}
 
-		new SpigotInjector(dataPath);
+		new BukkitInjector(dependencyResolver, dataPath);
 		socialismusBase.onEnable();
 	}
 

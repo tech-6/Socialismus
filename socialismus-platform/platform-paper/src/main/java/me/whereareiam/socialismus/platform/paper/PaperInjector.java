@@ -11,7 +11,7 @@ import java.nio.file.Path;
 public class PaperInjector {
 	private final Injector injector;
 
-	public PaperInjector(Path dataPath) {
-		this.injector = Guice.createInjector(new PaperInjectorConfiguration(), new ConfigInitializer(dataPath));
+	public PaperInjector(PaperDependencyResolver dependencyResolver, Path dataPath) {
+		this.injector = Guice.createInjector(new PaperInjectorConfiguration(dependencyResolver), new ConfigInitializer(dataPath));
 	}
 }

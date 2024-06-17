@@ -1,12 +1,12 @@
-package me.whereareiam.socialismus.platform.paper;
+package me.whereareiam.socialismus.platform.bukkit;
 
 import com.google.inject.AbstractModule;
 import me.whereareiam.socialismus.api.input.DependencyResolver;
 
-public class PaperInjectorConfiguration extends AbstractModule {
-	private final PaperDependencyResolver dependencyResolver;
+public class BukkitInjectorConfiguration extends AbstractModule {
+	private final BukkitDependencyResolver dependencyResolver;
 
-	public PaperInjectorConfiguration(PaperDependencyResolver dependencyResolver) {
+	public BukkitInjectorConfiguration(BukkitDependencyResolver dependencyResolver) {
 		this.dependencyResolver = dependencyResolver;
 	}
 

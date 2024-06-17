@@ -1,22 +1,23 @@
 repositories {
-    maven("https://jitpack.io")
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 }
 
 dependencies {
     "implementation"(project(":socialismus-common-api"))
+    "implementation"(libs.libbyCore)
 }
 
 tasks.register<Copy>("processSources") {
     from("src/main/java")
-    into("$buildDir/processed-src")
+    into(layout.buildDirectory.dir("processed-src").get().asFile)
     include("**/*.java")
     filter { line ->
-        line.replace("@guiceVersion@", rootProject.libs.versions.guice.get())
-            .replace("@guavaVersion@", rootProject.libs.versions.guava.get())
+        line
+        .replace("@guiceVersion@", rootProject.libs.versions.guice.get())
     }
 }
 
 tasks.named<JavaCompile>("compileJava") {
     dependsOn("processSources")
-    source = fileTree("$buildDir/processed-src")
+    source = fileTree(layout.buildDirectory.dir("processed-src").get().asFile)
 }
