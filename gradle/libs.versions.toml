@@ -14,8 +14,8 @@ libby = "2.0.0-SNAPSHOT"
 
 # platform api versions
 velocity = "3.3.0-SNAPSHOT"
-spigot = "1.20.6-R0.1-SNAPSHOT"
-paper = "1.20.6-R0.1-SNAPSHOT"
+spigot = "1.21-R0.1-SNAPSHOT"
+paper = "1.21-R0.1-SNAPSHOT"
 
 # adventure
 adventure = "4.17.0"
