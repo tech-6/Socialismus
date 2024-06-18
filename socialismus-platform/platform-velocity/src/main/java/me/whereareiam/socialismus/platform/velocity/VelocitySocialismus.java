@@ -7,7 +7,7 @@ import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
-import me.whereareiam.socialismus.common.base.SocialismusBase;
+import me.whereareiam.socialismus.common.base.CommonSocialismus;
 import me.whereareiam.socialismus.platform.velocity.inject.VelocityInjector;
 import org.slf4j.Logger;
 
@@ -20,7 +20,7 @@ import java.nio.file.Path;
 		authors = "whereareiam"
 )
 @SuppressWarnings("unused")
-public class VelocitySocialismus extends SocialismusBase {
+public class VelocitySocialismus extends CommonSocialismus {
 	private final ProxyServer proxyServer;
 	private final Logger logger;
 	private final Path dataPath;
@@ -45,7 +45,7 @@ public class VelocitySocialismus extends SocialismusBase {
 			}
 		}
 
-		new VelocityInjector(dependencyResolver, dataPath);
+		new VelocityInjector(proxyServer, dependencyResolver, dataPath);
 		VelocityLoggingHelper.setLogger(logger);
 
 		super.onEnable();

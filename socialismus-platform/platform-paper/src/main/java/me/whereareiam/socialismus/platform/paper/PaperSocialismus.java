@@ -1,6 +1,6 @@
 package me.whereareiam.socialismus.platform.paper;
 
-import me.whereareiam.socialismus.common.base.SocialismusBase;
+import me.whereareiam.socialismus.common.base.CommonSocialismus;
 import me.whereareiam.socialismus.platform.paper.inject.PaperInjector;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 @SuppressWarnings("unused")
 public class PaperSocialismus extends JavaPlugin {
-	private final SocialismusBase socialismusBase = new SocialismusBase();
+	private final CommonSocialismus commonSocialismus = new CommonSocialismus();
 	private final Path dataPath = getDataFolder().toPath();
 	private final Logger logger = getLogger();
 
@@ -31,14 +31,14 @@ public class PaperSocialismus extends JavaPlugin {
 			}
 		}
 
-		new PaperInjector(dependencyResolver, dataPath);
+		new PaperInjector(this, dependencyResolver, dataPath);
 		PaperLoggingHelper.setLogger(logger);
 
-		socialismusBase.onEnable();
+		commonSocialismus.onEnable();
 	}
 
 	@Override
 	public void onDisable() {
-		socialismusBase.onDisable();
+		commonSocialismus.onDisable();
 	}
 }

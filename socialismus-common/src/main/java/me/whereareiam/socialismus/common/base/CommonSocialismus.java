@@ -10,7 +10,7 @@ import me.whereareiam.socialismus.common.util.type.plugin.PluginType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SocialismusBase {
+public class CommonSocialismus {
 	private Injector injector;
 
 	public void onEnable() {

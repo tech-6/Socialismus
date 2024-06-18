@@ -47,11 +47,11 @@ libbyPaper = { group = "com.alessiodp.libby", name = "libby-paper", version.ref 
 libbyVelocity = { group = "com.alessiodp.libby", name = "libby-velocity", version.ref = "libby" }
 
 # adventure
-adventure = { group = "net.kyori", name = "adventure", version.ref = "adventure" }
-adventure-minimessage = { group = "net.kyori", name = "adventure-minimessage", version.ref = "adventure-minimessage" }
-adventure-legacy = { group = "net.kyori", name = "adventure-legacy", version.ref = "adventure-legacy" }
-adventure-plain = { group = "net.kyori", name = "adventure-plain", version.ref = "adventure-plain" }
-adventure-gson = { group = "net.kyori", name = "adventure-gson", version.ref = "adventure-gson" }
+adventure = { group = "net.kyori", name = "adventure-api", version.ref = "adventure" }
+adventure-minimessage = { group = "net.kyori", name = "adventure-text-minimessage", version.ref = "adventure-minimessage" }
+adventure-legacy = { group = "net.kyori", name = "adventure-text-serializer-legacy", version.ref = "adventure-legacy" }
+adventure-plain = { group = "net.kyori", name = "adventure-text-serializer-plain", version.ref = "adventure-plain" }
+adventure-gson = { group = "net.kyori", name = "adventure-text-serializer-gson", version.ref = "adventure-gson" }
 adventure-platform-bukkit = { group = "net.kyori", name = "adventure-platform-bukkit", version.ref = "adventure-platform-bukkit" }
 
 [bundles]
