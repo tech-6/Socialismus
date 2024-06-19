@@ -9,6 +9,6 @@ import me.whereareiam.socialismus.api.model.config.chat.Chat;
 @ToString
 @SuperBuilder(toBuilder = true)
 public class InternalChat extends Chat {
-	private boolean vanillaSending = true;
+	private boolean vanillaSending;
 	private char symbol;
 }

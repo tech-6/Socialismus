@@ -1,5 +1,6 @@
 package me.whereareiam.socialismus.common.chat;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import me.whereareiam.socialismus.api.model.chat.ChatMessage;
@@ -14,6 +15,7 @@ import java.util.List;
 public class ChatSelector {
 	private final List<InternalChat> chats = new ArrayList<>();
 
+	@Inject
 	public ChatSelector(@Named("chats") List<Chat> chats) {
 		chats.forEach(chat -> {
 			InternalChat internalChat = InternalChat.builder()
@@ -27,7 +29,7 @@ public class ChatSelector {
 
 	public ChatMessage selectChat(ChatMessage chatMessage) {
 		char symbol = ComponentUtil.toString(chatMessage.getContent()).charAt(0);
-		
+
 
 		return chatMessage;
 	}

@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.inject.name.Named;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
@@ -17,17 +18,19 @@ public class ConfigLoader<T> {
 	private final Path dataPath;
 	private final Gson gson;
 	@Getter
+	@Setter
 	private T config;
 
 	public ConfigLoader(@Named("dataPath") Path dataPath) {
 		this.dataPath = dataPath;
 		this.gson = new GsonBuilder()
 				.setPrettyPrinting()
+				.disableHtmlEscaping()
 				.create();
 	}
 
 	public void load(Class<T> configClass, String path, String fileName) {
-		File file = null;
+		File file;
 		if (path.isEmpty()) {
 			file = dataPath.resolve(fileName).toFile();
 		} else {
@@ -80,6 +83,11 @@ public class ConfigLoader<T> {
 		try {
 			if (!path.isEmpty()) {
 				Files.createDirectories(dataPath.resolve(path));
+			}
+
+			Path filePath = dataPath.resolve(path).resolve(fileName);
+			if (!Files.exists(filePath)) {
+				Files.createFile(filePath);
 			}
 
 			FileWriter writer = new FileWriter(dataPath.resolve(path).resolve(fileName).toFile());
