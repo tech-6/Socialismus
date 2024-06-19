@@ -2,7 +2,7 @@ package me.whereareiam.socialismus.platform.bukkit;
 
 import com.google.inject.Inject;
 import lombok.Setter;
-import me.whereareiam.socialismus.api.model.Settings;
+import me.whereareiam.socialismus.api.model.config.Settings;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 
 import java.util.logging.Logger;

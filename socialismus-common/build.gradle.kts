@@ -5,6 +5,7 @@ repositories {
 dependencies {
     "implementation"(project(":socialismus-common-api"))
     "implementation"(libs.libbyCore)
+    "compileOnly"(libs.bundles.adventure)
 }
 
 tasks.register<Copy>("processSources") {

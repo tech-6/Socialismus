@@ -2,6 +2,7 @@ package me.whereareiam.socialismus.platform.bukkit.inject;
 
 import com.google.inject.AbstractModule;
 import me.whereareiam.socialismus.api.input.DependencyResolver;
+import me.whereareiam.socialismus.api.output.ListenerRegistrar;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.output.PlatformMessenger;
 import me.whereareiam.socialismus.api.output.Scheduler;
@@ -9,7 +10,9 @@ import me.whereareiam.socialismus.platform.bukkit.BukkitDependencyResolver;
 import me.whereareiam.socialismus.platform.bukkit.BukkitLoggingHelper;
 import me.whereareiam.socialismus.platform.bukkit.BukkitPlatformMessenger;
 import me.whereareiam.socialismus.platform.bukkit.BukkitScheduler;
+import me.whereareiam.socialismus.platform.bukkit.listener.BukkitListenerRegistrar;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 
 public class BukkitInjectorConfiguration extends AbstractModule {
 	private final Plugin plugin;
@@ -23,10 +26,12 @@ public class BukkitInjectorConfiguration extends AbstractModule {
 	@Override
 	protected void configure() {
 		bind(Plugin.class).toInstance(plugin);
+		bind(PluginManager.class).toInstance(plugin.getServer().getPluginManager());
 		bind(DependencyResolver.class).toInstance(dependencyResolver);
 
 		bind(LoggingHelper.class).to(BukkitLoggingHelper.class);
 		bind(Scheduler.class).to(BukkitScheduler.class);
+		bind(ListenerRegistrar.class).to(BukkitListenerRegistrar.class);
 		bind(PlatformMessenger.class).to(BukkitPlatformMessenger.class);
 	}
 }

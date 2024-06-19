@@ -1,9 +1,7 @@
-package me.whereareiam.socialismus.common.base;
+package me.whereareiam.socialismus.common;
 
 import com.google.inject.Injector;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
-import me.whereareiam.socialismus.common.CommonInjector;
-import me.whereareiam.socialismus.common.Constants;
 import me.whereareiam.socialismus.common.util.type.platform.PlatformType;
 import me.whereareiam.socialismus.common.util.type.plugin.PluginType;
 

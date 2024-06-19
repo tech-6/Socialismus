@@ -1,6 +1,6 @@
 package me.whereareiam.socialismus.platform.bukkit;
 
-import me.whereareiam.socialismus.common.base.CommonSocialismus;
+import me.whereareiam.socialismus.common.CommonSocialismus;
 import me.whereareiam.socialismus.platform.bukkit.inject.BukkitInjector;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -24,13 +24,6 @@ public class BukkitSocialismus extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		if (!dataPath.toFile().exists()) {
-			if (!dataPath.toFile().mkdir()) {
-				logger.severe("Failed to create data folder. Disabling server.");
-				this.getServer().shutdown();
-			}
-		}
-
 		new BukkitInjector(this, dependencyResolver, dataPath);
 		BukkitLoggingHelper.setLogger(logger);
 
