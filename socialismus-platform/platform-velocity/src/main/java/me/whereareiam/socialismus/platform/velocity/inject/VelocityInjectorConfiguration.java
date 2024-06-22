@@ -4,14 +4,8 @@ import com.google.inject.AbstractModule;
 import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.whereareiam.socialismus.api.input.DependencyResolver;
-import me.whereareiam.socialismus.api.output.ListenerRegistrar;
-import me.whereareiam.socialismus.api.output.LoggingHelper;
-import me.whereareiam.socialismus.api.output.PlatformMessenger;
-import me.whereareiam.socialismus.api.output.Scheduler;
-import me.whereareiam.socialismus.platform.velocity.VelocityDependencyResolver;
-import me.whereareiam.socialismus.platform.velocity.VelocityLoggingHelper;
-import me.whereareiam.socialismus.platform.velocity.VelocityPlatformMessenger;
-import me.whereareiam.socialismus.platform.velocity.VelocityScheduler;
+import me.whereareiam.socialismus.api.output.*;
+import me.whereareiam.socialismus.platform.velocity.*;
 import me.whereareiam.socialismus.platform.velocity.listener.VelocityListenerRegistrar;
 
 public class VelocityInjectorConfiguration extends AbstractModule {
@@ -33,5 +27,6 @@ public class VelocityInjectorConfiguration extends AbstractModule {
 		bind(Scheduler.class).to(VelocityScheduler.class);
 		bind(ListenerRegistrar.class).to(VelocityListenerRegistrar.class);
 		bind(PlatformMessenger.class).to(VelocityPlatformMessenger.class);
+		bind(PlatformInteractor.class).to(VelocityPlatformInteractor.class);
 	}
 }
