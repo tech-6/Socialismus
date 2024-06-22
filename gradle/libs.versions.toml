@@ -19,11 +19,11 @@ paper = "1.21-R0.1-SNAPSHOT"
 
 # adventure
 adventure = "4.17.0"
-adventure-minimessage = "4.17.0"
-adventure-legacy = "4.17.0"
-adventure-plain = "4.17.0"
-adventure-gson = "4.17.0"
-adventure-platform-bukkit = "4.3.3"
+adventureMinimessage = "4.17.0"
+adventureLegacy = "4.17.0"
+adventurePlain = "4.17.0"
+adventureGson = "4.17.0"
+adventurePlatformBukkit = "4.3.3"
 
 [libraries]
 
@@ -48,11 +48,11 @@ libbyVelocity = { group = "com.alessiodp.libby", name = "libby-velocity", versio
 
 # adventure
 adventure = { group = "net.kyori", name = "adventure-api", version.ref = "adventure" }
-adventure-minimessage = { group = "net.kyori", name = "adventure-text-minimessage", version.ref = "adventure-minimessage" }
-adventure-legacy = { group = "net.kyori", name = "adventure-text-serializer-legacy", version.ref = "adventure-legacy" }
-adventure-plain = { group = "net.kyori", name = "adventure-text-serializer-plain", version.ref = "adventure-plain" }
-adventure-gson = { group = "net.kyori", name = "adventure-text-serializer-gson", version.ref = "adventure-gson" }
-adventure-platform-bukkit = { group = "net.kyori", name = "adventure-platform-bukkit", version.ref = "adventure-platform-bukkit" }
+adventure-minimessage = { group = "net.kyori", name = "adventure-text-minimessage", version.ref = "adventureMinimessage" }
+adventure-legacy = { group = "net.kyori", name = "adventure-text-serializer-legacy", version.ref = "adventureLegacy" }
+adventure-plain = { group = "net.kyori", name = "adventure-text-serializer-plain", version.ref = "adventurePlain" }
+adventure-gson = { group = "net.kyori", name = "adventure-text-serializer-gson", version.ref = "adventureGson" }
+adventure-platform-bukkit = { group = "net.kyori", name = "adventure-platform-bukkit", version.ref = "adventurePlatformBukkit" }
 
 [bundles]
 

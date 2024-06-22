@@ -34,7 +34,7 @@ public class VelocitySocialismus extends CommonSocialismus {
 
 	@Subscribe
 	public void onProxyInitializationEvent(ProxyInitializeEvent event) {
-		VelocityDependencyResolver dependencyResolver = new VelocityDependencyResolver(proxyServer, logger, dataPath, proxyServer.getPluginManager());
+		VelocityDependencyResolver dependencyResolver = new VelocityDependencyResolver(this, logger, dataPath, proxyServer.getPluginManager());
 		dependencyResolver.loadLibraries();
 		dependencyResolver.resolveDependencies();
 

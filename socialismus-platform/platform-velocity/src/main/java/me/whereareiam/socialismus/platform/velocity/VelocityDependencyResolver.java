@@ -2,7 +2,6 @@ package me.whereareiam.socialismus.platform.velocity;
 
 import com.alessiodp.libby.VelocityLibraryManager;
 import com.velocitypowered.api.plugin.PluginManager;
-import com.velocitypowered.api.proxy.ProxyServer;
 import me.whereareiam.socialismus.common.CommonDependencyResolver;
 import org.slf4j.Logger;
 
@@ -11,8 +10,8 @@ import java.nio.file.Path;
 public class VelocityDependencyResolver extends CommonDependencyResolver {
 	private final VelocityLibraryManager libraryManager;
 
-	public VelocityDependencyResolver(ProxyServer plugin, Logger logger, Path dataPath, PluginManager pluginManager) {
-		this.libraryManager = new VelocityLibraryManager(plugin, logger, dataPath, pluginManager, "libraries");
+	public VelocityDependencyResolver(VelocitySocialismus velocitySocialismus, Logger logger, Path dataPath, PluginManager pluginManager) {
+		this.libraryManager = new VelocityLibraryManager(velocitySocialismus, logger, dataPath, pluginManager, "libraries");
 	}
 
 	@Override

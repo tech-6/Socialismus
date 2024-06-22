@@ -1,17 +1,16 @@
-package me.whereareiam.socialismus.platform.bukkit.listener.chat;
+package me.whereareiam.socialismus.platform.paper.listener.chat;
 
 import com.google.inject.Singleton;
+import io.papermc.paper.event.player.AsyncChatEvent;
 import me.whereareiam.socialismus.api.model.DummyPlayer;
 import me.whereareiam.socialismus.api.model.chat.ChatMessage;
 import me.whereareiam.socialismus.common.chat.ChatMessageProcessor;
-import me.whereareiam.socialismus.common.util.ComponentUtil;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,10 +24,10 @@ public class PlayerChatListener implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onPlayerChatEvent(AsyncPlayerChatEvent event) {
+	public void onPlayerChatEvent(AsyncChatEvent event) {
 		Player player = event.getPlayer();
-		Set<Player> recipients = event.getRecipients();
-		Component content = Component.text(event.getMessage());
+		Set<Audience> recipients = event.viewers();
+		Component content = event.message();
 
 		ChatMessage chatMessage = chatMessageProcessor.handleChatEvent(
 				createChatMessage(player, recipients, content)
@@ -39,19 +38,22 @@ public class PlayerChatListener implements Listener {
 			return;
 		}
 
-		event.getRecipients().clear();
-		event.getRecipients().addAll(
+		event.viewers().clear();
+		event.viewers().addAll(
 				chatMessage.getRecipients().stream()
 						.map(uuid -> player.getServer().getPlayer(uuid))
 						.collect(Collectors.toSet())
 		);
-		event.setMessage(ComponentUtil.toString(chatMessage.getContent()));
+		event.message(chatMessage.getContent());
 	}
 
-	private ChatMessage createChatMessage(Player player, Set<Player> recipients, Component content) {
+	private ChatMessage createChatMessage(Player player, Set<Audience> recipients, Component content) {
 		return new ChatMessage(
 				new DummyPlayer(player.getName(), player.getUniqueId()),
-				recipients.stream().map(Entity::getUniqueId).collect(Collectors.toSet()),
+				recipients.stream()
+						.map(audience -> (Player) audience)
+						.map(Player::getUniqueId)
+						.collect(Collectors.toSet()),
 				content,
 				null,
 				false

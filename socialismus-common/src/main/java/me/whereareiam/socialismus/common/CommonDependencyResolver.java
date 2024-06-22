@@ -13,8 +13,8 @@ public abstract class CommonDependencyResolver implements DependencyResolver {
 	public void loadLibraries() {
 		// Common libraries
 
-		addDependency("com.google.inject", "guice", "@guiceVersion@", true);
-		addDependency("com.google.code.gson", "gson", "@gsonVersion@", true);
+		addDependency("com.google.inject", "guice", Constants.getGuiceVersion(), true);
+		addDependency("com.google.code.gson", "gson", Constants.getGsonVersion(), true);
 	}
 
 	@Override

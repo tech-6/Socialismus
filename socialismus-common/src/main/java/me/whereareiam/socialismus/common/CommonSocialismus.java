@@ -19,6 +19,8 @@ public class CommonSocialismus {
 
 		// Initialize all chats before first event is triggered, leads to faster response time
 		injector.getInstance(ChatSelector.class);
+
+		injector.getInstance(LoggingHelper.class).info("");
 	}
 
 	public void onDisable() {

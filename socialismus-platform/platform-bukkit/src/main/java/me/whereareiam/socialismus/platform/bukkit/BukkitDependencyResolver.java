@@ -2,6 +2,7 @@ package me.whereareiam.socialismus.platform.bukkit;
 
 import com.alessiodp.libby.BukkitLibraryManager;
 import me.whereareiam.socialismus.common.CommonDependencyResolver;
+import me.whereareiam.socialismus.common.Constants;
 import org.bukkit.plugin.Plugin;
 
 public class BukkitDependencyResolver extends CommonDependencyResolver {
@@ -23,5 +24,6 @@ public class BukkitDependencyResolver extends CommonDependencyResolver {
 		super.loadLibraries();
 
 		// Bukkit specific libraries
+		addDependency("net.kyori", "adventure-platform-bukkit", Constants.getAdventureBukkitVersion(), true);
 	}
 }

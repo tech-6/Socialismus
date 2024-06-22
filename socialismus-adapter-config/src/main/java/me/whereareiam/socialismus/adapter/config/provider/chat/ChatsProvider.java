@@ -32,32 +32,40 @@ public class ChatsProvider implements Provider<List<Chat>> {
 
 	@Override
 	public List<Chat> get() {
-		List<Chat> chats = new ArrayList<>();
-		try (Stream<Path> paths = Files.list(dataPath)) {
-			List<Path> files = paths.toList();
+		List<Chat> chats;
+		List<Path> chatFiles = getChatFiles();
 
-			files = files.stream()
-					.filter(file -> file.getFileName().toString().endsWith(".json"))
-					.filter(file -> !file.getFileName().toString().equals("settings.json")
-							&& !file.getFileName().toString().equals("messages.json")
-					).toList();
-
-			if (files.isEmpty()) createDefaultConfig();
-
-			files.forEach(file -> {
-				String fileName = file.getFileName().toString();
-
-				ConfigLoader<ChatsConfig> configLoader = new ConfigLoader<>(dataPath);
-				configLoader.load(ChatsConfig.class, "", fileName);
-
-				chats.addAll(configLoader.getConfig().getChats());
-			});
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+		if (chatFiles.isEmpty()) {
+			createDefaultConfig();
+			chatFiles = getChatFiles();
 		}
 
-		loggingHelper.info("  Loaded " + chats.size() + " chats");
+		chats = loadChatsFromFiles(chatFiles);
+		loggingHelper.info("  Loaded " + chats.size() + " chat" + (chats.size() == 1 ? "" : "s"));
 
+		return chats;
+	}
+
+	private List<Path> getChatFiles() {
+		try (Stream<Path> paths = Files.list(dataPath)) {
+			return paths.filter(file -> file.getFileName().toString().endsWith(".json"))
+					.filter(file -> !file.getFileName().toString().equals("settings.json")
+							&& !file.getFileName().toString().equals("messages.json"))
+					.toList();
+		} catch (IOException e) {
+			loggingHelper.severe("Error getting chat files", e);
+
+			return new ArrayList<>();
+		}
+	}
+
+	private List<Chat> loadChatsFromFiles(List<Path> files) {
+		List<Chat> chats = new ArrayList<>();
+		for (Path file : files) {
+			ConfigLoader<ChatsConfig> configLoader = new ConfigLoader<>(dataPath);
+			configLoader.load(ChatsConfig.class, "", file.getFileName().toString());
+			chats.addAll(configLoader.getConfig().getChats());
+		}
 		return chats;
 	}
 

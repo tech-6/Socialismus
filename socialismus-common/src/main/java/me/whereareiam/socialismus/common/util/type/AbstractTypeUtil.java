@@ -7,6 +7,8 @@ public abstract class AbstractTypeUtil {
 			return true;
 		} catch (ClassNotFoundException e) {
 			return false;
+		} catch (NoClassDefFoundError e) {
+			return className.equals("org.bukkit.plugin.java.JavaPlugin");
 		}
 	}
 }

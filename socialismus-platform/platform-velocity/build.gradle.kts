@@ -1,5 +1,4 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import org.apache.tools.ant.filters.ReplaceTokens
 
 tasks.withType<ShadowJar> {
     archiveClassifier.set("VELOCITY")
@@ -7,6 +6,6 @@ tasks.withType<ShadowJar> {
 
 dependencies {
     "compileOnly"(libs.bundles.velocity)
+    "annotationProcessor"(libs.velocity)
     "implementation"(rootProject.libs.libbyVelocity)
 }
-

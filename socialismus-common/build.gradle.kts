@@ -15,6 +15,7 @@ tasks.register<Copy>("processSources") {
     filter { line ->
         line.replace("@guiceVersion@", rootProject.libs.versions.guice.get())
             .replace("@gsonVersion@", rootProject.libs.versions.gson.get())
+            .replace("@adventureBukkitVersion@", rootProject.libs.versions.adventurePlatformBukkit.get())
             .replace("@version@", rootProject.version.toString())
     }
 }
