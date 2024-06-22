@@ -4,13 +4,14 @@ import me.whereareiam.socialismus.api.model.chat.InternalChat;
 import me.whereareiam.socialismus.api.model.config.chat.Chat;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ChatContainerService {
 	void addChat(InternalChat chat);
 
 	void addChat(Chat chat);
 
-	List<InternalChat> getChat(String name);
+	Optional<InternalChat> getChat(String name);
 
 	List<InternalChat> getChat(char symbol);
 

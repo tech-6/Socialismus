@@ -1,4 +1,4 @@
-package me.whereareiam.socialismus.api.output;
+package me.whereareiam.socialismus.api.output.platform;
 
 import me.whereareiam.socialismus.api.model.DummyPlayer;
 import net.kyori.adventure.bossbar.BossBar;

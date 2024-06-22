@@ -1,5 +1,6 @@
-package me.whereareiam.socialismus.common.util;
+package me.whereareiam.socialismus.api;
 
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
@@ -7,10 +8,15 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 @SuppressWarnings("unused")
 public class ComponentUtil {
+	@Getter
 	private static final MiniMessage MINI_MESSAGE_SERIALIZER = MiniMessage.miniMessage();
+	@Getter
 	private static final LegacyComponentSerializer LEGACY_SERIALIZER = LegacyComponentSerializer.legacyAmpersand();
+	@Getter
 	private static final LegacyComponentSerializer LEGACY_SECTION_SERIALIZER = LegacyComponentSerializer.legacySection();
+	@Getter
 	private static final GsonComponentSerializer GSON_SERIALIZER = GsonComponentSerializer.gson();
+	@Getter
 	private static final GsonComponentSerializer GSON_DOWNSAMPLING_SERIALIZER = GsonComponentSerializer.colorDownsamplingGson();
 
 	public static String toString(Component component) {

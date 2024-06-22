@@ -24,7 +24,6 @@ subprojects {
         "implementation"(project(":socialismus-adapter-config"))
         "implementation"(project(":socialismus-adapter-database"))
         "implementation"(project(":socialismus-adapter-module"))
-        "implementation"(project(":socialismus-adapter-packet"))
         "implementation"(project(":socialismus-adapter-redis"))
         "implementation"(project(":socialismus-platform"))
         "implementation"(project(":socialismus-common-api"))
@@ -33,6 +32,12 @@ subprojects {
 
     when (name) {
         "platform-paper", "platform-bukkit" -> {
+            dependencies {
+                "implementation"(project(":socialismus-integration:integration-miniplaceholders"))
+                "implementation"(project(":socialismus-integration:integration-placeholderapi"))
+                "implementation"(project(":socialismus-integration:integration-packetevents"))
+            }
+
             tasks.named<Copy>("processResources") {
                 filter<ReplaceTokens>("tokens" to mapOf(
                             "projectName" to rootProject.name,
@@ -42,6 +47,10 @@ subprojects {
         }
 
         "platform-velocity" -> {
+            dependencies {
+                "implementation"(project(":socialismus-integration:integration-miniplaceholders"))
+            }
+
             tasks.register<Copy>("processSources") {
                 from("src/main/java")
                 into("$buildDir/processed-src")

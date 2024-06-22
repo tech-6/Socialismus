@@ -15,6 +15,7 @@ public abstract class CommonDependencyResolver implements DependencyResolver {
 
 		addDependency("com.google.inject", "guice", Constants.getGuiceVersion(), true);
 		addDependency("com.google.code.gson", "gson", Constants.getGsonVersion(), true);
+		addDependency("org.reflections", "reflections", Constants.getReflectionsVersion(), true);
 	}
 
 	@Override

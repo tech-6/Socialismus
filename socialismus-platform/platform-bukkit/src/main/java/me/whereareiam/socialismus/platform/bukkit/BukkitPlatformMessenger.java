@@ -3,7 +3,7 @@ package me.whereareiam.socialismus.platform.bukkit;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.model.DummyPlayer;
-import me.whereareiam.socialismus.api.output.PlatformMessenger;
+import me.whereareiam.socialismus.api.output.platform.PlatformMessenger;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;

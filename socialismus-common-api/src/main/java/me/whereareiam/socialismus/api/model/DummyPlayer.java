@@ -13,5 +13,7 @@ import java.util.UUID;
 public class DummyPlayer {
 	private final String username;
 	private final UUID uniqueId;
-	private final Locale locale = Locale.ENGLISH;
+
+	private final String location; // can be worldName or serverName
+	private final Locale locale;
 }

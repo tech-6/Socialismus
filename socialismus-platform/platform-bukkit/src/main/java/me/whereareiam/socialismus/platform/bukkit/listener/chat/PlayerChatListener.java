@@ -1,10 +1,10 @@
 package me.whereareiam.socialismus.platform.bukkit.listener.chat;
 
 import com.google.inject.Singleton;
+import me.whereareiam.socialismus.api.ComponentUtil;
 import me.whereareiam.socialismus.api.model.DummyPlayer;
 import me.whereareiam.socialismus.api.model.chat.ChatMessage;
 import me.whereareiam.socialismus.common.chat.ChatMessageProcessor;
-import me.whereareiam.socialismus.common.util.ComponentUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -13,6 +13,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -50,7 +51,7 @@ public class PlayerChatListener implements Listener {
 
 	private ChatMessage createChatMessage(Player player, Set<Player> recipients, Component content) {
 		return new ChatMessage(
-				new DummyPlayer(player.getName(), player.getUniqueId()),
+				new DummyPlayer(player.getName(), player.getUniqueId(), player.getWorld().getName(), Locale.of(player.getLocale())),
 				recipients.stream().map(Entity::getUniqueId).collect(Collectors.toSet()),
 				content,
 				null,

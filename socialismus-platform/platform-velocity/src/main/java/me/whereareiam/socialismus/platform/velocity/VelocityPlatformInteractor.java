@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.whereareiam.socialismus.api.model.DummyPlayer;
-import me.whereareiam.socialismus.api.output.PlatformInteractor;
+import me.whereareiam.socialismus.api.output.platform.PlatformInteractor;
 
 @Singleton
 public class VelocityPlatformInteractor implements PlatformInteractor {

@@ -49,7 +49,7 @@ public class PlayerChatListener implements Listener {
 
 	private ChatMessage createChatMessage(Player player, Set<Audience> recipients, Component content) {
 		return new ChatMessage(
-				new DummyPlayer(player.getName(), player.getUniqueId()),
+				new DummyPlayer(player.getName(), player.getUniqueId(), player.getWorld().getName(), player.locale()),
 				recipients.stream()
 						.map(audience -> (Player) audience)
 						.map(Player::getUniqueId)

@@ -37,7 +37,14 @@ public class PlayerChatListener {
 
 	private ChatMessage createChatMessage(Player player, Collection<Player> recipients, Component content) {
 		return new ChatMessage(
-				new DummyPlayer(player.getUsername(), player.getUniqueId()),
+				new DummyPlayer(
+						player.getUsername(),
+						player.getUniqueId(),
+						player.getCurrentServer().isPresent()
+								? player.getCurrentServer().get().getServerInfo().getName()
+								: null,
+						player.getEffectiveLocale()
+				),
 				recipients.stream()
 						.map(Player::getUniqueId)
 						.collect(Collectors.toSet()),

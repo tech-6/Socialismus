@@ -5,7 +5,7 @@ import com.google.inject.Singleton;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.whereareiam.socialismus.api.model.DummyPlayer;
-import me.whereareiam.socialismus.api.output.PlatformMessenger;
+import me.whereareiam.socialismus.api.output.platform.PlatformMessenger;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;

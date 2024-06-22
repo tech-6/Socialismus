@@ -2,6 +2,7 @@ package me.whereareiam.socialismus.api.model.chat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import me.whereareiam.socialismus.api.model.DummyPlayer;
 import me.whereareiam.socialismus.api.model.config.chat.Chat;
@@ -11,6 +12,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Getter
+@Setter
 @ToString
 @AllArgsConstructor
 public class ChatMessage {

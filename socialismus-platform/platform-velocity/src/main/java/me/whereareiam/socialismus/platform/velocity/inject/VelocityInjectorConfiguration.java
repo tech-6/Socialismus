@@ -4,7 +4,11 @@ import com.google.inject.AbstractModule;
 import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.whereareiam.socialismus.api.input.DependencyResolver;
-import me.whereareiam.socialismus.api.output.*;
+import me.whereareiam.socialismus.api.output.ListenerRegistrar;
+import me.whereareiam.socialismus.api.output.LoggingHelper;
+import me.whereareiam.socialismus.api.output.Scheduler;
+import me.whereareiam.socialismus.api.output.platform.PlatformInteractor;
+import me.whereareiam.socialismus.api.output.platform.PlatformMessenger;
 import me.whereareiam.socialismus.platform.velocity.*;
 import me.whereareiam.socialismus.platform.velocity.listener.VelocityListenerRegistrar;
 
