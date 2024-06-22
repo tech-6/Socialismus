@@ -1,9 +1,8 @@
 package me.whereareiam.socialismus.common.chat;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import lombok.Getter;
-import me.whereareiam.socialismus.api.input.ChatMessageWorker;
+import me.whereareiam.socialismus.api.input.chat.ChatMessageWorker;
 import me.whereareiam.socialismus.api.model.chat.ChatMessage;
 import me.whereareiam.socialismus.api.model.chat.ChatWorker;
 
@@ -13,11 +12,6 @@ import java.util.LinkedList;
 @Singleton
 public class ChatMessageProcessor implements ChatMessageWorker {
 	private final LinkedList<ChatWorker> chatWorkers = new LinkedList<>();
-
-	@Inject
-	public ChatMessageProcessor(ChatSelector chatSelector) {
-		chatWorkers.add(new ChatWorker(chatSelector::selectChat, 0, true, false));
-	}
 
 	public ChatMessage handleChatEvent(ChatMessage chatMessage) {
 		for (ChatWorker chatWorker : chatWorkers) {

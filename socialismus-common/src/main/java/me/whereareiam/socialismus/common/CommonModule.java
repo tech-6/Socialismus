@@ -1,7 +1,7 @@
 package me.whereareiam.socialismus.common;
 
 import com.google.inject.AbstractModule;
-import me.whereareiam.socialismus.api.input.ChatMessageWorker;
+import me.whereareiam.socialismus.api.input.chat.ChatMessageWorker;
 import me.whereareiam.socialismus.common.chat.ChatMessageProcessor;
 
 @SuppressWarnings("unused")
