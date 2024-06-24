@@ -9,8 +9,10 @@ import me.whereareiam.socialismus.api.model.config.chat.Chat;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.common.chat.logic.ChatConverter;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Singleton
@@ -28,6 +30,11 @@ public class ChatContainer implements ChatContainerService {
 
 	@Override
 	public void addChat(InternalChat chat) {
+		if (chat.getId() == null || chat.getId().isEmpty()) {
+			loggingHelper.debug("Chat " + chat.getId() + " has no id");
+			return;
+		}
+
 		if (chats.containsKey(chat.getId())) {
 			loggingHelper.debug("Chat " + chat.getId() + " already exists, but was tried to be added again");
 			return;
@@ -42,21 +49,32 @@ public class ChatContainer implements ChatContainerService {
 	}
 
 	@Override
-	public Optional<InternalChat> getChat(String name) {
-		return chats.get(name) == null
+	public boolean hasChat(String name) {
+		return chats.containsKey(name);
+	}
+
+	@Override
+	public boolean hasChat(char symbol) {
+		return chats.values().stream().anyMatch(chat -> chat.getSymbol() == symbol);
+	}
+
+	@Override
+	public Optional<InternalChat> getChat(String id) {
+		return chats.get(id) == null
 				? Optional.empty()
-				: Optional.of(chats.get(name));
+				: Optional.of(chats.get(id));
 	}
 
 	@Override
 	public List<InternalChat> getChat(char symbol) {
 		return chats.values().stream()
 				.filter(chat -> chat.getSymbol() == symbol)
+				.sorted((chat1, chat2) -> Integer.compare(chat2.getPriority(), chat1.getPriority()))
 				.toList();
 	}
 
 	@Override
-	public List<InternalChat> getChats() {
-		return chats.values().stream().toList();
+	public Set<InternalChat> getChats() {
+		return new HashSet<>(chats.values());
 	}
 }

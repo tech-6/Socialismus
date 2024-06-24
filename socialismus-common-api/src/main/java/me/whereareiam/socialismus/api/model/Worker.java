@@ -1,9 +1,10 @@
-package me.whereareiam.socialismus.api.model.chat;
+package me.whereareiam.socialismus.api.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 import java.util.function.Function;
 
@@ -11,8 +12,9 @@ import java.util.function.Function;
 @Setter
 @ToString
 @AllArgsConstructor
-public class ChatWorker {
-	private final Function<ChatMessage, ChatMessage> function;
+@SuperBuilder(toBuilder = true)
+public class Worker<T> {
+	private final Function<T, T> function;
 	private final int priority;
 	private boolean removable;
 	private boolean cancelled;

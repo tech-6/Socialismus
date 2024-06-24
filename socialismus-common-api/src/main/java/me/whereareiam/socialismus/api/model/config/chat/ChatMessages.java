@@ -8,4 +8,5 @@ import lombok.ToString;
 @ToString
 @Singleton
 public class ChatMessages {
+	private String noChatMatch;
 }

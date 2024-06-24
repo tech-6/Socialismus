@@ -1,13 +1,7 @@
 package me.whereareiam.socialismus.api.input.chat;
 
-import me.whereareiam.socialismus.api.model.chat.ChatWorker;
+import me.whereareiam.socialismus.api.input.WorkerProcessor;
+import me.whereareiam.socialismus.api.model.chat.ChatMessage;
 
-import java.util.LinkedList;
-
-public interface ChatMessageWorker {
-	LinkedList<ChatWorker> getChatWorkers();
-
-	boolean removeChatWorker(ChatWorker chatWorker);
-
-	void addChatWorker(ChatWorker chatWorker);
+public interface ChatMessageWorker extends WorkerProcessor<ChatMessage> {
 }

@@ -5,15 +5,20 @@ import me.whereareiam.socialismus.api.model.config.chat.Chat;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface ChatContainerService {
 	void addChat(InternalChat chat);
 
 	void addChat(Chat chat);
 
-	Optional<InternalChat> getChat(String name);
+	boolean hasChat(String name);
+
+	boolean hasChat(char symbol);
+
+	Optional<InternalChat> getChat(String id);
 
 	List<InternalChat> getChat(char symbol);
 
-	List<InternalChat> getChats();
+	Set<InternalChat> getChats();
 }

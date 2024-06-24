@@ -18,6 +18,11 @@ velocity = "3.3.0-SNAPSHOT"
 spigot = "1.21-R0.1-SNAPSHOT"
 paper = "1.21-R0.1-SNAPSHOT"
 
+# platform integrations
+placeholderAPI = "2.11.6"
+packetEvents = "2.3.0"
+papiProxyBridge = "1.6"
+
 # adventure
 adventure = "4.17.0"
 adventureMinimessage = "4.17.0"
@@ -41,6 +46,12 @@ reflections = { group = "org.reflections", name = "reflections", version.ref = "
 velocity = { group = "com.velocitypowered", name = "velocity-api", version.ref = "velocity" }
 spigot = { group = "org.spigotmc", name = "spigot-api", version.ref = "spigot" }
 paper = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
+
+# platform integrations
+placeholderAPI = { group = "me.clip", name = "placeholderapi", version.ref = "placeholderAPI" }
+packetEventsSpigot = { group = "com.github.retrooper.packetevents", name = "spigot", version.ref = "packetEvents" }
+packetEventsVelocity = { group = "com.github.retrooper.packetevents", name = "velocity", version.ref = "packetEvents" }
+papiProxyBridge = { group = "net.william278", name = "papiproxybridge", version.ref = "papiProxyBridge" }
 
 # libby
 libbyCore = { group = "com.alessiodp.libby", name = "libby-core", version.ref = "libby" }

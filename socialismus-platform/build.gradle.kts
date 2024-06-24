@@ -21,6 +21,7 @@ subprojects {
     }
 
     dependencies {
+        "implementation"(project(":socialismus-integration:integration-papiproxybridge"))
         "implementation"(project(":socialismus-adapter-config"))
         "implementation"(project(":socialismus-adapter-database"))
         "implementation"(project(":socialismus-adapter-module"))
@@ -33,7 +34,6 @@ subprojects {
     when (name) {
         "platform-paper", "platform-bukkit" -> {
             dependencies {
-                "implementation"(project(":socialismus-integration:integration-miniplaceholders"))
                 "implementation"(project(":socialismus-integration:integration-placeholderapi"))
                 "implementation"(project(":socialismus-integration:integration-packetevents"))
             }
@@ -47,10 +47,6 @@ subprojects {
         }
 
         "platform-velocity" -> {
-            dependencies {
-                "implementation"(project(":socialismus-integration:integration-miniplaceholders"))
-            }
-
             tasks.register<Copy>("processSources") {
                 from("src/main/java")
                 into("$buildDir/processed-src")

@@ -10,6 +10,7 @@ import me.whereareiam.socialismus.api.output.platform.PlatformMessenger;
 import me.whereareiam.socialismus.platform.paper.*;
 import me.whereareiam.socialismus.platform.paper.listener.PaperListenerRegistrar;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 
 public class PaperInjectorConfiguration extends AbstractModule {
 	private final Plugin plugin;
@@ -23,6 +24,7 @@ public class PaperInjectorConfiguration extends AbstractModule {
 	@Override
 	protected void configure() {
 		bind(Plugin.class).toInstance(plugin);
+		bind(PluginManager.class).toInstance(plugin.getServer().getPluginManager());
 		bind(DependencyResolver.class).toInstance(dependencyResolver);
 
 		bind(LoggingHelper.class).to(PaperLoggingHelper.class);

@@ -3,18 +3,18 @@ package me.whereareiam.socialismus.common.chat;
 import com.google.inject.Singleton;
 import lombok.Getter;
 import me.whereareiam.socialismus.api.input.chat.ChatMessageWorker;
+import me.whereareiam.socialismus.api.model.Worker;
 import me.whereareiam.socialismus.api.model.chat.ChatMessage;
-import me.whereareiam.socialismus.api.model.chat.ChatWorker;
 
 import java.util.LinkedList;
 
 @Getter
 @Singleton
 public class ChatMessageProcessor implements ChatMessageWorker {
-	private final LinkedList<ChatWorker> chatWorkers = new LinkedList<>();
+	private final LinkedList<Worker<ChatMessage>> workers = new LinkedList<>();
 
 	public ChatMessage handleChatEvent(ChatMessage chatMessage) {
-		for (ChatWorker chatWorker : chatWorkers) {
+		for (Worker<ChatMessage> chatWorker : workers) {
 			chatMessage = chatWorker.getFunction().apply(chatMessage);
 
 			if (chatMessage.isCancelled())
@@ -24,21 +24,22 @@ public class ChatMessageProcessor implements ChatMessageWorker {
 		return chatMessage;
 	}
 
+
 	@Override
-	public boolean removeChatWorker(ChatWorker chatWorker) {
-		if (!chatWorker.isRemovable())
+	public boolean removeWorker(Worker<ChatMessage> worker) {
+		if (!worker.isRemovable())
 			return false;
 
-		chatWorkers.remove(chatWorker);
+		workers.remove(worker);
 		return true;
 	}
 
 	@Override
-	public void addChatWorker(ChatWorker chatWorker) {
-		if (chatWorkers.stream().anyMatch(worker -> worker.getPriority() == chatWorker.getPriority()))
+	public void addWorker(Worker<ChatMessage> worker) {
+		if (workers.stream().anyMatch(w -> w.getPriority() == worker.getPriority()))
 			return;
 
-		chatWorkers.add(chatWorker);
-		chatWorkers.sort((a, b) -> Integer.compare(b.getPriority(), a.getPriority()));
+		workers.add(worker);
+		workers.sort((a, b) -> Integer.compare(b.getPriority(), a.getPriority()));
 	}
 }

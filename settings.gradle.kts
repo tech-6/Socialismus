@@ -1,6 +1,6 @@
 rootProject.name = "Socialismus"
 
-include("socialismus-integration:integration-miniplaceholders")
+include("socialismus-integration:integration-papiproxybridge")
 include("socialismus-integration:integration-placeholderapi")
 include("socialismus-integration:integration-packetevents")
 include("socialismus-platform:platform-paper")

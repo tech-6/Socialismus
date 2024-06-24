@@ -15,6 +15,11 @@ public class ChatConverter {
 
 	public static InternalChat convert(Chat chat) {
 		return InternalChat.builder()
+				.id(chat.getId())
+				.priority(chat.getPriority())
+				.enabled(chat.isEnabled())
+				.type(chat.getType())
+				.formats(chat.getFormats())
 				.symbol(Character.MIN_VALUE)
 				.vanillaSending(true)
 				.build();
