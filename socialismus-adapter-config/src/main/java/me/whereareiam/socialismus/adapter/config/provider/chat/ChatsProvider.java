@@ -9,7 +9,6 @@ import me.whereareiam.socialismus.adapter.config.ConfigLoader;
 import me.whereareiam.socialismus.api.model.config.chat.Chat;
 import me.whereareiam.socialismus.api.model.config.chat.ChatFormat;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
-import me.whereareiam.socialismus.api.type.chat.ChatTriggerType;
 import me.whereareiam.socialismus.api.type.chat.ChatType;
 
 import java.io.IOException;
@@ -64,7 +63,10 @@ public class ChatsProvider implements Provider<List<Chat>> {
 		for (Path file : files) {
 			ConfigLoader<ChatsConfig> configLoader = new ConfigLoader<>(dataPath);
 			configLoader.load(ChatsConfig.class, "", file.getFileName().toString());
-			chats.addAll(configLoader.getConfig().getChats());
+
+			chats.addAll(configLoader.getConfig().getChats().stream()
+					.filter(Chat::isEnabled)
+					.toList());
 		}
 		return chats;
 	}
@@ -72,12 +74,9 @@ public class ChatsProvider implements Provider<List<Chat>> {
 	private void createDefaultConfig() {
 		Chat chat = new Chat(
 				"default",
+				0,
+				true,
 				ChatType.GLOBAL,
-				List.of(
-						ChatTriggerType.CHAT,
-						ChatTriggerType.COMMAND,
-						ChatTriggerType.OTHER
-				),
 				List.of(new ChatFormat(
 						"<gray>{playerName} -> <white>{message}",
 						""
