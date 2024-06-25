@@ -1,5 +1,6 @@
 package me.whereareiam.socialismus.platform.velocity.listener.chat;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
@@ -19,6 +20,7 @@ public class PlayerChatListener {
 	private final ProxyServer proxyServer;
 	private final ChatMessageProcessor chatMessageProcessor;
 
+	@Inject
 	public PlayerChatListener(ProxyServer proxyServer, ChatMessageProcessor chatMessageProcessor) {
 		this.proxyServer = proxyServer;
 		this.chatMessageProcessor = chatMessageProcessor;

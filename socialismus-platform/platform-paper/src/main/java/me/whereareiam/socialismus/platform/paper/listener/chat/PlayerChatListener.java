@@ -1,5 +1,6 @@
 package me.whereareiam.socialismus.platform.paper.listener.chat;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.whereareiam.socialismus.api.model.DummyPlayer;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 public class PlayerChatListener implements Listener {
 	private final ChatMessageProcessor chatMessageProcessor;
 
+	@Inject
 	public PlayerChatListener(ChatMessageProcessor chatMessageProcessor) {
 		this.chatMessageProcessor = chatMessageProcessor;
 	}
@@ -51,6 +53,7 @@ public class PlayerChatListener implements Listener {
 		return new ChatMessage(
 				new DummyPlayer(player.getName(), player.getUniqueId(), player.getWorld().getName(), player.locale()),
 				recipients.stream()
+						.filter(audience -> audience instanceof Player)
 						.map(audience -> (Player) audience)
 						.map(Player::getUniqueId)
 						.collect(Collectors.toSet()),

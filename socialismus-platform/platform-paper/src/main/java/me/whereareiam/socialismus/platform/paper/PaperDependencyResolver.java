@@ -8,7 +8,7 @@ public class PaperDependencyResolver extends CommonDependencyResolver {
 	private final PaperLibraryManager libraryManager;
 
 	public PaperDependencyResolver(Plugin plugin) {
-		this.libraryManager = new PaperLibraryManager(plugin, "libraries");
+		this.libraryManager = new PaperLibraryManager(plugin, ".libraries");
 	}
 
 	@Override

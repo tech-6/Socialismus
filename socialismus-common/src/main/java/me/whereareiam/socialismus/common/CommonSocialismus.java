@@ -1,6 +1,7 @@
 package me.whereareiam.socialismus.common;
 
 import com.google.inject.Injector;
+import me.whereareiam.socialismus.api.output.ListenerRegistrar;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.common.chat.logic.ChatSelector;
 import me.whereareiam.socialismus.common.util.type.platform.PlatformType;
@@ -21,6 +22,7 @@ public class CommonSocialismus {
 		injector.getInstance(ChatSelector.class);
 
 		injector.getInstance(LoggingHelper.class).info("");
+		injector.getInstance(ListenerRegistrar.class).registerListeners();
 	}
 
 	public void onDisable() {

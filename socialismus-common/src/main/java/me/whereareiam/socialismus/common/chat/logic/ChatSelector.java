@@ -40,7 +40,7 @@ public class ChatSelector {
 	}
 
 	public ChatMessage selectChat(ChatMessage chatMessage) {
-		loggingHelper.debug("Selecting chat for user" + chatMessage.getSender().getUsername());
+		loggingHelper.debug("Selecting chat for user " + chatMessage.getSender().getUsername());
 		char symbol = selectSymbol(chatMessage);
 
 		InternalChat chat = containerService.getChat(symbol).getFirst();

@@ -9,7 +9,7 @@ public class BukkitDependencyResolver extends CommonDependencyResolver {
 	private final BukkitLibraryManager libraryManager;
 
 	public BukkitDependencyResolver(Plugin plugin) {
-		this.libraryManager = new BukkitLibraryManager(plugin, "libraries");
+		this.libraryManager = new BukkitLibraryManager(plugin, ".libraries");
 	}
 
 	@Override

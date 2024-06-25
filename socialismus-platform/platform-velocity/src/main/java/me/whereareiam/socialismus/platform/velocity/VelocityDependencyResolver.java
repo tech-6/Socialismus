@@ -11,7 +11,7 @@ public class VelocityDependencyResolver extends CommonDependencyResolver {
 	private final VelocityLibraryManager libraryManager;
 
 	public VelocityDependencyResolver(VelocitySocialismus velocitySocialismus, Logger logger, Path dataPath, PluginManager pluginManager) {
-		this.libraryManager = new VelocityLibraryManager(velocitySocialismus, logger, dataPath, pluginManager, "libraries");
+		this.libraryManager = new VelocityLibraryManager(velocitySocialismus, logger, dataPath, pluginManager, ".libraries");
 	}
 
 	@Override
