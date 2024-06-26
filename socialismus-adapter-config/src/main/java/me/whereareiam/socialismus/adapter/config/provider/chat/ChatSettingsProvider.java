@@ -12,18 +12,16 @@ import java.nio.file.Path;
 @Singleton
 public class ChatSettingsProvider implements Provider<ChatSettings> {
 	private final Path dataPath;
+	private final ConfigLoader configLoader;
 
 	@Inject
-	public ChatSettingsProvider(@Named("chatPath") Path dataPath) {
+	public ChatSettingsProvider(@Named("chatPath") Path dataPath, ConfigLoader configLoader) {
 		this.dataPath = dataPath;
+		this.configLoader = configLoader;
 	}
 
 	@Override
 	public ChatSettings get() {
-		ConfigLoader<ChatSettings> configLoader = new ConfigLoader<>(dataPath);
-
-		configLoader.load(ChatSettings.class, "", "settings.json");
-
-		return configLoader.getConfig();
+		return configLoader.load(dataPath.resolve("settings"), ChatSettings.class);
 	}
 }

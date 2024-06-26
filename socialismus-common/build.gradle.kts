@@ -15,8 +15,8 @@ tasks.register<Copy>("processSources") {
     include("**/*.java")
     filter { line ->
         line.replace("@guiceVersion@", rootProject.libs.versions.guice.get())
-            .replace("@gsonVersion@", rootProject.libs.versions.gson.get())
             .replace("@reflectionsVersion@", rootProject.libs.versions.reflections.get())
+            .replace("@jacksonVersion@", rootProject.libs.versions.jackson.get())
             .replace("@adventureBukkitVersion@", rootProject.libs.versions.adventurePlatformBukkit.get())
             .replace("@version@", rootProject.version.toString())
     }

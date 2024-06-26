@@ -7,38 +7,21 @@ import com.google.inject.name.Named;
 import me.whereareiam.socialismus.adapter.config.ConfigLoader;
 import me.whereareiam.socialismus.api.model.config.chat.ChatMessages;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Singleton
 public class ChatMessagesProvider implements Provider<ChatMessages> {
 	private final Path dataPath;
+	private final ConfigLoader configLoader;
 
 	@Inject
-	public ChatMessagesProvider(@Named("chatPath") Path dataPath) {
+	public ChatMessagesProvider(@Named("chatPath") Path dataPath, ConfigLoader configLoader) {
 		this.dataPath = dataPath;
+		this.configLoader = configLoader;
 	}
 
 	@Override
 	public ChatMessages get() {
-		ConfigLoader<ChatMessages> configLoader = new ConfigLoader<>(dataPath);
-		Path filePath = dataPath.resolve("messages.json");
-
-		if (!Files.exists(filePath)) {
-			createDefaultConfig(configLoader);
-		}
-
-		configLoader.load(ChatMessages.class, "", "messages.json");
-
-		return configLoader.getConfig();
-	}
-
-	private void createDefaultConfig(ConfigLoader<ChatMessages> configLoader) {
-		ChatMessages chatMessages = new ChatMessages();
-		chatMessages.setNoChatMatch("Default message");
-
-		configLoader.setConfig(chatMessages);
-		configLoader.save("", "messages.json");
-		configLoader.load(ChatMessages.class, "", "messages.json");
+		return configLoader.load(dataPath.resolve("messages"), ChatMessages.class);
 	}
 }

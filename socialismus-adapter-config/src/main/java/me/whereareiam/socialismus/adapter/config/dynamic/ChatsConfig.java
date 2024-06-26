@@ -1,4 +1,4 @@
-package me.whereareiam.socialismus.adapter.config;
+package me.whereareiam.socialismus.adapter.config.dynamic;
 
 import lombok.Getter;
 import me.whereareiam.socialismus.api.model.config.chat.Chat;

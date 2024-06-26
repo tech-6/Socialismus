@@ -12,6 +12,7 @@ guava = "33.2.1-jre"
 gson = "2.11.0"
 libby = "2.0.0-SNAPSHOT"
 reflections = "0.10.2"
+jackson = "2.17.1"
 
 # platform api versions
 velocity = "3.3.0-SNAPSHOT"
@@ -67,12 +68,17 @@ adventure-plain = { group = "net.kyori", name = "adventure-text-serializer-plain
 adventure-gson = { group = "net.kyori", name = "adventure-text-serializer-gson", version.ref = "adventureGson" }
 adventure-platform-bukkit = { group = "net.kyori", name = "adventure-platform-bukkit", version.ref = "adventurePlatformBukkit" }
 
+# jackson
+jackson = { group = "com.fasterxml.jackson.core", name = "jackson-databind", version.ref = "jackson" }
+jacksonYAML = { group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml", version.ref = "jackson" }
+
 [bundles]
 
 adventure = ["adventure", "adventure-minimessage", "adventure-legacy", "adventure-plain", "adventure-gson"]
 bukkit = ["spigot", "adventure-platform-bukkit"]
 paper = ["paper"]
 velocity = ["velocity"]
+config = ["jackson", "jacksonYAML"]
 
 [plugins]
 

@@ -18,7 +18,7 @@ public class ChatConverter {
 				.id(chat.getId())
 				.priority(chat.getPriority())
 				.enabled(chat.isEnabled())
-				.type(chat.getType())
+				.parameters(chat.getParameters())
 				.formats(chat.getFormats())
 				.symbol(Character.MIN_VALUE)
 				.vanillaSending(true)

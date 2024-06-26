@@ -1,100 +1,55 @@
 package me.whereareiam.socialismus.adapter.config;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.inject.name.Named;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import lombok.Getter;
-import lombok.Setter;
+import me.whereareiam.socialismus.api.output.DefaultConfig;
+import me.whereareiam.socialismus.api.type.ConfigurationType;
 
-import java.io.*;
-import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Files;
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.util.Map;
 
-public class ConfigLoader<T> {
-	private final Path dataPath;
-	private final Gson gson;
-	@Getter
-	@Setter
-	private T config;
+@Getter
+@Singleton
+public class ConfigLoader {
+	private final ConfigurationType configurationType;
+	private final ObjectMapper objectMapper;
 
-	public ConfigLoader(@Named("dataPath") Path dataPath) {
-		this.dataPath = dataPath;
-		this.gson = new GsonBuilder()
-				.setPrettyPrinting()
-				.disableHtmlEscaping()
-				.create();
+	private final Map<Class<?>, DefaultConfig<?>> templates;
+
+	private final ConfigSaver configSaver;
+	private final ConfigMerger configMerger;
+
+	@Inject
+	public ConfigLoader(ConfigManager configManager, Map<Class<?>, DefaultConfig<?>> templates,
+	                    ObjectMapper objectMapper, ConfigSaver configSaver, ConfigMerger configMerger) {
+		this.configurationType = configManager.getConfigurationType();
+		this.objectMapper = objectMapper;
+		this.templates = templates;
+		this.configSaver = configSaver;
+		this.configMerger = configMerger;
 	}
 
-	public void load(Class<T> configClass, String path, String fileName) {
-		File file;
-		if (path.isEmpty()) {
-			file = dataPath.resolve(fileName).toFile();
-		} else {
-			Path filePath = dataPath.resolve(path).resolve(fileName);
-			try {
-				Files.createDirectories(filePath.getParent());
-				file = filePath.toFile();
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
+	@SuppressWarnings("unchecked")
+	public <T> T load(Path path, Class<T> clazz) {
+		path = path.resolveSibling(path.getFileName() + configurationType.getExtension());
 
-		if (!file.exists() || file.length() == 0) {
-			try {
-				boolean fileCreated = file.createNewFile();
-				if (fileCreated) {
-					config = configClass.getDeclaredConstructor().newInstance();
-					save(path, fileName);
-				}
-			} catch (IOException | InstantiationException | IllegalAccessException | NoSuchMethodException |
-			         InvocationTargetException e) {
-				throw new RuntimeException(e);
-			}
-		} else {
-			try {
-				FileReader reader = new FileReader(file);
-				JsonObject fileConfig = gson.fromJson(reader, JsonObject.class);
-				T defaultConfig = configClass.getDeclaredConstructor().newInstance();
-
-				JsonObject defaultConfigJson = gson.toJsonTree(defaultConfig).getAsJsonObject();
-
-				for (Map.Entry<String, JsonElement> entry : defaultConfigJson.entrySet()) {
-					if (!fileConfig.has(entry.getKey())) {
-						fileConfig.add(entry.getKey(), entry.getValue());
-					}
-				}
-
-				fileConfig.entrySet().removeIf(entry -> !defaultConfigJson.has(entry.getKey()));
-
-				config = gson.fromJson(fileConfig, configClass);
-				save(path, fileName);
-			} catch (FileNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException |
-			         InvocationTargetException e) {
-				throw new RuntimeException(e);
-			}
-		}
-	}
-
-	public void save(String path, String fileName) {
+		T config;
 		try {
-			if (!path.isEmpty()) {
-				Files.createDirectories(dataPath.resolve(path));
-			}
-
-			Path filePath = dataPath.resolve(path).resolve(fileName);
-			if (!Files.exists(filePath)) {
-				Files.createFile(filePath);
-			}
-
-			FileWriter writer = new FileWriter(dataPath.resolve(path).resolve(fileName).toFile());
-			gson.toJson(config, writer);
-			writer.close();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+			config = objectMapper.readValue(path.toFile(), clazz);
+		} catch (FileNotFoundException e) {
+			config = ((DefaultConfig<T>) templates.get(clazz)).getDefault();
+			configSaver.save(path, config);
+		} catch (Exception e) {
+			throw new RuntimeException("Failed to load configuration", e);
 		}
+
+		T defaultConfig = ((DefaultConfig<T>) templates.get(clazz)).getDefault();
+		configMerger.merge(config, defaultConfig);
+		configSaver.save(path, config);
+
+		return config;
 	}
 }

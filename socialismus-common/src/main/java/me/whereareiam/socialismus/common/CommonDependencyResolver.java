@@ -14,8 +14,11 @@ public abstract class CommonDependencyResolver implements DependencyResolver {
 		// Common libraries
 
 		addDependency("com.google.inject", "guice", Constants.getGuiceVersion(), true);
-		addDependency("com.google.code.gson", "gson", Constants.getGsonVersion(), true);
 		addDependency("org.reflections", "reflections", Constants.getReflectionsVersion(), true);
+
+		// jackson
+		addDependency("com.fasterxml.jackson.core", "jackson-databind", Constants.getJacksonVersion(), true);
+		addDependency("com.fasterxml.jackson.dataformat", "jackson-dataformat-yaml", Constants.getJacksonVersion(), true);
 	}
 
 	@Override
