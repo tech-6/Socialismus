@@ -3,7 +3,7 @@
 *.iml
 
 # Temporary files
-*target/
+*build/
 
 # Gradle files
 gradlew
