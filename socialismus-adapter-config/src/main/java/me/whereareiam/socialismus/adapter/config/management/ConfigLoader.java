@@ -1,10 +1,11 @@
-package me.whereareiam.socialismus.adapter.config;
+package me.whereareiam.socialismus.adapter.config.management;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import lombok.Getter;
 import me.whereareiam.socialismus.api.output.DefaultConfig;
+import me.whereareiam.socialismus.api.output.config.ConfigurationLoader;
 import me.whereareiam.socialismus.api.type.ConfigurationType;
 
 import java.io.FileNotFoundException;
@@ -13,7 +14,7 @@ import java.util.Map;
 
 @Getter
 @Singleton
-public class ConfigLoader {
+public class ConfigLoader implements ConfigurationLoader {
 	private final ConfigurationType configurationType;
 	private final ObjectMapper objectMapper;
 

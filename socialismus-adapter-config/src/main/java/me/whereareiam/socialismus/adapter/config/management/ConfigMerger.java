@@ -1,16 +1,17 @@
-package me.whereareiam.socialismus.adapter.config;
+package me.whereareiam.socialismus.adapter.config.management;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import me.whereareiam.socialismus.api.output.config.ConfigurationMerger;
 
 import java.util.Iterator;
 import java.util.Map;
 
 @Singleton
-public class ConfigMerger {
+public class ConfigMerger implements ConfigurationMerger {
 	private final ObjectMapper objectMapper;
 
 	@Inject

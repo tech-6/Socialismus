@@ -1,14 +1,19 @@
-package me.whereareiam.socialismus.adapter.config;
+package me.whereareiam.socialismus.adapter.config.management;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import me.whereareiam.socialismus.adapter.config.deserializer.RequirementDeserializer;
+import me.whereareiam.socialismus.api.model.requirement.Requirement;
+import me.whereareiam.socialismus.api.output.config.ConfigurationManager;
 import me.whereareiam.socialismus.api.type.ConfigurationType;
 
 import java.io.IOException;
@@ -18,12 +23,14 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 @Singleton
-public class ConfigManager implements Provider<ObjectMapper> {
+public class ConfigManager implements Provider<ObjectMapper>, ConfigurationManager {
 	private final Path dataPath;
+	private final Injector injector;
 
 	@Inject
-	public ConfigManager(@Named("dataPath") Path dataPath) {
+	public ConfigManager(@Named("dataPath") Path dataPath, Injector injector) {
 		this.dataPath = dataPath;
+		this.injector = injector;
 	}
 
 	public ConfigurationType getConfigurationType() {
@@ -63,6 +70,11 @@ public class ConfigManager implements Provider<ObjectMapper> {
 
 			default -> throw new IllegalArgumentException("Unsupported configuration type");
 		}
+
+		SimpleModule module = new SimpleModule();
+		module.addDeserializer(Requirement.class, new RequirementDeserializer());
+
+		objectMapper.registerModule(module);
 
 		return objectMapper;
 	}

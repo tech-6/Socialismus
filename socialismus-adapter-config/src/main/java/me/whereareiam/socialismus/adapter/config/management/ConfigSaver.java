@@ -1,13 +1,14 @@
-package me.whereareiam.socialismus.adapter.config;
+package me.whereareiam.socialismus.adapter.config.management;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import me.whereareiam.socialismus.api.output.config.ConfigurationSaver;
 
 import java.nio.file.Path;
 
 @Singleton
-public class ConfigSaver {
+public class ConfigSaver implements ConfigurationSaver {
 	private final ObjectMapper objectMapper;
 
 	@Inject

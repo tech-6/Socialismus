@@ -31,11 +31,9 @@ public class ComponentUtil {
 	}
 
 	public static String toString(Component component, boolean section) {
-		if (section) {
-			return LEGACY_SECTION_SERIALIZER.serialize(component);
-		} else {
-			return LEGACY_SERIALIZER.serialize(component);
-		}
+		if (section) return LEGACY_SECTION_SERIALIZER.serialize(component);
+
+		return LEGACY_SERIALIZER.serialize(component);
 	}
 
 	public static Component toMiniMessage(String string) {
@@ -47,10 +45,8 @@ public class ComponentUtil {
 	}
 
 	public static Component toGson(String string, boolean downsampling) {
-		if (downsampling) {
-			return GSON_DOWNSAMPLING_SERIALIZER.deserialize(string);
-		} else {
-			return GSON_SERIALIZER.deserialize(string);
-		}
+		if (downsampling) return GSON_DOWNSAMPLING_SERIALIZER.deserialize(string);
+
+		return GSON_SERIALIZER.deserialize(string);
 	}
 }

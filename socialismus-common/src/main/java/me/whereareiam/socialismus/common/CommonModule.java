@@ -15,6 +15,8 @@ import me.whereareiam.socialismus.common.chat.ChatMessageProcessor;
 import me.whereareiam.socialismus.common.serializer.Serializer;
 import org.reflections.Reflections;
 
+import java.util.Arrays;
+
 @SuppressWarnings("unused")
 public class CommonModule extends AbstractModule {
 	@Override
@@ -28,7 +30,12 @@ public class CommonModule extends AbstractModule {
 		}).to(Serializer.class);
 
 		Multibinder<FormattingIntegration> multibinder = Multibinder.newSetBinder(binder(), FormattingIntegration.class);
-		Reflections reflections = new Reflections(this.getClass().getPackage().getName().split("\\.", 3)[0] + ".integration");
+		bindIntegrations(multibinder);
+	}
+
+	private void bindIntegrations(Multibinder<FormattingIntegration> multibinder) {
+		Reflections reflections = new Reflections(String.join(".", Arrays.copyOfRange(this.getClass().getPackage().getName().split("\\."), 0, 3)) + ".integration");
+		
 		for (Class<? extends FormattingIntegration> implementationClass : reflections.getSubTypesOf(FormattingIntegration.class))
 			multibinder.addBinding().to(implementationClass).in(Scopes.SINGLETON);
 	}

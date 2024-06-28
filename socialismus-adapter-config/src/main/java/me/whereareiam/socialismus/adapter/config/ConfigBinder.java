@@ -6,6 +6,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.MapBinder;
 import com.google.inject.name.Names;
 import me.whereareiam.socialismus.adapter.config.dynamic.ChatsConfig;
+import me.whereareiam.socialismus.adapter.config.management.ConfigManager;
 import me.whereareiam.socialismus.adapter.config.provider.MessagesProvider;
 import me.whereareiam.socialismus.adapter.config.provider.SettingsProvider;
 import me.whereareiam.socialismus.adapter.config.provider.chat.ChatMessagesProvider;

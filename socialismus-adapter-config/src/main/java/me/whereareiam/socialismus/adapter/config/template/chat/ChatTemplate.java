@@ -5,10 +5,16 @@ import me.whereareiam.socialismus.adapter.config.dynamic.ChatsConfig;
 import me.whereareiam.socialismus.api.model.config.chat.Chat;
 import me.whereareiam.socialismus.api.model.config.chat.ChatFormat;
 import me.whereareiam.socialismus.api.model.config.chat.ChatParameters;
+import me.whereareiam.socialismus.api.model.requirement.PermissionRequirement;
+import me.whereareiam.socialismus.api.model.requirement.WorldRequirement;
 import me.whereareiam.socialismus.api.output.DefaultConfig;
 import me.whereareiam.socialismus.api.type.chat.ChatType;
+import me.whereareiam.socialismus.api.type.requirement.RequirementOperatorType;
+import me.whereareiam.socialismus.api.type.requirement.RequirementType;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class ChatTemplate implements DefaultConfig<ChatsConfig> {
@@ -34,6 +40,20 @@ public class ChatTemplate implements DefaultConfig<ChatsConfig> {
 								"<gray>[L] {playerName}: <gold>{message}",
 								"socialismus.admin"
 						)
+				),
+				Map.of(
+						RequirementType.PERMISSION, PermissionRequirement.builder()
+								.permissions(List.of("socialismus.chat.local"))
+								.operator(RequirementOperatorType.BYPASS)
+								.condition("has(permissions)")
+								.expected("true")
+								.build(),
+						RequirementType.WORLD, WorldRequirement.builder()
+								.worlds(List.of("world"))
+								.operator(RequirementOperatorType.OPTIONAL)
+								.condition("contains(worlds)")
+								.expected("world")
+								.build()
 				)
 		);
 
@@ -54,7 +74,8 @@ public class ChatTemplate implements DefaultConfig<ChatsConfig> {
 								"<gray>[G] {playerName}: <gold>{message}",
 								"socialismus.admin"
 						)
-				)
+				),
+				new HashMap<>()
 		);
 
 		chatsConfig.getChats().addAll(List.of(local, global));
