@@ -2,6 +2,7 @@ package me.whereareiam.socialismus.platform.paper;
 
 import com.alessiodp.libby.PaperLibraryManager;
 import me.whereareiam.socialismus.common.CommonDependencyResolver;
+import me.whereareiam.socialismus.common.Constants;
 import org.bukkit.plugin.Plugin;
 
 public class PaperDependencyResolver extends CommonDependencyResolver {
@@ -14,6 +15,7 @@ public class PaperDependencyResolver extends CommonDependencyResolver {
 	@Override
 	public void resolveDependencies() {
 		libraryManager.addMavenCentral();
+
 		libraries.forEach(libraryManager::loadLibrary);
 		clearDependencies();
 	}
@@ -23,5 +25,6 @@ public class PaperDependencyResolver extends CommonDependencyResolver {
 		super.loadLibraries();
 
 		// Paper specific libraries
+		addDependency("org.incendo", "cloud-paper", Constants.getCloudPaperVersion(), true);
 	}
 }

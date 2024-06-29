@@ -7,11 +7,13 @@ import com.google.inject.multibindings.MapBinder;
 import com.google.inject.name.Names;
 import me.whereareiam.socialismus.adapter.config.dynamic.ChatsConfig;
 import me.whereareiam.socialismus.adapter.config.management.ConfigManager;
+import me.whereareiam.socialismus.adapter.config.provider.CommandsProvider;
 import me.whereareiam.socialismus.adapter.config.provider.MessagesProvider;
 import me.whereareiam.socialismus.adapter.config.provider.SettingsProvider;
 import me.whereareiam.socialismus.adapter.config.provider.chat.ChatMessagesProvider;
 import me.whereareiam.socialismus.adapter.config.provider.chat.ChatSettingsProvider;
 import me.whereareiam.socialismus.adapter.config.provider.chat.ChatsProvider;
+import me.whereareiam.socialismus.adapter.config.template.CommandsTemplate;
 import me.whereareiam.socialismus.adapter.config.template.MessagesTemplate;
 import me.whereareiam.socialismus.adapter.config.template.SettingsTemplate;
 import me.whereareiam.socialismus.adapter.config.template.chat.ChatMessagesTemplate;
@@ -22,6 +24,7 @@ import me.whereareiam.socialismus.api.model.config.Settings;
 import me.whereareiam.socialismus.api.model.config.chat.Chat;
 import me.whereareiam.socialismus.api.model.config.chat.ChatMessages;
 import me.whereareiam.socialismus.api.model.config.chat.ChatSettings;
+import me.whereareiam.socialismus.api.model.config.command.Commands;
 import me.whereareiam.socialismus.api.output.DefaultConfig;
 
 import java.io.IOException;
@@ -52,6 +55,7 @@ public class ConfigBinder extends AbstractModule {
 
 		bind(Settings.class).toProvider(SettingsProvider.class);
 		bind(Messages.class).toProvider(MessagesProvider.class);
+		bind(Commands.class).toProvider(CommandsProvider.class);
 
 		bind(new TypeLiteral<List<Chat>>() {
 		}).annotatedWith(Names.named("chats")).toProvider(ChatsProvider.class);
@@ -62,6 +66,7 @@ public class ConfigBinder extends AbstractModule {
 	private void addTemplates(MapBinder<Class<?>, DefaultConfig<?>> mapbinder) {
 		mapbinder.addBinding(Settings.class).to(SettingsTemplate.class);
 		mapbinder.addBinding(Messages.class).to(MessagesTemplate.class);
+		mapbinder.addBinding(Commands.class).to(CommandsTemplate.class);
 		mapbinder.addBinding(ChatMessages.class).to(ChatMessagesTemplate.class);
 		mapbinder.addBinding(ChatSettings.class).to(ChatSettingsTemplate.class);
 		mapbinder.addBinding(ChatsConfig.class).to(ChatTemplate.class);

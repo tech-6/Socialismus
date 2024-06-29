@@ -4,6 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import lombok.Getter;
 import me.whereareiam.socialismus.adapter.config.ConfigBinder;
+import me.whereareiam.socialismus.command.CommandModule;
 import me.whereareiam.socialismus.common.CommonInjector;
 import me.whereareiam.socialismus.common.CommonModule;
 import me.whereareiam.socialismus.platform.bukkit.BukkitDependencyResolver;
@@ -17,7 +18,8 @@ public class BukkitInjector {
 		Injector injector = Guice.createInjector(
 				new BukkitInjectorConfiguration(plugin, dependencyResolver),
 				new ConfigBinder(dataPath),
-				new CommonModule()
+				new CommonModule(),
+				new CommandModule()
 		);
 
 		CommonInjector.setInjector(injector);

@@ -1,7 +1,7 @@
 package me.whereareiam.socialismus.platform.bukkit;
 
 import com.google.inject.Singleton;
-import me.whereareiam.socialismus.api.model.DummyPlayer;
+import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.output.platform.PlatformInteractor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

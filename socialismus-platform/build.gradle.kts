@@ -22,13 +22,16 @@ subprojects {
 
     dependencies {
         "implementation"(project(":socialismus-integration:integration-papiproxybridge"))
-        "implementation"(project(":socialismus-adapter-config"))
         "implementation"(project(":socialismus-adapter-database"))
+        "implementation"(project(":socialismus-adapter-command"))
+        "implementation"(project(":socialismus-adapter-config"))
         "implementation"(project(":socialismus-adapter-module"))
         "implementation"(project(":socialismus-adapter-redis"))
         "implementation"(project(":socialismus-platform"))
         "implementation"(project(":socialismus-common-api"))
         "implementation"(project(":socialismus-common"))
+
+        "compileOnly"(rootProject.libs.bundles.cloud)
     }
 
     when (name) {
@@ -36,6 +39,8 @@ subprojects {
             dependencies {
                 "implementation"(project(":socialismus-integration:integration-placeholderapi"))
                 "implementation"(project(":socialismus-integration:integration-packetevents"))
+
+                "compileOnly"(rootProject.libs.cloudPaper)
             }
 
             tasks.named<Copy>("processResources") {

@@ -16,6 +16,11 @@ public abstract class CommonDependencyResolver implements DependencyResolver {
 		addDependency("com.google.inject", "guice", Constants.getGuiceVersion(), true);
 		addDependency("org.reflections", "reflections", Constants.getReflectionsVersion(), true);
 
+		// lamp
+		addDependency("org.incendo", "cloud-core", Constants.getCloudVersion(), true);
+		addDependency("org.incendo", "cloud-annotations", Constants.getCloudVersion(), true);
+		addDependency("org.incendo", "cloud-minecraft-extras", Constants.getCloudMinecraftExtrasVersion(), true);
+
 		// jackson
 		addDependency("com.fasterxml.jackson.core", "jackson-databind", Constants.getJacksonVersion(), true);
 		addDependency("com.fasterxml.jackson.dataformat", "jackson-dataformat-yaml", Constants.getJacksonVersion(), true);

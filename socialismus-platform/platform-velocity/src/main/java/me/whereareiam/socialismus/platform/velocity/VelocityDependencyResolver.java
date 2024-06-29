@@ -3,6 +3,7 @@ package me.whereareiam.socialismus.platform.velocity;
 import com.alessiodp.libby.VelocityLibraryManager;
 import com.velocitypowered.api.plugin.PluginManager;
 import me.whereareiam.socialismus.common.CommonDependencyResolver;
+import me.whereareiam.socialismus.common.Constants;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;
@@ -17,6 +18,7 @@ public class VelocityDependencyResolver extends CommonDependencyResolver {
 	@Override
 	public void resolveDependencies() {
 		libraryManager.addMavenCentral();
+
 		libraries.forEach(libraryManager::loadLibrary);
 		clearDependencies();
 	}
@@ -26,5 +28,6 @@ public class VelocityDependencyResolver extends CommonDependencyResolver {
 		super.loadLibraries();
 
 		// Velocity specific libraries
+		addDependency("org.incendo", "cloud-velocity", Constants.getCloudVelocityVersion(), true);
 	}
 }

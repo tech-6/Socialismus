@@ -15,6 +15,7 @@ public class BukkitDependencyResolver extends CommonDependencyResolver {
 	@Override
 	public void resolveDependencies() {
 		libraryManager.addMavenCentral();
+
 		libraries.forEach(libraryManager::loadLibrary);
 		clearDependencies();
 	}
@@ -25,5 +26,9 @@ public class BukkitDependencyResolver extends CommonDependencyResolver {
 
 		// Bukkit specific libraries
 		addDependency("net.kyori", "adventure-platform-bukkit", Constants.getAdventureBukkitVersion(), true);
+
+		// cloud
+		addDependency("org.incendo", "cloud-bukkit", Constants.getCloudBukkitVersion(), true);
+		addDependency("org.incendo", "cloud-paper", Constants.getCloudPaperVersion(), true);
 	}
 }

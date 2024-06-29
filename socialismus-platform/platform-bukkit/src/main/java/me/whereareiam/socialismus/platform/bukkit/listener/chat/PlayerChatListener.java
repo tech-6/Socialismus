@@ -2,7 +2,7 @@ package me.whereareiam.socialismus.platform.bukkit.listener.chat;
 
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.ComponentUtil;
-import me.whereareiam.socialismus.api.model.DummyPlayer;
+import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.model.chat.ChatMessage;
 import me.whereareiam.socialismus.common.chat.ChatMessageProcessor;
 import net.kyori.adventure.text.Component;

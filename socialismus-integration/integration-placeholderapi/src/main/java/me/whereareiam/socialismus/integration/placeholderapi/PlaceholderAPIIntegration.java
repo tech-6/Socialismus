@@ -2,7 +2,7 @@ package me.whereareiam.socialismus.integration.placeholderapi;
 
 import com.google.inject.Singleton;
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.whereareiam.socialismus.api.model.DummyPlayer;
+import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.output.integration.FormattingIntegration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

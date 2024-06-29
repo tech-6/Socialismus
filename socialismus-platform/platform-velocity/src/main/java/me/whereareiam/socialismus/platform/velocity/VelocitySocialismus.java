@@ -6,6 +6,7 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Dependency;
 import com.velocitypowered.api.plugin.Plugin;
+import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.whereareiam.socialismus.common.CommonSocialismus;
@@ -43,7 +44,7 @@ public class VelocitySocialismus extends CommonSocialismus {
 		dependencyResolver.loadLibraries();
 		dependencyResolver.resolveDependencies();
 
-		new VelocityInjector(proxyServer, dependencyResolver, dataPath);
+		new VelocityInjector((PluginContainer) this, proxyServer, dependencyResolver, dataPath);
 		VelocityLoggingHelper.setLogger(logger);
 
 		super.onEnable();

@@ -5,7 +5,7 @@ import com.google.inject.Singleton;
 import lombok.Getter;
 import me.whereareiam.socialismus.api.input.serializer.SerializationService;
 import me.whereareiam.socialismus.api.input.serializer.SerializationWorker;
-import me.whereareiam.socialismus.api.model.DummyPlayer;
+import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.model.Worker;
 import me.whereareiam.socialismus.api.model.config.Settings;
 import me.whereareiam.socialismus.api.model.serializer.SerializerContent;

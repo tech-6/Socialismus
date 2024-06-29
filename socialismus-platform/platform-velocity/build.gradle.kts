@@ -6,6 +6,7 @@ tasks.withType<ShadowJar> {
 
 dependencies {
     "compileOnly"(libs.bundles.velocity)
+    "compileOnly"(libs.cloudVelocity)
     "annotationProcessor"(libs.velocity)
     "implementation"(rootProject.libs.libbyVelocity)
 }

@@ -14,11 +14,16 @@ tasks.register<Copy>("processSources") {
     into(layout.buildDirectory.dir("processed-src").get().asFile)
     include("**/*.java")
     filter { line ->
-        line.replace("@guiceVersion@", rootProject.libs.versions.guice.get())
+        line.replace("@version@", rootProject.version.toString())
+            .replace("@guiceVersion@", rootProject.libs.versions.guice.get())
             .replace("@reflectionsVersion@", rootProject.libs.versions.reflections.get())
             .replace("@jacksonVersion@", rootProject.libs.versions.jackson.get())
             .replace("@adventureBukkitVersion@", rootProject.libs.versions.adventurePlatformBukkit.get())
-            .replace("@version@", rootProject.version.toString())
+            .replace("@cloudVersion@", rootProject.libs.versions.cloud.get())
+            .replace("@cloudBukkitVersion@", rootProject.libs.versions.cloudBukkit.get())
+            .replace("@cloudPaperVersion@", rootProject.libs.versions.cloudPaper.get())
+            .replace("@cloudVelocityVersion@", rootProject.libs.versions.cloudVelocity.get())
+            .replace("@cloudMinecraftExtrasVersion@", rootProject.libs.versions.cloudMinecraftExtras.get())
     }
 }
 

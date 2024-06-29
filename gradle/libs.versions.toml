@@ -32,6 +32,13 @@ adventurePlain = "4.17.0"
 adventureGson = "4.17.0"
 adventurePlatformBukkit = "4.3.3"
 
+# cloud
+cloud = "2.0.0-rc.2"
+cloudBukkit = "2.0.0-beta.9"
+cloudPaper = "2.0.0-beta.9"
+cloudVelocity = "2.0.0-beta.9"
+cloudMinecraftExtras = "2.0.0-beta.8"
+
 [libraries]
 
 # compile time processing
@@ -72,6 +79,14 @@ adventure-platform-bukkit = { group = "net.kyori", name = "adventure-platform-bu
 jackson = { group = "com.fasterxml.jackson.core", name = "jackson-databind", version.ref = "jackson" }
 jacksonYAML = { group = "com.fasterxml.jackson.dataformat", name = "jackson-dataformat-yaml", version.ref = "jackson" }
 
+# cloud
+cloudCore = { group = "org.incendo", name = "cloud-core", version.ref = "cloud" }
+cloudAnnotations = { group = "org.incendo", name = "cloud-annotations", version.ref = "cloud" }
+cloudBukkit = { group = "org.incendo", name = "cloud-bukkit", version.ref = "cloudBukkit" }
+cloudPaper = { group = "org.incendo", name = "cloud-paper", version.ref = "cloudPaper" }
+cloudVelocity = { group = "org.incendo", name = "cloud-velocity", version.ref = "cloudVelocity" }
+cloudMinecraftExtras = { group = "org.incendo", name = "cloud-minecraft-extras", version.ref = "cloudMinecraftExtras" }
+
 [bundles]
 
 adventure = ["adventure", "adventure-minimessage", "adventure-legacy", "adventure-plain", "adventure-gson"]
@@ -79,6 +94,7 @@ bukkit = ["spigot", "adventure-platform-bukkit"]
 paper = ["paper"]
 velocity = ["velocity"]
 config = ["jackson", "jacksonYAML"]
+cloud = ["cloudCore", "cloudAnnotations", "cloudMinecraftExtras"]
 
 [plugins]
 

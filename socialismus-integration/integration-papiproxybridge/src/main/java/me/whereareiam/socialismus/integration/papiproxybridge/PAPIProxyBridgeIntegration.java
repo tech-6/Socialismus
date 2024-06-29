@@ -1,7 +1,7 @@
 package me.whereareiam.socialismus.integration.papiproxybridge;
 
 import com.google.inject.Singleton;
-import me.whereareiam.socialismus.api.model.DummyPlayer;
+import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.output.integration.FormattingIntegration;
 import net.william278.papiproxybridge.api.PlaceholderAPI;
 

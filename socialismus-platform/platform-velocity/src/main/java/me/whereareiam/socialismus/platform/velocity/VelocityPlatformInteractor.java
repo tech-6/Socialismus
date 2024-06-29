@@ -3,7 +3,7 @@ package me.whereareiam.socialismus.platform.velocity;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.velocitypowered.api.proxy.ProxyServer;
-import me.whereareiam.socialismus.api.model.DummyPlayer;
+import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.output.platform.PlatformInteractor;
 
 @Singleton
