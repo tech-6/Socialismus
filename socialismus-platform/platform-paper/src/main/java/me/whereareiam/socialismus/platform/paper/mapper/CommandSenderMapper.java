@@ -1,11 +1,11 @@
 package me.whereareiam.socialismus.platform.paper.mapper;
 
 import com.google.inject.Singleton;
-import io.papermc.paper.command.brigadier.CommandSourceStack;
 import me.whereareiam.socialismus.api.model.player.DummyCommandPlayer;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import net.kyori.adventure.audience.Audience;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -13,19 +13,17 @@ import org.incendo.cloud.SenderMapper;
 
 import javax.annotation.Nonnull;
 
-@SuppressWarnings("UnstableApiUsage")
 @Singleton
-public class CommandSourceStackMapper implements SenderMapper<CommandSourceStack, DummyPlayer> {
+public class CommandSenderMapper implements SenderMapper<CommandSender, DummyPlayer> {
 	@Override
-	public @NonNull DummyPlayer map(@NonNull CommandSourceStack source) {
+	public @NonNull DummyPlayer map(@NonNull CommandSender source) {
 		DummyPlayer dummyPlayer;
-
-		if (source.getSender() instanceof ConsoleCommandSender || source.getSender().getClass().getName().equals("io.papermc.paper.brigadier.NullCommandSender")) {
+		if (source instanceof ConsoleCommandSender) {
 			dummyPlayer = DummyCommandPlayer.builder().commandSender(source).build();
 		} else {
-			Player player = Bukkit.getPlayer(source.getSender().getName());
+			Player player = Bukkit.getPlayer(source.getName());
 			if (player == null)
-				throw new NullPointerException("A player with the name " + source.getSender().getName() + " was not found");
+				throw new NullPointerException("A player with the name " + source.getName() + " was not found");
 
 			dummyPlayer = DummyCommandPlayer.builder()
 					.commandSender(source)
@@ -41,7 +39,7 @@ public class CommandSourceStackMapper implements SenderMapper<CommandSourceStack
 	}
 
 	@Override
-	public @Nonnull CommandSourceStack reverse(@Nonnull DummyPlayer dummyPlayer) {
-		return (CommandSourceStack) ((DummyCommandPlayer) dummyPlayer).getCommandSender();
+	public @Nonnull CommandSender reverse(final @Nonnull DummyPlayer dummyPlayer) {
+		return (CommandSender) ((DummyCommandPlayer) dummyPlayer).getCommandSender();
 	}
 }

@@ -30,7 +30,7 @@ public class DynamicCommandProvider {
 	public PatternReplacingStringProcessor getProcessor() {
 		Map<Pattern, Function<Command, String>> patternFunctionMap = new HashMap<>();
 
-		patternFunctionMap.put(COMMAND_PATTERN, command -> String.join("|", command.getAliases()));
+		patternFunctionMap.put(COMMAND_PATTERN, command -> command.getUsage().replace("{command}", String.join("|", command.getAliases())));
 		patternFunctionMap.put(PERMISSION_PATTERN, Command::getPermission);
 		patternFunctionMap.put(DESCRIPTION_PATTERN, Command::getDescription);
 		patternFunctionMap.put(USAGE_PATTERN, Command::getUsage);
@@ -51,7 +51,7 @@ public class DynamicCommandProvider {
 				}
 			}
 
-			return "";
+			return input;
 		};
 
 		return new PatternReplacingStringProcessor(Pattern.compile(".*"), replacementFunction);

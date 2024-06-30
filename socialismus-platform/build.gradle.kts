@@ -40,7 +40,7 @@ subprojects {
                 "implementation"(project(":socialismus-integration:integration-placeholderapi"))
                 "implementation"(project(":socialismus-integration:integration-packetevents"))
 
-                "compileOnly"(rootProject.libs.cloudPaper)
+                "compileOnly"(rootProject.libs.cloud.paper)
             }
 
             tasks.named<Copy>("processResources") {

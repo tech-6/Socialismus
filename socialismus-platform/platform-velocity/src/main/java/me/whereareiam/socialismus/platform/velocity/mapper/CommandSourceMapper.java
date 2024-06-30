@@ -1,5 +1,6 @@
 package me.whereareiam.socialismus.platform.velocity.mapper;
 
+import com.google.inject.Singleton;
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.ConsoleCommandSource;
 import com.velocitypowered.api.proxy.Player;
@@ -10,6 +11,7 @@ import org.incendo.cloud.SenderMapper;
 
 import javax.annotation.Nonnull;
 
+@Singleton
 public class CommandSourceMapper implements SenderMapper<CommandSource, DummyPlayer> {
 	@Override
 	public @NonNull DummyPlayer map(@NonNull CommandSource source) {
@@ -23,6 +25,7 @@ public class CommandSourceMapper implements SenderMapper<CommandSource, DummyPla
 					.commandSender(source)
 					.username(player.getUsername())
 					.uniqueId(player.getUniqueId())
+					.audience(player)
 					.location(player.getCurrentServer().map(serverConnection -> serverConnection.getServerInfo().getName()).orElse(null))
 					.locale(player.getEffectiveLocale())
 					.build();

@@ -4,7 +4,7 @@ repositories {
 
 dependencies {
     "implementation"(project(":socialismus-common-api"))
-    "implementation"(libs.libbyCore)
+    "implementation"(libs.libby.core)
     "compileOnly"(libs.bundles.adventure)
     "compileOnly"(libs.reflections)
 }
@@ -18,12 +18,12 @@ tasks.register<Copy>("processSources") {
             .replace("@guiceVersion@", rootProject.libs.versions.guice.get())
             .replace("@reflectionsVersion@", rootProject.libs.versions.reflections.get())
             .replace("@jacksonVersion@", rootProject.libs.versions.jackson.get())
-            .replace("@adventureBukkitVersion@", rootProject.libs.versions.adventurePlatformBukkit.get())
-            .replace("@cloudVersion@", rootProject.libs.versions.cloud.get())
-            .replace("@cloudBukkitVersion@", rootProject.libs.versions.cloudBukkit.get())
-            .replace("@cloudPaperVersion@", rootProject.libs.versions.cloudPaper.get())
-            .replace("@cloudVelocityVersion@", rootProject.libs.versions.cloudVelocity.get())
-            .replace("@cloudMinecraftExtrasVersion@", rootProject.libs.versions.cloudMinecraftExtras.get())
+            .replace("@adventureBukkitVersion@", rootProject.libs.versions.adventure.platform.bukkit.get())
+            .replace("@cloudVersion@", rootProject.libs.versions.cloud.core.get())
+            .replace("@cloudBukkitVersion@", rootProject.libs.versions.cloud.bukkit.get())
+            .replace("@cloudPaperVersion@", rootProject.libs.versions.cloud.paper.get())
+            .replace("@cloudVelocityVersion@", rootProject.libs.versions.cloud.velocity.get())
+            .replace("@cloudMinecraftExtrasVersion@", rootProject.libs.versions.cloud.minecraft.extras.get())
     }
 }
 

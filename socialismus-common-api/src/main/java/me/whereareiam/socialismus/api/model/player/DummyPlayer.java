@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import net.kyori.adventure.audience.Audience;
 
 import java.util.Locale;
 import java.util.UUID;
@@ -15,6 +16,7 @@ import java.util.UUID;
 public class DummyPlayer {
 	private final String username;
 	private final UUID uniqueId;
+	private final Audience audience;
 
 	private final String location; // can be worldName or serverName
 	private final Locale locale;

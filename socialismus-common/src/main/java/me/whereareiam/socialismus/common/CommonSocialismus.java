@@ -1,11 +1,11 @@
 package me.whereareiam.socialismus.common;
 
 import com.google.inject.Injector;
+import me.whereareiam.socialismus.api.PlatformType;
+import me.whereareiam.socialismus.api.PluginType;
 import me.whereareiam.socialismus.api.output.ListenerRegistrar;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.common.chat.logic.ChatSelector;
-import me.whereareiam.socialismus.common.util.PlatformType;
-import me.whereareiam.socialismus.common.util.PluginType;
 
 import java.util.ArrayList;
 import java.util.List;

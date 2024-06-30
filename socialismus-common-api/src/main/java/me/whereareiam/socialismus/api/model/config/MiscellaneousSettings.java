@@ -11,4 +11,5 @@ import lombok.ToString;
 @Singleton
 public class MiscellaneousSettings {
 	private boolean allowLegacyParsing;
+	private boolean allowBrigadierCommands;
 }

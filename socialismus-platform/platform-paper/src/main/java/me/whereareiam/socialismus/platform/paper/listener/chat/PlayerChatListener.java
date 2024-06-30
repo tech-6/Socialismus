@@ -3,8 +3,8 @@ package me.whereareiam.socialismus.platform.paper.listener.chat;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.papermc.paper.event.player.AsyncChatEvent;
-import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.model.chat.ChatMessage;
+import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.common.chat.ChatMessageProcessor;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
@@ -51,7 +51,7 @@ public class PlayerChatListener implements Listener {
 
 	private ChatMessage createChatMessage(Player player, Set<Audience> recipients, Component content) {
 		return new ChatMessage(
-				new DummyPlayer(player.getName(), player.getUniqueId(), player.getWorld().getName(), player.locale()),
+				new DummyPlayer(player.getName(), player.getUniqueId(), player, player.getWorld().getName(), player.locale()),
 				recipients.stream()
 						.filter(audience -> audience instanceof Player)
 						.map(audience -> (Player) audience)

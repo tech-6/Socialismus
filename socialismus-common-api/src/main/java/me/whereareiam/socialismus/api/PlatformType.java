@@ -1,4 +1,4 @@
-package me.whereareiam.socialismus.common.util;
+package me.whereareiam.socialismus.api;
 
 public enum PlatformType {
 	BUKKIT,

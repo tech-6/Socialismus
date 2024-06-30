@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 
 import java.nio.file.Path;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class VelocityDependencyResolver extends CommonDependencyResolver {
 	private final VelocityLibraryManager libraryManager;
 

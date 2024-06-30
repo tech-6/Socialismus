@@ -10,7 +10,6 @@ import me.whereareiam.socialismus.api.model.chat.ChatMessage;
 import me.whereareiam.socialismus.api.model.chat.InternalChat;
 import me.whereareiam.socialismus.api.model.config.chat.ChatMessages;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
-import me.whereareiam.socialismus.api.output.platform.PlatformMessenger;
 import me.whereareiam.socialismus.common.serializer.Serializer;
 import net.kyori.adventure.text.TextReplacementConfig;
 
@@ -23,17 +22,14 @@ public class ChatSelector {
 	private final ChatMessages chatMessages;
 
 	// Communication
-	private final PlatformMessenger platformMessenger;
 	private final Serializer serializer;
 
 	@Inject
 	public ChatSelector(ChatContainerService containerService, WorkerProcessor<ChatMessage> workerProcessor,
-	                    LoggingHelper loggingHelper, ChatMessages chatMessages, PlatformMessenger platformMessenger,
-	                    Serializer serializer) {
+	                    LoggingHelper loggingHelper, ChatMessages chatMessages, Serializer serializer) {
 		this.containerService = containerService;
 		this.loggingHelper = loggingHelper;
 		this.chatMessages = chatMessages;
-		this.platformMessenger = platformMessenger;
 		this.serializer = serializer;
 
 		workerProcessor.addWorker(new Worker<>(this::selectChat, 0, true, false));
@@ -73,8 +69,7 @@ public class ChatSelector {
 	}
 
 	private void notifyAboutAbsentChat(ChatMessage chatMessage) {
-		platformMessenger.sendMessage(
-				chatMessage.getSender(),
+		chatMessage.getSender().getAudience().sendMessage(
 				serializer.format(chatMessage.getSender(), chatMessages.getNoChatMatch())
 		);
 	}

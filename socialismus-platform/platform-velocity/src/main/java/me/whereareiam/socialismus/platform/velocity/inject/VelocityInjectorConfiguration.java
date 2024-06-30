@@ -5,17 +5,13 @@ import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.whereareiam.socialismus.api.input.DependencyResolver;
-import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.output.ListenerRegistrar;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.output.Scheduler;
 import me.whereareiam.socialismus.api.output.platform.PlatformInteractor;
-import me.whereareiam.socialismus.api.output.platform.PlatformMessenger;
 import me.whereareiam.socialismus.platform.velocity.*;
 import me.whereareiam.socialismus.platform.velocity.listener.VelocityListenerRegistrar;
-import me.whereareiam.socialismus.platform.velocity.mapper.CommandSourceMapper;
-import org.incendo.cloud.execution.ExecutionCoordinator;
-import org.incendo.cloud.velocity.VelocityCommandManager;
+import org.incendo.cloud.CommandManager;
 
 public class VelocityInjectorConfiguration extends AbstractModule {
 	private final PluginContainer plugin;
@@ -37,20 +33,8 @@ public class VelocityInjectorConfiguration extends AbstractModule {
 		bind(LoggingHelper.class).to(VelocityLoggingHelper.class);
 		bind(Scheduler.class).to(VelocityScheduler.class);
 		bind(ListenerRegistrar.class).to(VelocityListenerRegistrar.class);
-		bind(PlatformMessenger.class).to(VelocityPlatformMessenger.class);
 		bind(PlatformInteractor.class).to(VelocityPlatformInteractor.class);
 
-		bindCommandManager();
-	}
-
-	private void bindCommandManager() {
-		VelocityCommandManager<DummyPlayer> commandManager = new VelocityCommandManager<>(
-				plugin,
-				proxyServer,
-				ExecutionCoordinator.asyncCoordinator(),
-				new CommandSourceMapper()
-		);
-
-		bind(VelocityCommandManager.class).toInstance(commandManager);
+		bind(CommandManager.class).toProvider(VelocityCommandManagerProvider.class);
 	}
 }

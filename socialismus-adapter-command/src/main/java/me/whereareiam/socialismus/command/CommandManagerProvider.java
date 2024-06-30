@@ -1,0 +1,46 @@
+package me.whereareiam.socialismus.command;
+
+import com.google.inject.Provider;
+import me.whereareiam.socialismus.api.PlatformType;
+import me.whereareiam.socialismus.api.model.config.MiscellaneousSettings;
+import me.whereareiam.socialismus.api.model.config.Settings;
+import me.whereareiam.socialismus.api.model.player.DummyPlayer;
+import org.incendo.cloud.CommandManager;
+import org.incendo.cloud.minecraft.extras.MinecraftExceptionHandler;
+
+public abstract class CommandManagerProvider implements Provider<CommandManager<?>> {
+	protected final MiscellaneousSettings settings;
+
+	public CommandManagerProvider(Settings settings) {
+		this.settings = settings.getMisc();
+	}
+
+	@Override
+	public CommandManager<?> get() {
+		CommandManager<DummyPlayer> commandManager = switch (PlatformType.getType()) {
+			case BUKKIT, SPIGOT -> createLegacyPaperCommandManager();
+			case FOLIA, PAPER -> {
+				if (settings.isAllowBrigadierCommands()) yield createPaperCommandManager();
+				yield createLegacyPaperCommandManager();
+			}
+			case VELOCITY -> createVelocityCommandManager();
+			case UNKNOWN -> throw new IllegalStateException("Unknown platform type");
+		};
+
+		createMinecraftExceptionHandler(commandManager);
+
+		return commandManager;
+	}
+
+	protected abstract CommandManager<DummyPlayer> createLegacyPaperCommandManager();
+
+	protected abstract CommandManager<DummyPlayer> createPaperCommandManager();
+
+	protected abstract CommandManager<DummyPlayer> createVelocityCommandManager();
+
+	private void createMinecraftExceptionHandler(CommandManager<DummyPlayer> commandManager) {
+		MinecraftExceptionHandler.create(DummyPlayer::getAudience)
+				.defaultHandlers()
+				.registerTo(commandManager);
+	}
+}

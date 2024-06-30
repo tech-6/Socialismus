@@ -7,8 +7,8 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.player.PlayerChatEvent;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
-import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.model.chat.ChatMessage;
+import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.common.chat.ChatMessageProcessor;
 import net.kyori.adventure.text.Component;
 
@@ -42,6 +42,7 @@ public class PlayerChatListener {
 				new DummyPlayer(
 						player.getUsername(),
 						player.getUniqueId(),
+						player,
 						player.getCurrentServer().isPresent()
 								? player.getCurrentServer().get().getServerInfo().getName()
 								: null,

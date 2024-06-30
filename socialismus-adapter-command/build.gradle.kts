@@ -6,7 +6,8 @@ dependencies {
     "implementation"(project(":socialismus-common-api"))
 
     "compileOnly"(libs.bundles.cloud)
-    "compileOnly"(libs.cloudBukkit)
-    "compileOnly"(libs.cloudPaper)
-    "compileOnly"(libs.cloudVelocity)
+    "compileOnly"(libs.cloud.bukkit)
+    "compileOnly"(libs.cloud.paper)
+    "compileOnly"(libs.cloud.velocity)
+    "annotationProcessor"(libs.cloud.core)
 }
