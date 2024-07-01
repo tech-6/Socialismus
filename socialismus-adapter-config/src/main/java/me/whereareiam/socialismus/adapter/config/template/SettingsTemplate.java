@@ -1,8 +1,8 @@
 package me.whereareiam.socialismus.adapter.config.template;
 
 import com.google.inject.Singleton;
-import me.whereareiam.socialismus.api.model.config.MiscellaneousSettings;
-import me.whereareiam.socialismus.api.model.config.Settings;
+import me.whereareiam.socialismus.api.model.config.settings.MiscellaneousSettings;
+import me.whereareiam.socialismus.api.model.config.settings.Settings;
 import me.whereareiam.socialismus.api.output.DefaultConfig;
 import me.whereareiam.socialismus.api.type.SerializationType;
 

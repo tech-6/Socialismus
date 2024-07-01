@@ -36,6 +36,6 @@ public class BukkitInjectorConfiguration extends AbstractModule {
 		bind(Scheduler.class).to(BukkitScheduler.class);
 		bind(ListenerRegistrar.class).to(BukkitListenerRegistrar.class);
 		bind(PlatformInteractor.class).to(BukkitPlatformInteractor.class);
-		bind(CommandManager.class).toProvider(BukkitCommandManagerProvider.class);
+		bind(CommandManager.class).toProvider(BukkitCommandManagerProvider.class).asEagerSingleton();
 	}
 }

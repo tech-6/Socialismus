@@ -34,7 +34,6 @@ public class VelocityInjectorConfiguration extends AbstractModule {
 		bind(Scheduler.class).to(VelocityScheduler.class);
 		bind(ListenerRegistrar.class).to(VelocityListenerRegistrar.class);
 		bind(PlatformInteractor.class).to(VelocityPlatformInteractor.class);
-
-		bind(CommandManager.class).toProvider(VelocityCommandManagerProvider.class);
+		bind(CommandManager.class).toProvider(VelocityCommandManagerProvider.class).asEagerSingleton();
 	}
 }

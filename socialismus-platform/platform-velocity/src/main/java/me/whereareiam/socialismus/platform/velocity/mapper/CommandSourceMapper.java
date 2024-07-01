@@ -17,7 +17,7 @@ public class CommandSourceMapper implements SenderMapper<CommandSource, DummyPla
 	public @NonNull DummyPlayer map(@NonNull CommandSource source) {
 		DummyPlayer dummyPlayer;
 		if (source instanceof ConsoleCommandSource) {
-			dummyPlayer = DummyCommandPlayer.builder().commandSender(source).build();
+			dummyPlayer = DummyCommandPlayer.builder().commandSender(source).audience(source).build();
 		} else {
 			Player player = (Player) source;
 

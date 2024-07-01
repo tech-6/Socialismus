@@ -19,7 +19,7 @@ public class CommandSenderMapper implements SenderMapper<CommandSender, DummyPla
 	public @NonNull DummyPlayer map(@NonNull CommandSender source) {
 		DummyPlayer dummyPlayer;
 		if (source instanceof ConsoleCommandSender) {
-			dummyPlayer = DummyCommandPlayer.builder().commandSender(source).build();
+			dummyPlayer = DummyCommandPlayer.builder().commandSender(source).audience(source).build();
 		} else {
 			Player player = Bukkit.getPlayer(source.getName());
 			if (player == null)

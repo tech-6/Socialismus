@@ -2,8 +2,9 @@ package me.whereareiam.socialismus.platform.bukkit;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import me.whereareiam.socialismus.api.model.config.Settings;
+import me.whereareiam.socialismus.api.model.config.settings.Settings;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
+import me.whereareiam.socialismus.command.CommandExceptionHandler;
 import me.whereareiam.socialismus.command.CommandManagerProvider;
 import me.whereareiam.socialismus.platform.bukkit.mapper.CommandSenderMapper;
 import org.bukkit.plugin.Plugin;
@@ -20,8 +21,8 @@ public class BukkitCommandManagerProvider extends CommandManagerProvider {
 	private final CommandSenderMapper commandSenderMapper;
 
 	@Inject
-	public BukkitCommandManagerProvider(Settings settings, Plugin plugin, CommandSenderMapper commandSenderMapper) {
-		super(settings);
+	public BukkitCommandManagerProvider(CommandExceptionHandler exceptionHandler, Settings settings, Plugin plugin, CommandSenderMapper commandSenderMapper) {
+		super(exceptionHandler, settings);
 		this.plugin = plugin;
 		this.commandSenderMapper = commandSenderMapper;
 	}

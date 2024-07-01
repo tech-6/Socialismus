@@ -1,5 +1,6 @@
 package me.whereareiam.socialismus.adapter.config.management;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -64,7 +65,8 @@ public class ConfigManager implements Provider<ObjectMapper>, ConfigurationManag
 				YAMLFactory yamlFactory = new YAMLFactory()
 						.disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER)
 						.enable(YAMLGenerator.Feature.INDENT_ARRAYS)
-						.enable(YAMLGenerator.Feature.INDENT_ARRAYS_WITH_INDICATOR);
+						.enable(YAMLGenerator.Feature.INDENT_ARRAYS_WITH_INDICATOR)
+						.disable(YAMLGenerator.Feature.SPLIT_LINES);
 				objectMapper = new YAMLMapper(yamlFactory);
 			}
 
@@ -75,6 +77,7 @@ public class ConfigManager implements Provider<ObjectMapper>, ConfigurationManag
 		module.addDeserializer(Requirement.class, new RequirementDeserializer());
 
 		objectMapper.registerModule(module);
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 		return objectMapper;
 	}

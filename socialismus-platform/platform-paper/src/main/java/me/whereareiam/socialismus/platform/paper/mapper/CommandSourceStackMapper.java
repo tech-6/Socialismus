@@ -21,7 +21,7 @@ public class CommandSourceStackMapper implements SenderMapper<CommandSourceStack
 		DummyPlayer dummyPlayer;
 
 		if (source.getSender() instanceof ConsoleCommandSender || source.getSender().getClass().getName().equals("io.papermc.paper.brigadier.NullCommandSender")) {
-			dummyPlayer = DummyCommandPlayer.builder().commandSender(source).build();
+			dummyPlayer = DummyCommandPlayer.builder().commandSender(source).audience(source.getSender()).build();
 		} else {
 			Player player = Bukkit.getPlayer(source.getSender().getName());
 			if (player == null)

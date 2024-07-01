@@ -31,6 +31,6 @@ public class PaperInjectorConfiguration extends AbstractModule {
 		bind(Scheduler.class).to(PaperScheduler.class);
 		bind(ListenerRegistrar.class).to(PaperListenerRegistrar.class);
 		bind(PlatformInteractor.class).to(PaperPlatformInteractor.class);
-		bind(CommandManager.class).toProvider(PaperCommandManagerProvider.class);
+		bind(CommandManager.class).toProvider(PaperCommandManagerProvider.class).asEagerSingleton();
 	}
 }

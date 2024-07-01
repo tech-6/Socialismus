@@ -2,16 +2,19 @@ package me.whereareiam.socialismus.command;
 
 import com.google.inject.Provider;
 import me.whereareiam.socialismus.api.PlatformType;
-import me.whereareiam.socialismus.api.model.config.MiscellaneousSettings;
-import me.whereareiam.socialismus.api.model.config.Settings;
+import me.whereareiam.socialismus.api.model.config.settings.MiscellaneousSettings;
+import me.whereareiam.socialismus.api.model.config.settings.Settings;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import org.incendo.cloud.CommandManager;
+import org.incendo.cloud.exception.*;
 import org.incendo.cloud.minecraft.extras.MinecraftExceptionHandler;
 
 public abstract class CommandManagerProvider implements Provider<CommandManager<?>> {
 	protected final MiscellaneousSettings settings;
+	private final CommandExceptionHandler exceptionHandler;
 
-	public CommandManagerProvider(Settings settings) {
+	public CommandManagerProvider(CommandExceptionHandler exceptionHandler, Settings settings) {
+		this.exceptionHandler = exceptionHandler;
 		this.settings = settings.getMisc();
 	}
 
@@ -40,7 +43,11 @@ public abstract class CommandManagerProvider implements Provider<CommandManager<
 
 	private void createMinecraftExceptionHandler(CommandManager<DummyPlayer> commandManager) {
 		MinecraftExceptionHandler.create(DummyPlayer::getAudience)
-				.defaultHandlers()
+				.handler(ArgumentParseException.class, exceptionHandler::handleParseException)
+				.handler(InvalidCommandSenderException.class, exceptionHandler::handleInvalidCommandSenderException)
+				.handler(NoPermissionException.class, exceptionHandler::handleNoPermissionException)
+				.handler(InvalidSyntaxException.class, exceptionHandler::handleInvalidSyntaxException)
+				.handler(CommandExecutionException.class, exceptionHandler::handleCommandExecutionException)
 				.registerTo(commandManager);
 	}
 }

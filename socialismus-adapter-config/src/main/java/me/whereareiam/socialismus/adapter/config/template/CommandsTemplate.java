@@ -18,7 +18,7 @@ public class CommandsTemplate implements DefaultConfig<Commands> {
 				List.of("socialismus", "social"),
 				"",
 				"Main command",
-				"/socialismus",
+				"{command}",
 				true
 		);
 
@@ -26,7 +26,7 @@ public class CommandsTemplate implements DefaultConfig<Commands> {
 				List.of("help"),
 				"",
 				"Help command",
-				"/socialismus help [page]",
+				"{command} [page]",
 				true
 		);
 

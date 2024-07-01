@@ -1,4 +1,4 @@
-package me.whereareiam.socialismus.api.model.config;
+package me.whereareiam.socialismus.api.model.config.settings;
 
 import com.google.inject.Singleton;
 import lombok.Getter;

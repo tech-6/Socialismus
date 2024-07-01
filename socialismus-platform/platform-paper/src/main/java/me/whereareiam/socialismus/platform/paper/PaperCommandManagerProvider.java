@@ -2,8 +2,9 @@ package me.whereareiam.socialismus.platform.paper;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import me.whereareiam.socialismus.api.model.config.Settings;
+import me.whereareiam.socialismus.api.model.config.settings.Settings;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
+import me.whereareiam.socialismus.command.CommandExceptionHandler;
 import me.whereareiam.socialismus.command.CommandManagerProvider;
 import me.whereareiam.socialismus.platform.paper.mapper.CommandSenderMapper;
 import me.whereareiam.socialismus.platform.paper.mapper.CommandSourceStackMapper;
@@ -23,8 +24,8 @@ public class PaperCommandManagerProvider extends CommandManagerProvider {
 	private final CommandSourceStackMapper commandSourceStackMapper;
 
 	@Inject
-	public PaperCommandManagerProvider(Settings settings, Plugin plugin, CommandSenderMapper commandSenderMapper, CommandSourceStackMapper commandSourceStackMapper) {
-		super(settings);
+	public PaperCommandManagerProvider(CommandExceptionHandler exceptionHandler, Settings settings, Plugin plugin, CommandSenderMapper commandSenderMapper, CommandSourceStackMapper commandSourceStackMapper) {
+		super(exceptionHandler, settings);
 		this.plugin = plugin;
 		this.commandSenderMapper = commandSenderMapper;
 		this.commandSourceStackMapper = commandSourceStackMapper;
