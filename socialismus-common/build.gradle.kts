@@ -6,7 +6,6 @@ dependencies {
     "implementation"(project(":socialismus-common-api"))
     "implementation"(libs.libby.core)
     "compileOnly"(libs.bundles.adventure)
-    "compileOnly"(libs.reflections)
 }
 
 tasks.register<Copy>("processSources") {
@@ -16,7 +15,6 @@ tasks.register<Copy>("processSources") {
     filter { line ->
         line.replace("@version@", rootProject.version.toString())
             .replace("@guiceVersion@", rootProject.libs.versions.guice.get())
-            .replace("@reflectionsVersion@", rootProject.libs.versions.reflections.get())
             .replace("@jacksonVersion@", rootProject.libs.versions.jackson.get())
             .replace("@adventureBukkitVersion@", rootProject.libs.versions.adventure.platform.bukkit.get())
             .replace("@cloudVersion@", rootProject.libs.versions.cloud.core.get())

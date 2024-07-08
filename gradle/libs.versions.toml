@@ -11,7 +11,6 @@ guice = "7.0.0"
 guava = "33.2.1-jre"
 gson = "2.11.0"
 libby = "2.0.0-SNAPSHOT"
-reflections = "0.10.2"
 jackson = "2.17.1"
 
 # platform api versions
@@ -48,7 +47,6 @@ lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" 
 guice = { group = "com.google.inject", name = "guice", version.ref = "guice" }
 guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
-reflections = { group = "org.reflections", name = "reflections", version.ref = "reflections" }
 
 # platform api
 velocity = { group = "com.velocitypowered", name = "velocity-api", version.ref = "velocity" }

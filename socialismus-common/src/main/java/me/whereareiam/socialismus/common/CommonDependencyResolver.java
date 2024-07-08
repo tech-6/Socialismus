@@ -7,46 +7,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class CommonDependencyResolver implements DependencyResolver {
-	protected final List<Library> libraries = new ArrayList<>();
+    protected final List<Library> libraries = new ArrayList<>();
 
-	@Override
-	public void loadLibraries() {
-		// Common libraries
+    @Override
+    public void loadLibraries() {
+        // Common libraries
 
-		addDependency("com.google.inject", "guice", Constants.getGuiceVersion(), true);
-		addDependency("org.reflections", "reflections", Constants.getReflectionsVersion(), true);
+        addDependency("com.google.inject", "guice", Constants.getGuiceVersion(), true);
 
-		// lamp
-		addDependency("org.incendo", "cloud-core", Constants.getCloudVersion(), true);
-		addDependency("org.incendo", "cloud-annotations", Constants.getCloudVersion(), true);
-		addDependency("org.incendo", "cloud-minecraft-extras", Constants.getCloudMinecraftExtrasVersion(), true);
+        // lamp
+        addDependency("org.incendo", "cloud-core", Constants.getCloudVersion(), true);
+        addDependency("org.incendo", "cloud-annotations", Constants.getCloudVersion(), true);
+        addDependency("org.incendo", "cloud-minecraft-extras", Constants.getCloudMinecraftExtrasVersion(), true);
 
-		// jackson
-		addDependency("com.fasterxml.jackson.core", "jackson-databind", Constants.getJacksonVersion(), true);
-		addDependency("com.fasterxml.jackson.dataformat", "jackson-dataformat-yaml", Constants.getJacksonVersion(), true);
-	}
+        // jackson
+        addDependency("com.fasterxml.jackson.core", "jackson-databind", Constants.getJacksonVersion(), true);
+        addDependency("com.fasterxml.jackson.dataformat", "jackson-dataformat-yaml", Constants.getJacksonVersion(), true);
+    }
 
-	@Override
-	public void addDependency(String groupId, String artifactId, String version) {
-		libraries.add(Library.builder()
-				.groupId(groupId)
-				.artifactId(artifactId)
-				.version(version)
-				.build());
-	}
+    @Override
+    public void addDependency(String groupId, String artifactId, String version) {
+        libraries.add(Library.builder()
+                .groupId(groupId)
+                .artifactId(artifactId)
+                .version(version)
+                .build());
+    }
 
-	@Override
-	public void addDependency(String groupId, String artifactId, String version, boolean resolveTransitiveDependencies) {
-		libraries.add(Library.builder()
-				.groupId(groupId)
-				.artifactId(artifactId)
-				.version(version)
-				.resolveTransitiveDependencies(resolveTransitiveDependencies)
-				.build());
-	}
+    @Override
+    public void addDependency(String groupId, String artifactId, String version, boolean resolveTransitiveDependencies) {
+        libraries.add(Library.builder()
+                .groupId(groupId)
+                .artifactId(artifactId)
+                .version(version)
+                .resolveTransitiveDependencies(resolveTransitiveDependencies)
+                .build());
+    }
 
-	@Override
-	public void clearDependencies() {
-		libraries.clear();
-	}
+    @Override
+    public void clearDependencies() {
+        libraries.clear();
+    }
 }
