@@ -12,4 +12,5 @@ import lombok.ToString;
 public class MiscellaneousSettings {
 	private boolean allowLegacyParsing;
 	private boolean allowBrigadierCommands;
+	private int commandsPerPage;
 }

@@ -47,20 +47,20 @@ public class ConfigBinder extends AbstractModule {
 		bind(Path.class).annotatedWith(Names.named("chatPath")).toInstance(chatPath);
 		createDirectories();
 
-		bind(ObjectMapper.class).toProvider(ConfigManager.class);
+		bind(ObjectMapper.class).toProvider(ConfigManager.class).asEagerSingleton();
 		MapBinder<Class<?>, DefaultConfig<?>> mapbinder = MapBinder.newMapBinder(binder(), new TypeLiteral<>() {
 		}, new TypeLiteral<>() {
 		});
 		addTemplates(mapbinder);
 
-		bind(Settings.class).toProvider(SettingsProvider.class);
-		bind(Messages.class).toProvider(MessagesProvider.class);
-		bind(Commands.class).toProvider(CommandsProvider.class);
+		bind(Settings.class).toProvider(SettingsProvider.class).asEagerSingleton();
+		bind(Messages.class).toProvider(MessagesProvider.class).asEagerSingleton();
+		bind(Commands.class).toProvider(CommandsProvider.class).asEagerSingleton();
 
 		bind(new TypeLiteral<List<Chat>>() {
 		}).annotatedWith(Names.named("chats")).toProvider(ChatsProvider.class);
-		bind(ChatSettings.class).toProvider(ChatSettingsProvider.class);
-		bind(ChatMessages.class).toProvider(ChatMessagesProvider.class);
+		bind(ChatSettings.class).toProvider(ChatSettingsProvider.class).asEagerSingleton();
+		bind(ChatMessages.class).toProvider(ChatMessagesProvider.class).asEagerSingleton();
 	}
 
 	private void addTemplates(MapBinder<Class<?>, DefaultConfig<?>> mapbinder) {

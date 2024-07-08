@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import lombok.Getter;
+import me.whereareiam.socialismus.api.exception.ConfigLoadException;
 import me.whereareiam.socialismus.api.output.DefaultConfig;
 import me.whereareiam.socialismus.api.output.config.ConfigurationLoader;
 import me.whereareiam.socialismus.api.type.ConfigurationType;
@@ -44,7 +45,7 @@ public class ConfigLoader implements ConfigurationLoader {
 			config = ((DefaultConfig<T>) templates.get(clazz)).getDefault();
 			configSaver.save(path, config);
 		} catch (Exception e) {
-			throw new RuntimeException("Failed to load configuration", e);
+			throw new ConfigLoadException("Failed to load configuration", e);
 		}
 
 		T defaultConfig = ((DefaultConfig<T>) templates.get(clazz)).getDefault();

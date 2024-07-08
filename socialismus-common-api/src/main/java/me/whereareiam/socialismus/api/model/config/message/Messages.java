@@ -10,5 +10,6 @@ import lombok.ToString;
 @ToString
 @Singleton
 public class Messages {
+	private String prefix;
 	private CommandMessages commands;
 }

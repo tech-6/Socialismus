@@ -1,4 +1,4 @@
-package me.whereareiam.socialismus.command;
+package me.whereareiam.socialismus.command.management;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -8,6 +8,7 @@ import me.whereareiam.socialismus.api.output.command.CommandBase;
 import me.whereareiam.socialismus.api.output.command.CommandService;
 import me.whereareiam.socialismus.command.executor.HelpCommand;
 import me.whereareiam.socialismus.command.executor.MainCommand;
+import me.whereareiam.socialismus.command.provider.DynamicCommandProvider;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.annotations.AnnotationParser;
 
@@ -19,10 +20,9 @@ public class CommandProcessor implements CommandService {
 	private final AnnotationParser<DummyPlayer> annotationParser;
 
 	@Inject
-	@SuppressWarnings({"rawtypes", "unchecked"})
-	public CommandProcessor(Injector injector, CommandManager commandManager, DynamicCommandProvider commandProvider) {
+	public CommandProcessor(Injector injector, CommandManager<DummyPlayer> commandManager, DynamicCommandProvider commandProvider) {
 		this.injector = injector;
-		this.annotationParser = new AnnotationParser<DummyPlayer>(commandManager, DummyPlayer.class);
+		this.annotationParser = new AnnotationParser<>(commandManager, DummyPlayer.class);
 
 		annotationParser.stringProcessor(commandProvider.getProcessor());
 
@@ -30,10 +30,7 @@ public class CommandProcessor implements CommandService {
 	}
 
 	private void registerCommands() {
-		Stream.of(
-				injector.getInstance(MainCommand.class),
-				injector.getInstance(HelpCommand.class)
-		).forEach(this::registerCommand);
+		Stream.of(injector.getInstance(MainCommand.class), injector.getInstance(HelpCommand.class)).forEach(this::registerCommand);
 	}
 
 	@Override

@@ -1,7 +1,9 @@
 package me.whereareiam.socialismus.platform.bukkit.inject;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.TypeLiteral;
 import me.whereareiam.socialismus.api.input.DependencyResolver;
+import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.output.ListenerRegistrar;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.output.Scheduler;
@@ -36,6 +38,6 @@ public class BukkitInjectorConfiguration extends AbstractModule {
 		bind(Scheduler.class).to(BukkitScheduler.class);
 		bind(ListenerRegistrar.class).to(BukkitListenerRegistrar.class);
 		bind(PlatformInteractor.class).to(BukkitPlatformInteractor.class);
-		bind(CommandManager.class).toProvider(BukkitCommandManagerProvider.class).asEagerSingleton();
+		bind(new TypeLiteral<CommandManager<DummyPlayer>>() {}).toProvider(BukkitCommandManagerProvider.class).asEagerSingleton();
 	}
 }

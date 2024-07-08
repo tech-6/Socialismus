@@ -8,9 +8,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import me.whereareiam.socialismus.adapter.config.deserializer.RequirementDeserializer;
 import me.whereareiam.socialismus.api.model.requirement.Requirement;
@@ -23,15 +21,12 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-@Singleton
 public class ConfigManager implements Provider<ObjectMapper>, ConfigurationManager {
 	private final Path dataPath;
-	private final Injector injector;
 
 	@Inject
-	public ConfigManager(@Named("dataPath") Path dataPath, Injector injector) {
+	public ConfigManager(@Named("dataPath") Path dataPath) {
 		this.dataPath = dataPath;
-		this.injector = injector;
 	}
 
 	public ConfigurationType getConfigurationType() {

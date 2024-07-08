@@ -1,7 +1,9 @@
 package me.whereareiam.socialismus.platform.paper.inject;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.TypeLiteral;
 import me.whereareiam.socialismus.api.input.DependencyResolver;
+import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.output.ListenerRegistrar;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.output.Scheduler;
@@ -31,6 +33,6 @@ public class PaperInjectorConfiguration extends AbstractModule {
 		bind(Scheduler.class).to(PaperScheduler.class);
 		bind(ListenerRegistrar.class).to(PaperListenerRegistrar.class);
 		bind(PlatformInteractor.class).to(PaperPlatformInteractor.class);
-		bind(CommandManager.class).toProvider(PaperCommandManagerProvider.class).asEagerSingleton();
+		bind(new TypeLiteral<CommandManager<DummyPlayer>>() {}).toProvider(PaperCommandManagerProvider.class).asEagerSingleton();
 	}
 }

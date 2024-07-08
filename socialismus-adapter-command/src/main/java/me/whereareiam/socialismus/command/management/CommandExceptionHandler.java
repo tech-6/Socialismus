@@ -1,4 +1,4 @@
-package me.whereareiam.socialismus.command;
+package me.whereareiam.socialismus.command.management;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

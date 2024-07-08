@@ -37,7 +37,7 @@ public class ChatsProvider implements Provider<List<Chat>> {
 
 	@Override
 	public List<Chat> get() {
-		List<Chat> chats = new ArrayList<>();
+		final List<Chat> chats = new ArrayList<>();
 
 		try (Stream<Path> paths = Files.list(dataPath)) {
 			paths.filter(path -> path.getFileName().endsWith(configurationType.getExtension())).forEach(path -> {

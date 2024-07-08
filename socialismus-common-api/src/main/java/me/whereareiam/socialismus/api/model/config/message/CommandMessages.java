@@ -1,14 +1,14 @@
 package me.whereareiam.socialismus.api.model.config.message;
 
-import com.google.inject.Singleton;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
-@Singleton
 public class CommandMessages {
 	private String noPermission;
 	private String executionError;
@@ -17,4 +17,37 @@ public class CommandMessages {
 	private String invalidSyntaxBoolean;
 	private String invalidSyntaxNumber;
 	private String invalidSyntaxString;
+
+	private Format format;
+	private Pagination pagination;
+	private HelpCommand helpCommand;
+
+	@Getter
+	@Setter
+	@ToString
+	public static class Format {
+		private String format;
+		private String argument;
+		private String optionalArgument;
+	}
+
+	@Getter
+	@Setter
+	@ToString
+	public static class Pagination {
+		private boolean showPaginationIfOnePage;
+		private String format;
+		private boolean showPreviousEvenIfFirst;
+		private String previousTagFormat;
+		private boolean showNextEvenIfLast;
+		private String nextTagFormat;
+	}
+
+	@Getter
+	@Setter
+	@ToString
+	public static class HelpCommand {
+		private List<String> format;
+		private String commandFormat;
+	}
 }

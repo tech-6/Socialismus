@@ -19,6 +19,7 @@ public class SettingsTemplate implements DefaultConfig<Settings> {
 		MiscellaneousSettings misc = new MiscellaneousSettings();
 		misc.setAllowLegacyParsing(false);
 		misc.setAllowBrigadierCommands(true);
+		misc.setCommandsPerPage(7);
 
 		settings.setMisc(misc);
 

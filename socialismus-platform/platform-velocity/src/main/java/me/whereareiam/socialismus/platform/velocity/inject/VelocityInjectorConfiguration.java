@@ -1,10 +1,12 @@
 package me.whereareiam.socialismus.platform.velocity.inject;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.TypeLiteral;
 import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.whereareiam.socialismus.api.input.DependencyResolver;
+import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.output.ListenerRegistrar;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.output.Scheduler;
@@ -34,6 +36,6 @@ public class VelocityInjectorConfiguration extends AbstractModule {
 		bind(Scheduler.class).to(VelocityScheduler.class);
 		bind(ListenerRegistrar.class).to(VelocityListenerRegistrar.class);
 		bind(PlatformInteractor.class).to(VelocityPlatformInteractor.class);
-		bind(CommandManager.class).toProvider(VelocityCommandManagerProvider.class).asEagerSingleton();
+		bind(new TypeLiteral<CommandManager<DummyPlayer>>() {}).toProvider(VelocityCommandManagerProvider.class).asEagerSingleton();
 	}
 }
