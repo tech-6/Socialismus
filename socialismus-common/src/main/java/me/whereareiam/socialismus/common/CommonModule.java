@@ -1,9 +1,11 @@
 package me.whereareiam.socialismus.common;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
-import com.google.inject.multibindings.Multibinder;
+import com.google.inject.name.Names;
+import me.whereareiam.socialismus.api.Reloadable;
+import me.whereareiam.socialismus.api.input.PluginInteractor;
+import me.whereareiam.socialismus.api.input.Registry;
 import me.whereareiam.socialismus.api.input.WorkerProcessor;
 import me.whereareiam.socialismus.api.input.chat.ChatContainerService;
 import me.whereareiam.socialismus.api.input.serializer.SerializationService;
@@ -12,31 +14,28 @@ import me.whereareiam.socialismus.api.model.serializer.SerializerContent;
 import me.whereareiam.socialismus.api.output.integration.FormattingIntegration;
 import me.whereareiam.socialismus.common.chat.ChatContainer;
 import me.whereareiam.socialismus.common.chat.ChatMessageProcessor;
+import me.whereareiam.socialismus.common.provider.FormattingIntegrationProvider;
+import me.whereareiam.socialismus.common.provider.ReloadableProvider;
 import me.whereareiam.socialismus.common.serializer.Serializer;
-import org.reflections.Reflections;
 
-import java.util.Arrays;
+import java.util.Set;
 
 @SuppressWarnings("unused")
 public class CommonModule extends AbstractModule {
-	@Override
-	protected void configure() {
-		bind(ChatContainerService.class).to(ChatContainer.class);
-		bind(new TypeLiteral<WorkerProcessor<ChatMessage>>() {
-		}).to(ChatMessageProcessor.class);
+    @Override
+    protected void configure() {
+        bind(PluginInteractor.class).to(CommonPluginInteractor.class);
 
-		bind(SerializationService.class).to(Serializer.class);
-		bind(new TypeLiteral<WorkerProcessor<SerializerContent>>() {
-		}).to(Serializer.class);
+        bind(ChatContainerService.class).to(ChatContainer.class);
+        bind(new TypeLiteral<WorkerProcessor<ChatMessage>>() {}).to(ChatMessageProcessor.class);
 
-		Multibinder<FormattingIntegration> multibinder = Multibinder.newSetBinder(binder(), FormattingIntegration.class);
-		bindIntegrations(multibinder);
-	}
+        bind(SerializationService.class).to(Serializer.class);
+        bind(new TypeLiteral<WorkerProcessor<SerializerContent>>() {}).to(Serializer.class);
 
-	private void bindIntegrations(Multibinder<FormattingIntegration> multibinder) {
-		Reflections reflections = new Reflections(String.join(".", Arrays.copyOfRange(this.getClass().getPackage().getName().split("\\."), 0, 3)) + ".integration");
-		
-		for (Class<? extends FormattingIntegration> implementationClass : reflections.getSubTypesOf(FormattingIntegration.class))
-			multibinder.addBinding().to(implementationClass).in(Scopes.SINGLETON);
-	}
+        bind(new TypeLiteral<Registry<FormattingIntegration>>() {}).to(FormattingIntegrationProvider.class);
+        bind(new TypeLiteral<Set<FormattingIntegration>>() {}).toProvider(FormattingIntegrationProvider.class).asEagerSingleton();
+
+        bind(new TypeLiteral<Registry<Reloadable>>() {}).to(ReloadableProvider.class);
+        bind(new TypeLiteral<Set<Reloadable>>() {}).annotatedWith(Names.named("reloadables")).toProvider(ReloadableProvider.class).asEagerSingleton();
+    }
 }

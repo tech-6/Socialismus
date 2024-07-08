@@ -1,6 +1,7 @@
 package me.whereareiam.socialismus.command.provider;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.model.config.command.Command;
 import me.whereareiam.socialismus.api.model.config.command.Commands;
@@ -15,45 +16,45 @@ import java.util.regex.Pattern;
 
 @Singleton
 public class DynamicCommandProvider {
-	private static final Pattern COMMAND_PATTERN = Pattern.compile("%command\\.(.*)");
-	private static final Pattern PERMISSION_PATTERN = Pattern.compile("%permission\\.(.*)");
-	private static final Pattern DESCRIPTION_PATTERN = Pattern.compile("%description\\.(.*)");
-	private static final Pattern USAGE_PATTERN = Pattern.compile("%usage\\.(.*)");
+    private static final Pattern COMMAND_PATTERN = Pattern.compile("%command\\.(.*)");
+    private static final Pattern PERMISSION_PATTERN = Pattern.compile("%permission\\.(.*)");
+    private static final Pattern DESCRIPTION_PATTERN = Pattern.compile("%description\\.(.*)");
+    private static final Pattern USAGE_PATTERN = Pattern.compile("%usage\\.(.*)");
 
-	private final Commands commands;
+    private final Provider<Commands> commands;
 
-	@Inject
-	public DynamicCommandProvider(Commands commands) {
-		this.commands = commands;
-	}
+    @Inject
+    public DynamicCommandProvider(Provider<Commands> commands) {
+        this.commands = commands;
+    }
 
-	public PatternReplacingStringProcessor getProcessor() {
-		Map<Pattern, Function<Command, String>> patternFunctionMap = new HashMap<>();
+    public PatternReplacingStringProcessor getProcessor() {
+        Map<Pattern, Function<Command, String>> patternFunctionMap = new HashMap<>();
 
-		patternFunctionMap.put(COMMAND_PATTERN, command -> command.getUsage().replace("{command}", String.join("|", command.getAliases())));
-		patternFunctionMap.put(PERMISSION_PATTERN, Command::getPermission);
-		patternFunctionMap.put(DESCRIPTION_PATTERN, Command::getDescription);
-		patternFunctionMap.put(USAGE_PATTERN, Command::getUsage);
+        patternFunctionMap.put(COMMAND_PATTERN, command -> command.getUsage().replace("{command}", String.join("|", command.getAliases())));
+        patternFunctionMap.put(PERMISSION_PATTERN, Command::getPermission);
+        patternFunctionMap.put(DESCRIPTION_PATTERN, Command::getDescription);
+        patternFunctionMap.put(USAGE_PATTERN, Command::getUsage);
 
-		Function<MatchResult, String> replacementFunction = matchResult -> {
-			String input = matchResult.group(0);
+        Function<MatchResult, String> replacementFunction = matchResult -> {
+            String input = matchResult.group(0);
 
-			for (Map.Entry<Pattern, Function<Command, String>> entry : patternFunctionMap.entrySet()) {
-				Matcher matcher = entry.getKey().matcher(input);
-				if (matcher.find()) {
-					String commandName = matcher.group(1);
-					Command command = commands.getCommands().get(commandName);
+            for (Map.Entry<Pattern, Function<Command, String>> entry : patternFunctionMap.entrySet()) {
+                Matcher matcher = entry.getKey().matcher(input);
+                if (matcher.find()) {
+                    String commandName = matcher.group(1);
+                    Command command = commands.get().getCommands().get(commandName);
 
-					if (command != null) {
-						String result = entry.getValue().apply(command);
-						return result != null && !result.isEmpty() ? result : "";
-					}
-				}
-			}
+                    if (command != null) {
+                        String result = entry.getValue().apply(command);
+                        return result != null && !result.isEmpty() ? result : "";
+                    }
+                }
+            }
 
-			return input;
-		};
+            return input;
+        };
 
-		return new PatternReplacingStringProcessor(Pattern.compile(".*"), replacementFunction);
-	}
+        return new PatternReplacingStringProcessor(Pattern.compile(".*"), replacementFunction);
+    }
 }

@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
-import me.whereareiam.socialismus.api.output.platform.PlatformInteractor;
+import me.whereareiam.socialismus.api.output.PlatformInteractor;
 
 @Singleton
 public class VelocityPlatformInteractor implements PlatformInteractor {
@@ -22,5 +22,10 @@ public class VelocityPlatformInteractor implements PlatformInteractor {
 				.map(value -> value.hasPermission(permission))
 				.orElse(false);
 
+	}
+
+	@Override
+	public String getServerVersion() {
+		return proxyServer.getVersion().getName() + "-" + proxyServer.getVersion().getVersion();
 	}
 }

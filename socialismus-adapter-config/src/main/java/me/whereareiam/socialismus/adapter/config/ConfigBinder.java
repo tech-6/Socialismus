@@ -33,51 +33,54 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class ConfigBinder extends AbstractModule {
-	private final Path dataPath;
-	private final Path chatPath;
+    private final Path dataPath;
+    private final Path chatPath;
 
-	public ConfigBinder(Path dataPath) {
-		this.dataPath = dataPath;
-		this.chatPath = dataPath.resolve("chats");
-	}
+    public ConfigBinder(Path dataPath) {
+        this.dataPath = dataPath;
+        this.chatPath = dataPath.resolve("chats");
+    }
 
-	@Override
-	protected void configure() {
-		bind(Path.class).annotatedWith(Names.named("dataPath")).toInstance(dataPath);
-		bind(Path.class).annotatedWith(Names.named("chatPath")).toInstance(chatPath);
-		createDirectories();
+    @Override
+    protected void configure() {
+        bind(Path.class).annotatedWith(Names.named("dataPath")).toInstance(dataPath);
+        bind(Path.class).annotatedWith(Names.named("chatPath")).toInstance(chatPath);
+        createDirectories();
 
-		bind(ObjectMapper.class).toProvider(ConfigManager.class).asEagerSingleton();
-		MapBinder<Class<?>, DefaultConfig<?>> mapbinder = MapBinder.newMapBinder(binder(), new TypeLiteral<>() {
-		}, new TypeLiteral<>() {
-		});
-		addTemplates(mapbinder);
+        bind(ObjectMapper.class).toProvider(ConfigManager.class).asEagerSingleton();
+        MapBinder<Class<?>, DefaultConfig<?>> mapbinder = MapBinder.newMapBinder(binder(), new TypeLiteral<>() {}, new TypeLiteral<>() {});
+        addTemplates(mapbinder);
 
-		bind(Settings.class).toProvider(SettingsProvider.class).asEagerSingleton();
-		bind(Messages.class).toProvider(MessagesProvider.class).asEagerSingleton();
-		bind(Commands.class).toProvider(CommandsProvider.class).asEagerSingleton();
+        bind(SettingsProvider.class).asEagerSingleton();
+        bind(Settings.class).toProvider(SettingsProvider.class);
+        bind(MessagesProvider.class).asEagerSingleton();
+        bind(Messages.class).toProvider(MessagesProvider.class);
+        bind(CommandsProvider.class).asEagerSingleton();
+        bind(Commands.class).toProvider(CommandsProvider.class);
 
-		bind(new TypeLiteral<List<Chat>>() {
-		}).annotatedWith(Names.named("chats")).toProvider(ChatsProvider.class);
-		bind(ChatSettings.class).toProvider(ChatSettingsProvider.class).asEagerSingleton();
-		bind(ChatMessages.class).toProvider(ChatMessagesProvider.class).asEagerSingleton();
-	}
+        bind(ChatsProvider.class).asEagerSingleton();
+        bind(new TypeLiteral<List<Chat>>() {}).annotatedWith(Names.named("chats")).toProvider(ChatsProvider.class);
+        bind(ChatSettingsProvider.class).asEagerSingleton();
+        bind(ChatSettings.class).toProvider(ChatSettingsProvider.class);
+        bind(ChatMessagesProvider.class).asEagerSingleton();
+        bind(ChatMessages.class).toProvider(ChatMessagesProvider.class);
+    }
 
-	private void addTemplates(MapBinder<Class<?>, DefaultConfig<?>> mapbinder) {
-		mapbinder.addBinding(Settings.class).to(SettingsTemplate.class);
-		mapbinder.addBinding(Messages.class).to(MessagesTemplate.class);
-		mapbinder.addBinding(Commands.class).to(CommandsTemplate.class);
-		mapbinder.addBinding(ChatMessages.class).to(ChatMessagesTemplate.class);
-		mapbinder.addBinding(ChatSettings.class).to(ChatSettingsTemplate.class);
-		mapbinder.addBinding(ChatsConfig.class).to(ChatTemplate.class);
-	}
+    private void addTemplates(MapBinder<Class<?>, DefaultConfig<?>> mapbinder) {
+        mapbinder.addBinding(Settings.class).to(SettingsTemplate.class);
+        mapbinder.addBinding(Messages.class).to(MessagesTemplate.class);
+        mapbinder.addBinding(Commands.class).to(CommandsTemplate.class);
+        mapbinder.addBinding(ChatMessages.class).to(ChatMessagesTemplate.class);
+        mapbinder.addBinding(ChatSettings.class).to(ChatSettingsTemplate.class);
+        mapbinder.addBinding(ChatsConfig.class).to(ChatTemplate.class);
+    }
 
-	private void createDirectories() {
-		try {
-			Files.createDirectories(dataPath);
-			Files.createDirectories(chatPath);
-		} catch (IOException e) {
-			throw new RuntimeException("Failed to create directories", e);
-		}
-	}
+    private void createDirectories() {
+        try {
+            Files.createDirectories(dataPath);
+            Files.createDirectories(chatPath);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to create directories", e);
+        }
+    }
 }

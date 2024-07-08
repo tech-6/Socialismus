@@ -1,6 +1,7 @@
 package me.whereareiam.socialismus.command.management;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.input.serializer.SerializationService;
 import me.whereareiam.socialismus.api.model.config.message.CommandMessages;
@@ -20,56 +21,57 @@ import java.util.List;
 
 @Singleton
 public class CommandExceptionHandler {
-	private final SerializationService serializer;
-	private final CommandMessages commandMessages;
+    private final SerializationService serializer;
+    private final Provider<Messages> messages;
 
-	@Inject
-	public CommandExceptionHandler(SerializationService serializer, Messages messages) {
-		this.serializer = serializer;
-		this.commandMessages = messages.getCommands();
-	}
+    @Inject
+    public CommandExceptionHandler(SerializationService serializer, Provider<Messages> messages) {
+        this.serializer = serializer;
+        this.messages = messages;
+    }
 
-	public Component handleParseException(ComponentCaptionFormatter<DummyPlayer> formatter, ExceptionContext<DummyPlayer, ArgumentParseException> exception) {
-		DummyPlayer player = exception.context().sender();
+    public Component handleParseException(ComponentCaptionFormatter<DummyPlayer> formatter, ExceptionContext<DummyPlayer, ArgumentParseException> exception) {
+        DummyPlayer player = exception.context().sender();
+        CommandMessages commandMessages = messages.get().getCommands();
 
-		if (exception.exception().getCause() instanceof BooleanParser.BooleanParseException e)
-			return getFormattedMessage(player, commandMessages.getInvalidSyntaxBoolean(), e.input());
+        if (exception.exception().getCause() instanceof BooleanParser.BooleanParseException e)
+            return getFormattedMessage(player, commandMessages.getInvalidSyntaxBoolean(), e.input());
 
-		if (exception.exception().getCause() instanceof NumberParseException e)
-			return getFormattedMessage(player, commandMessages.getInvalidSyntaxNumber(), e.input());
+        if (exception.exception().getCause() instanceof NumberParseException e)
+            return getFormattedMessage(player, commandMessages.getInvalidSyntaxNumber(), e.input());
 
-		if (exception.exception().getCause() instanceof StringParser.StringParseException e)
-			return getFormattedMessage(player, commandMessages.getInvalidSyntaxString(), e.input());
+        if (exception.exception().getCause() instanceof StringParser.StringParseException e)
+            return getFormattedMessage(player, commandMessages.getInvalidSyntaxString(), e.input());
 
-		return Component.text("Unknown parse exception occurred" + exception.exception().getCause().getMessage());
-	}
+        return Component.text("Unknown parse exception occurred" + exception.exception().getCause().getMessage());
+    }
 
-	public Component handleInvalidCommandSenderException(ComponentCaptionFormatter<DummyPlayer> formatter, ExceptionContext<DummyPlayer, InvalidCommandSenderException> exception) {
-		return Component.text("Unknown sender exception occurred");
-	}
+    public Component handleInvalidCommandSenderException(ComponentCaptionFormatter<DummyPlayer> formatter, ExceptionContext<DummyPlayer, InvalidCommandSenderException> exception) {
+        return Component.text("Unknown sender exception occurred");
+    }
 
-	public Component handleNoPermissionException(ComponentCaptionFormatter<DummyPlayer> formatter, ExceptionContext<DummyPlayer, NoPermissionException> exception) {
-		return getFormattedMessage(exception.context().sender(), commandMessages.getNoPermission(), exception.exception().missingPermission().permissionString());
-	}
+    public Component handleNoPermissionException(ComponentCaptionFormatter<DummyPlayer> formatter, ExceptionContext<DummyPlayer, NoPermissionException> exception) {
+        return getFormattedMessage(exception.context().sender(), messages.get().getCommands().getNoPermission(), exception.exception().missingPermission().permissionString());
+    }
 
-	public Component handleInvalidSyntaxException(ComponentCaptionFormatter<DummyPlayer> formatter, ExceptionContext<DummyPlayer, InvalidSyntaxException> exception) {
-		return getFormattedMessage(exception.context().sender(), commandMessages.getInvalidSyntax(), exception.exception().correctSyntax());
-	}
+    public Component handleInvalidSyntaxException(ComponentCaptionFormatter<DummyPlayer> formatter, ExceptionContext<DummyPlayer, InvalidSyntaxException> exception) {
+        return getFormattedMessage(exception.context().sender(), messages.get().getCommands().getInvalidSyntax(), exception.exception().correctSyntax());
+    }
 
-	public Component handleCommandExecutionException(ComponentCaptionFormatter<DummyPlayer> formatter, ExceptionContext<DummyPlayer, CommandExecutionException> exception) {
-		return getFormattedMessage(exception.context().sender(), commandMessages.getExecutionError(), exception.exception().getMessage());
-	}
+    public Component handleCommandExecutionException(ComponentCaptionFormatter<DummyPlayer> formatter, ExceptionContext<DummyPlayer, CommandExecutionException> exception) {
+        return getFormattedMessage(exception.context().sender(), messages.get().getCommands().getExecutionError(), exception.exception().getMessage());
+    }
 
-	private Component getFormattedMessage(DummyPlayer dummyPlayer, String message, String content) {
-		return serializer.format(new SerializerContent(
-				dummyPlayer,
-				List.of(
-						new SerializerPlaceholder(
-								"{content}",
-								content
-						)
-				),
-				message
-		));
-	}
+    private Component getFormattedMessage(DummyPlayer dummyPlayer, String message, String content) {
+        return serializer.format(new SerializerContent(
+                dummyPlayer,
+                List.of(
+                        new SerializerPlaceholder(
+                                "{content}",
+                                content
+                        )
+                ),
+                message
+        ));
+    }
 }

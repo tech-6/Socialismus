@@ -30,8 +30,26 @@ public class CommandsTemplate implements DefaultConfig<Commands> {
 				true
 		);
 
+		Command debug = new Command(
+				List.of("debug"),
+				"socialismus.admin",
+				"Debug command",
+				"{command}",
+				true
+		);
+
+		Command reload = new Command(
+				List.of("reload"),
+				"socialismus.admin",
+				"Reload command",
+				"{command}",
+				true
+		);
+
 		commands.getCommands().put("main", main);
 		commands.getCommands().put("help", help);
+		commands.getCommands().put("debug", debug);
+		commands.getCommands().put("reload", reload);
 
 		return commands;
 	}
