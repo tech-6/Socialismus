@@ -133,12 +133,16 @@ public class ChatSelector {
     }
 
     private void notifyPlayerFallbackNotSet(ChatMessage chatMessage) {
+        if (!chatSettings.get().isNotifyNoChat()) return;
+
         chatMessage.getSender().getAudience().sendMessage(
                 serializer.format(chatMessage.getSender(), chatMessages.get().getNoFallbackChat())
         );
     }
 
     private void notifyAboutAbsentChat(ChatMessage chatMessage) {
+        if (!chatSettings.get().isNotifyNoChat()) return;
+
         chatMessage.getSender().getAudience().sendMessage(
                 serializer.format(chatMessage.getSender(), chatMessages.get().getNoChatMatch())
         );

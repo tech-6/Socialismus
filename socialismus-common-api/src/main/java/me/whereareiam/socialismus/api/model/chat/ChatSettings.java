@@ -11,6 +11,7 @@ import lombok.ToString;
 @Singleton
 public class ChatSettings {
     private boolean notifyNoChat;
+    private boolean notifyNoFormat;
     private boolean notifyNoPlayers;
     private boolean notifyNoNearbyPlayers;
 

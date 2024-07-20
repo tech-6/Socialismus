@@ -5,6 +5,7 @@ import me.whereareiam.socialismus.api.PlatformType;
 import me.whereareiam.socialismus.api.PluginType;
 import me.whereareiam.socialismus.api.output.ListenerRegistrar;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
+import me.whereareiam.socialismus.api.output.command.CommandService;
 import me.whereareiam.socialismus.common.chat.ChatContainer;
 import me.whereareiam.socialismus.common.chat.worker.ChatSelector;
 import me.whereareiam.socialismus.common.chat.worker.FormatSelector;
@@ -24,6 +25,8 @@ public class CommonSocialismus {
         injector.getInstance(ChatContainer.class);
         injector.getInstance(ChatSelector.class);
         injector.getInstance(FormatSelector.class);
+
+        injector.getInstance(CommandService.class).registerCommands();
 
         injector.getInstance(LoggingHelper.class).info("");
         injector.getInstance(ListenerRegistrar.class).registerListeners();

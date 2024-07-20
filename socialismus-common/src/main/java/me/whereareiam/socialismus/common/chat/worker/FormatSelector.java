@@ -7,6 +7,7 @@ import me.whereareiam.socialismus.api.input.WorkerProcessor;
 import me.whereareiam.socialismus.api.model.Worker;
 import me.whereareiam.socialismus.api.model.chat.ChatFormat;
 import me.whereareiam.socialismus.api.model.chat.ChatMessages;
+import me.whereareiam.socialismus.api.model.chat.ChatSettings;
 import me.whereareiam.socialismus.api.model.chat.message.FormattedChatMessage;
 import me.whereareiam.socialismus.api.model.requirement.Requirement;
 import me.whereareiam.socialismus.api.model.serializer.SerializerContent;
@@ -29,16 +30,18 @@ public class FormatSelector {
 
     // Configs
     private final Provider<ChatMessages> chatMessages;
+    private final Provider<ChatSettings> chatSettings;
 
     // Communication
     private final Serializer serializer;
 
     @Inject
     public FormatSelector(LoggingHelper loggingHelper, WorkerProcessor<FormattedChatMessage> workerProcessor, RequirementValidator requirementValidator,
-                          Provider<ChatMessages> chatMessages, Serializer serializer) {
+                          Provider<ChatMessages> chatMessages, Provider<ChatSettings> chatSettings, Serializer serializer) {
         this.loggingHelper = loggingHelper;
         this.requirementValidator = requirementValidator;
         this.chatMessages = chatMessages;
+        this.chatSettings = chatSettings;
         this.serializer = serializer;
 
         // init configs
@@ -94,6 +97,8 @@ public class FormatSelector {
     }
 
     private void notifyAboutAbsentFormat(FormattedChatMessage formattedChatMessage) {
+        if (!chatSettings.get().isNotifyNoFormat()) return;
+        
         formattedChatMessage.getSender().getAudience().sendMessage(
                 serializer.format(formattedChatMessage.getSender(), chatMessages.get().getNoChatMatch())
         );

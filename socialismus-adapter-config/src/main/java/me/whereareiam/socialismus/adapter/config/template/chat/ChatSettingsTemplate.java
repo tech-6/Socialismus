@@ -12,6 +12,7 @@ public class ChatSettingsTemplate implements DefaultConfig<ChatSettings> {
 
         // Default values
         chatSettings.setNotifyNoChat(true);
+        chatSettings.setNotifyNoFormat(true);
         chatSettings.setNotifyNoPlayers(false);
         chatSettings.setNotifyNoNearbyPlayers(false);
 
