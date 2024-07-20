@@ -5,8 +5,8 @@ import com.google.inject.Provider;
 import com.google.inject.name.Named;
 import me.whereareiam.socialismus.adapter.config.management.ConfigLoader;
 import me.whereareiam.socialismus.api.Reloadable;
-import me.whereareiam.socialismus.api.input.Registry;
-import me.whereareiam.socialismus.api.model.config.settings.Settings;
+import me.whereareiam.socialismus.api.input.registry.Registry;
+import me.whereareiam.socialismus.api.model.config.Settings;
 
 import java.nio.file.Path;
 

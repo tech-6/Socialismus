@@ -1,4 +1,4 @@
-package me.whereareiam.socialismus.api.model.config.chat;
+package me.whereareiam.socialismus.api.model.chat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +11,7 @@ import me.whereareiam.socialismus.api.type.chat.ChatType;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChatParameters {
-	private ChatType type;
-	private int radius;
+    private ChatType type;
+    private String symbol;
+    private int radius;
 }

@@ -3,8 +3,8 @@ package me.whereareiam.socialismus.command.builder;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import me.whereareiam.socialismus.api.model.config.Settings;
 import me.whereareiam.socialismus.api.model.config.message.Messages;
-import me.whereareiam.socialismus.api.model.config.settings.Settings;
 
 @Singleton
 public class PaginationBuilder {

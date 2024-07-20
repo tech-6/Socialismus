@@ -28,7 +28,10 @@ public class MainCommand implements CommandBase {
     public void onCommand(DummyPlayer dummyPlayer) {
         commandManager.commandExecutor().executeCommand(
                 dummyPlayer,
-                commands.get().getCommands().get("main").getAliases().getFirst() + " help 1"
+                commands.get().getCommands().get("main").getAliases().getFirst()
+                        + " "
+                        + commands.get().getCommands().get("help").getAliases().getFirst()
+                        + " 1"
         );
     }
 }

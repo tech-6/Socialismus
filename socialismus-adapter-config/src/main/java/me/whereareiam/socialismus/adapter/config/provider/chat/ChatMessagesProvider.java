@@ -5,8 +5,8 @@ import com.google.inject.Provider;
 import com.google.inject.name.Named;
 import me.whereareiam.socialismus.adapter.config.management.ConfigLoader;
 import me.whereareiam.socialismus.api.Reloadable;
-import me.whereareiam.socialismus.api.input.Registry;
-import me.whereareiam.socialismus.api.model.config.chat.ChatMessages;
+import me.whereareiam.socialismus.api.input.registry.Registry;
+import me.whereareiam.socialismus.api.model.chat.ChatMessages;
 
 import java.nio.file.Path;
 
@@ -36,6 +36,6 @@ public class ChatMessagesProvider implements Provider<ChatMessages>, Reloadable 
     }
 
     private void load() {
-        chatMessages = configLoader.load(dataPath.resolve("chat"), ChatMessages.class);
+        chatMessages = configLoader.load(dataPath.resolve("messages"), ChatMessages.class);
     }
 }

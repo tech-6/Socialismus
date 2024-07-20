@@ -14,12 +14,6 @@ allprojects {
         sourceCompatibility = JavaVersion.VERSION_21.toString()
         targetCompatibility = JavaVersion.VERSION_21.toString()
     }
-
-    configure<JavaPluginExtension> {
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(21))
-        }
-    }
 }
 
 subprojects {

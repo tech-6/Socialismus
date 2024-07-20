@@ -5,7 +5,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.proxy.ProxyServer;
-import me.whereareiam.socialismus.api.model.config.settings.Settings;
+import me.whereareiam.socialismus.api.model.config.Settings;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.command.management.CommandExceptionHandler;
 import me.whereareiam.socialismus.command.provider.CommandManagerProvider;

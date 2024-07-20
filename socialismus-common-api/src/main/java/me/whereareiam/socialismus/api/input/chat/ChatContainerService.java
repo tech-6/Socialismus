@@ -1,24 +1,24 @@
 package me.whereareiam.socialismus.api.input.chat;
 
 import me.whereareiam.socialismus.api.model.chat.InternalChat;
-import me.whereareiam.socialismus.api.model.config.chat.Chat;
+import me.whereareiam.socialismus.api.model.chat.Chat;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 public interface ChatContainerService {
-	void addChat(InternalChat chat);
+    void addChat(InternalChat chat);
 
-	void addChat(Chat chat);
+    void addChat(Chat chat);
 
-	boolean hasChat(String name);
+    boolean hasChat(String id);
 
-	boolean hasChat(char symbol);
+    boolean hasChatBySymbol(String symbol);
 
-	Optional<InternalChat> getChat(String id);
+    Optional<InternalChat> getChat(String id);
 
-	List<InternalChat> getChat(char symbol);
+    List<InternalChat> getChatBySymbol(String symbol);
 
-	Set<InternalChat> getChats();
+    Set<InternalChat> getChats();
 }

@@ -4,29 +4,33 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import me.whereareiam.socialismus.api.Reloadable;
 import me.whereareiam.socialismus.api.input.chat.ChatContainerService;
+import me.whereareiam.socialismus.api.input.registry.Registry;
+import me.whereareiam.socialismus.api.model.chat.Chat;
+import me.whereareiam.socialismus.api.model.chat.ChatSettings;
 import me.whereareiam.socialismus.api.model.chat.InternalChat;
-import me.whereareiam.socialismus.api.model.config.chat.Chat;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
-import me.whereareiam.socialismus.common.chat.logic.ChatConverter;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Singleton
-public class ChatContainer implements ChatContainerService {
+public class ChatContainer implements ChatContainerService, Reloadable {
     private final LoggingHelper loggingHelper;
+    private final Provider<ChatSettings> chatSettings;
+    private final Provider<List<Chat>> chatsProvider;
 
     private final ConcurrentHashMap<String, InternalChat> chats = new ConcurrentHashMap<>();
 
     @Inject
-    public ChatContainer(@Named("chats") Provider<List<Chat>> chats, LoggingHelper loggingHelper) {
+    public ChatContainer(@Named("chats") Provider<List<Chat>> chatsProvider, LoggingHelper loggingHelper, Provider<ChatSettings> chatSettings, Registry<Reloadable> registry) {
+        this.chatsProvider = chatsProvider;
         this.loggingHelper = loggingHelper;
+        this.chatSettings = chatSettings;
 
-        chats.get().forEach(this::addChat);
+        registry.register(this);
+        chatsProvider.get().forEach(this::addChat);
     }
 
     @Override
@@ -41,7 +45,7 @@ public class ChatContainer implements ChatContainerService {
             return;
         }
 
-        this.chats.put(chat.getId(), chat);
+        chats.put(chat.getId(), chat);
     }
 
     @Override
@@ -50,13 +54,16 @@ public class ChatContainer implements ChatContainerService {
     }
 
     @Override
-    public boolean hasChat(String name) {
-        return chats.containsKey(name);
+    public boolean hasChat(String id) {
+        return chats.containsKey(id);
     }
 
     @Override
-    public boolean hasChat(char symbol) {
-        return chats.values().stream().anyMatch(chat -> chat.getSymbol() == symbol);
+    public boolean hasChatBySymbol(String symbol) {
+        return chats.values().stream().anyMatch(chat ->
+                (symbol.isEmpty() && chat.getParameters().getSymbol().isEmpty())
+                        || chat.getParameters().getSymbol().equals(symbol)
+        );
     }
 
     @Override
@@ -67,15 +74,24 @@ public class ChatContainer implements ChatContainerService {
     }
 
     @Override
-    public List<InternalChat> getChat(char symbol) {
+    public List<InternalChat> getChatBySymbol(String symbol) {
         return chats.values().stream()
-                .filter(chat -> chat.getSymbol() == symbol)
-                .sorted((chat1, chat2) -> Integer.compare(chat2.getPriority(), chat1.getPriority()))
+                .filter(chat -> !chat.getId().equals(chatSettings.get().getFallback().getChatId()))
+                .filter(chat -> (symbol.isEmpty() && chat.getParameters().getSymbol().isEmpty())
+                        || chat.getParameters().getSymbol().equals(symbol)
+                )
+                .sorted(Comparator.comparingInt(Chat::getPriority).reversed())
                 .toList();
     }
 
     @Override
     public Set<InternalChat> getChats() {
         return new HashSet<>(chats.values());
+    }
+
+    @Override
+    public void reload() {
+        chats.clear();
+        chatsProvider.get().forEach(this::addChat);
     }
 }

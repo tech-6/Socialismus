@@ -19,12 +19,12 @@ import me.whereareiam.socialismus.adapter.config.template.SettingsTemplate;
 import me.whereareiam.socialismus.adapter.config.template.chat.ChatMessagesTemplate;
 import me.whereareiam.socialismus.adapter.config.template.chat.ChatSettingsTemplate;
 import me.whereareiam.socialismus.adapter.config.template.chat.ChatTemplate;
-import me.whereareiam.socialismus.api.model.config.chat.Chat;
-import me.whereareiam.socialismus.api.model.config.chat.ChatMessages;
-import me.whereareiam.socialismus.api.model.config.chat.ChatSettings;
+import me.whereareiam.socialismus.api.model.config.Settings;
+import me.whereareiam.socialismus.api.model.chat.Chat;
+import me.whereareiam.socialismus.api.model.chat.ChatMessages;
+import me.whereareiam.socialismus.api.model.chat.ChatSettings;
 import me.whereareiam.socialismus.api.model.config.command.Commands;
 import me.whereareiam.socialismus.api.model.config.message.Messages;
-import me.whereareiam.socialismus.api.model.config.settings.Settings;
 import me.whereareiam.socialismus.api.output.DefaultConfig;
 
 import java.io.IOException;

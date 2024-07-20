@@ -7,8 +7,8 @@ import me.whereareiam.socialismus.adapter.config.dynamic.ChatsConfig;
 import me.whereareiam.socialismus.adapter.config.management.ConfigLoader;
 import me.whereareiam.socialismus.adapter.config.management.ConfigManager;
 import me.whereareiam.socialismus.api.Reloadable;
-import me.whereareiam.socialismus.api.input.Registry;
-import me.whereareiam.socialismus.api.model.config.chat.Chat;
+import me.whereareiam.socialismus.api.input.registry.Registry;
+import me.whereareiam.socialismus.api.model.chat.Chat;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.type.ConfigurationType;
 
@@ -41,7 +41,7 @@ public class ChatsProvider implements Provider<List<Chat>>, Reloadable {
     @Override
     public List<Chat> get() {
         if (chats != null) return chats;
-        
+
         loadChats();
         loggingHelper.info("  Loaded " + chats.size() + " chat" + (chats.size() == 1 ? "" : "s"));
 

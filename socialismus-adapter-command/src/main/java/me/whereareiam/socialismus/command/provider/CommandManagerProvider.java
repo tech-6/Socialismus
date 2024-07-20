@@ -2,7 +2,7 @@ package me.whereareiam.socialismus.command.provider;
 
 import com.google.inject.Provider;
 import me.whereareiam.socialismus.api.PlatformType;
-import me.whereareiam.socialismus.api.model.config.settings.Settings;
+import me.whereareiam.socialismus.api.model.config.Settings;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.command.management.CommandExceptionHandler;
 import org.incendo.cloud.CommandManager;

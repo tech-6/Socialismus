@@ -1,28 +1,34 @@
 package me.whereareiam.socialismus.adapter.config.template;
 
 import com.google.inject.Singleton;
-import me.whereareiam.socialismus.api.model.config.settings.MiscellaneousSettings;
-import me.whereareiam.socialismus.api.model.config.settings.Settings;
+import me.whereareiam.socialismus.api.model.config.Settings;
 import me.whereareiam.socialismus.api.output.DefaultConfig;
 import me.whereareiam.socialismus.api.type.SerializationType;
 
 @Singleton
 public class SettingsTemplate implements DefaultConfig<Settings> {
-	@Override
-	public Settings getDefault() {
-		Settings settings = new Settings();
+    @Override
+    public Settings getDefault() {
+        Settings settings = new Settings();
 
-		// Default values
-		settings.setLevel(2);
-		settings.setSerializer(SerializationType.MINIMESSAGE);
+        // Default values
+        settings.setLevel(2);
+        settings.setSerializer(SerializationType.MINIMESSAGE);
 
-		MiscellaneousSettings misc = new MiscellaneousSettings();
-		misc.setAllowLegacyParsing(false);
-		misc.setAllowBrigadierCommands(true);
-		misc.setCommandsPerPage(7);
+        Settings.Miscellaneous misc = new Settings.Miscellaneous();
+        misc.setAllowLegacyParsing(false);
+        misc.setAllowBrigadierCommands(true);
+        misc.setCommandsPerPage(7);
 
-		settings.setMisc(misc);
+        settings.setMisc(misc);
 
-		return settings;
-	}
+        Settings.Updater updater = new Settings.Updater();
+        updater.setCheckForUpdates(true);
+        updater.setWarnAboutUpdates(true);
+        updater.setWarnAboutDevBuilds(true);
+
+        settings.setUpdater(updater);
+
+        return settings;
+    }
 }

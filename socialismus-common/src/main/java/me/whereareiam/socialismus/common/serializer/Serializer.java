@@ -7,8 +7,8 @@ import lombok.Getter;
 import me.whereareiam.socialismus.api.input.serializer.SerializationService;
 import me.whereareiam.socialismus.api.input.serializer.SerializationWorker;
 import me.whereareiam.socialismus.api.model.Worker;
+import me.whereareiam.socialismus.api.model.config.Settings;
 import me.whereareiam.socialismus.api.model.config.message.Messages;
-import me.whereareiam.socialismus.api.model.config.settings.Settings;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.model.serializer.SerializerContent;
 import me.whereareiam.socialismus.api.model.serializer.SerializerPlaceholder;
@@ -43,6 +43,8 @@ public class Serializer implements SerializationService, SerializationWorker {
 
     @Override
     public Component format(SerializerContent content) {
+        if (content.getMessage().isEmpty()) return Component.empty();
+
         content.setMessage(content.getMessage().replace("{prefix}", messages.get().getPrefix()));
         content.setMessage(hookIntegrations(content));
 

@@ -5,17 +5,23 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import me.whereareiam.socialismus.api.Reloadable;
 import me.whereareiam.socialismus.api.input.PluginInteractor;
-import me.whereareiam.socialismus.api.input.Registry;
 import me.whereareiam.socialismus.api.input.WorkerProcessor;
 import me.whereareiam.socialismus.api.input.chat.ChatContainerService;
+import me.whereareiam.socialismus.api.input.chat.RequirementValidation;
+import me.whereareiam.socialismus.api.input.registry.ExtendedRegistry;
+import me.whereareiam.socialismus.api.input.registry.Registry;
 import me.whereareiam.socialismus.api.input.serializer.SerializationService;
 import me.whereareiam.socialismus.api.model.chat.ChatMessage;
 import me.whereareiam.socialismus.api.model.serializer.SerializerContent;
 import me.whereareiam.socialismus.api.output.integration.FormattingIntegration;
+import me.whereareiam.socialismus.api.type.requirement.RequirementType;
 import me.whereareiam.socialismus.common.chat.ChatContainer;
 import me.whereareiam.socialismus.common.chat.ChatMessageProcessor;
 import me.whereareiam.socialismus.common.provider.FormattingIntegrationProvider;
 import me.whereareiam.socialismus.common.provider.ReloadableProvider;
+import me.whereareiam.socialismus.common.requirement.RequirementRegistry;
+import me.whereareiam.socialismus.common.requirement.validation.PermissionRequirementValidation;
+import me.whereareiam.socialismus.common.requirement.validation.WorldRequirementValidation;
 import me.whereareiam.socialismus.common.serializer.Serializer;
 
 import java.util.Set;
@@ -37,5 +43,9 @@ public class CommonModule extends AbstractModule {
 
         bind(new TypeLiteral<Registry<Reloadable>>() {}).to(ReloadableProvider.class);
         bind(new TypeLiteral<Set<Reloadable>>() {}).annotatedWith(Names.named("reloadables")).toProvider(ReloadableProvider.class).asEagerSingleton();
+
+        bind(PermissionRequirementValidation.class).asEagerSingleton();
+        bind(WorldRequirementValidation.class).asEagerSingleton();
+        bind(new TypeLiteral<ExtendedRegistry<RequirementType, RequirementValidation>>() {}).to(RequirementRegistry.class);
     }
 }

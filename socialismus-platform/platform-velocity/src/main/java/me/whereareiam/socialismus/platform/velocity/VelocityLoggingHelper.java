@@ -3,7 +3,7 @@ package me.whereareiam.socialismus.platform.velocity;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import lombok.Setter;
-import me.whereareiam.socialismus.api.model.config.settings.Settings;
+import me.whereareiam.socialismus.api.model.config.Settings;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import org.slf4j.Logger;
 
