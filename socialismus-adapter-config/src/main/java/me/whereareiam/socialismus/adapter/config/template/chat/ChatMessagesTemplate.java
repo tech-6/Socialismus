@@ -11,8 +11,9 @@ public class ChatMessagesTemplate implements DefaultConfig<ChatMessages> {
         ChatMessages chatMessages = new ChatMessages();
 
         // Default values
-        chatMessages.setNoChatMatch("{prefix}<white>No chat matching criteria found.");
         chatMessages.setNoPlayers("{prefix}<white>Your message was not sent because there are no players online.");
+        chatMessages.setNoChatMatch("{prefix}<white>No chat matching criteria found.");
+        chatMessages.setNoFormatMatch("{prefix}<white>No format matching criteria found.");
         chatMessages.setNoFallbackChat("{prefix}<white>No fallback chat found.");
         chatMessages.setNoNearbyPlayers("{prefix}<white>No nearby players found, within a radius of <gray>{radius}</gray> blocks.");
 

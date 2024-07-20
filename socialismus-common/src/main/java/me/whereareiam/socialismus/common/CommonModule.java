@@ -11,12 +11,14 @@ import me.whereareiam.socialismus.api.input.chat.RequirementValidation;
 import me.whereareiam.socialismus.api.input.registry.ExtendedRegistry;
 import me.whereareiam.socialismus.api.input.registry.Registry;
 import me.whereareiam.socialismus.api.input.serializer.SerializationService;
-import me.whereareiam.socialismus.api.model.chat.ChatMessage;
+import me.whereareiam.socialismus.api.model.chat.message.ChatMessage;
+import me.whereareiam.socialismus.api.model.chat.message.FormattedChatMessage;
 import me.whereareiam.socialismus.api.model.serializer.SerializerContent;
 import me.whereareiam.socialismus.api.output.integration.FormattingIntegration;
 import me.whereareiam.socialismus.api.type.requirement.RequirementType;
 import me.whereareiam.socialismus.common.chat.ChatContainer;
-import me.whereareiam.socialismus.common.chat.ChatMessageProcessor;
+import me.whereareiam.socialismus.common.chat.processor.ChatMessageProcessor;
+import me.whereareiam.socialismus.common.chat.processor.FormattedChatMessageProcessor;
 import me.whereareiam.socialismus.common.provider.FormattingIntegrationProvider;
 import me.whereareiam.socialismus.common.provider.ReloadableProvider;
 import me.whereareiam.socialismus.common.requirement.RequirementRegistry;
@@ -34,6 +36,7 @@ public class CommonModule extends AbstractModule {
 
         bind(ChatContainerService.class).to(ChatContainer.class);
         bind(new TypeLiteral<WorkerProcessor<ChatMessage>>() {}).to(ChatMessageProcessor.class);
+        bind(new TypeLiteral<WorkerProcessor<FormattedChatMessage>>() {}).to(FormattedChatMessageProcessor.class);
 
         bind(SerializationService.class).to(Serializer.class);
         bind(new TypeLiteral<WorkerProcessor<SerializerContent>>() {}).to(Serializer.class);

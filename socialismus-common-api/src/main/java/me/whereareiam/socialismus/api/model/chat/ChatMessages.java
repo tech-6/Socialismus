@@ -10,8 +10,9 @@ import lombok.ToString;
 @ToString
 @Singleton
 public class ChatMessages {
-    private String noChatMatch;
     private String noPlayers;
+    private String noChatMatch;
+    private String noFormatMatch;
     private String noFallbackChat;
     private String noNearbyPlayers;
 }

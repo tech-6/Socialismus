@@ -2,7 +2,7 @@ package me.whereareiam.socialismus.common.requirement;
 
 import com.google.inject.Inject;
 import me.whereareiam.socialismus.api.input.chat.RequirementValidation;
-import me.whereareiam.socialismus.api.model.chat.ChatMessage;
+import me.whereareiam.socialismus.api.model.chat.message.ChatMessage;
 import me.whereareiam.socialismus.api.model.requirement.Requirement;
 import me.whereareiam.socialismus.api.type.requirement.RequirementType;
 

@@ -1,10 +1,11 @@
-package me.whereareiam.socialismus.api.model.chat;
+package me.whereareiam.socialismus.api.model.chat.message;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import me.whereareiam.socialismus.api.model.chat.Chat;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import net.kyori.adventure.text.Component;
 

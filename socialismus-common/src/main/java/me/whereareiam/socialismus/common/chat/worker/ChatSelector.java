@@ -1,4 +1,4 @@
-package me.whereareiam.socialismus.common.chat.logic;
+package me.whereareiam.socialismus.common.chat.worker;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -7,10 +7,10 @@ import me.whereareiam.socialismus.api.ComponentUtil;
 import me.whereareiam.socialismus.api.input.WorkerProcessor;
 import me.whereareiam.socialismus.api.input.chat.ChatContainerService;
 import me.whereareiam.socialismus.api.model.Worker;
-import me.whereareiam.socialismus.api.model.chat.ChatMessage;
 import me.whereareiam.socialismus.api.model.chat.ChatMessages;
 import me.whereareiam.socialismus.api.model.chat.ChatSettings;
 import me.whereareiam.socialismus.api.model.chat.InternalChat;
+import me.whereareiam.socialismus.api.model.chat.message.ChatMessage;
 import me.whereareiam.socialismus.api.model.requirement.Requirement;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.type.Participants;
@@ -48,6 +48,10 @@ public class ChatSelector {
         this.chatSettings = chatSettings;
         this.serializer = serializer;
 
+        // init configs
+        chatMessages.get();
+        chatSettings.get();
+
         workerProcessor.addWorker(new Worker<>(this::selectChat, 0, true, false));
     }
 
@@ -59,10 +63,12 @@ public class ChatSelector {
         if (chat == null || !checkRequirements(chat, chatMessage)) {
             notifyAboutAbsentChat(chatMessage);
             chatMessage.setCancelled(true);
+
             return chatMessage;
         }
 
         loggingHelper.debug("Selected chat: " + chat);
+        chatMessage.setChat(chat);
 
         return chatMessage;
     }

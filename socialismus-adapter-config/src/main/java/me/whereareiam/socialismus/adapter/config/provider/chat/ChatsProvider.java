@@ -73,7 +73,7 @@ public class ChatsProvider implements Provider<List<Chat>>, Reloadable {
             return;
         }
 
-        if (chats.isEmpty()) chats.addAll(addChatsFromConfig(dataPath.resolve("default")));
+        if (chats.isEmpty()) chats.addAll(addChatsFromConfig(dataPath.resolve("chats-default")));
 
         chats.removeIf(chat -> chats.stream().anyMatch(c -> c != chat && c.getId().equals(chat.getId())));
     }
