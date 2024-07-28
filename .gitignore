@@ -1,11 +1,9 @@
 # IDE files
-.idea/
 *.iml
+.idea/
 
 # Temporary files
 *build/
 
 # Gradle files
-gradlew
-gradlew.bat
 .gradle
