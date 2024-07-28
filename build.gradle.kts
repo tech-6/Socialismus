@@ -1,11 +1,11 @@
 import org.gradle.api.tasks.Copy
 import java.util.Properties
 
-val version = "2.0.0"
-
 defaultTasks("build", "shadowJar")
 
 allprojects {
+    version = System.getenv("VERSION") ?: "dev"
+
     apply(plugin = "java")
 
     tasks.withType<JavaCompile> {
