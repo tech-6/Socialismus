@@ -6,6 +6,7 @@ import me.whereareiam.socialismus.api.PluginType;
 import me.whereareiam.socialismus.api.output.ListenerRegistrar;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.output.command.CommandService;
+import me.whereareiam.socialismus.api.output.module.ModuleService;
 import me.whereareiam.socialismus.common.chat.ChatContainer;
 import me.whereareiam.socialismus.common.chat.worker.ChatSelector;
 import me.whereareiam.socialismus.common.chat.worker.FormatSelector;
@@ -30,6 +31,8 @@ public class CommonSocialismus {
 
         injector.getInstance(LoggingHelper.class).info("");
         injector.getInstance(ListenerRegistrar.class).registerListeners();
+
+        injector.getInstance(ModuleService.class).loadModules();
     }
 
     public void onDisable() {

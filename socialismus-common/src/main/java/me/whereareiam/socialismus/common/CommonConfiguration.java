@@ -29,7 +29,7 @@ import me.whereareiam.socialismus.common.serializer.Serializer;
 import java.util.Set;
 
 @SuppressWarnings("unused")
-public class CommonModule extends AbstractModule {
+public class CommonConfiguration extends AbstractModule {
     @Override
     protected void configure() {
         bind(PluginInteractor.class).to(CommonPluginInteractor.class);

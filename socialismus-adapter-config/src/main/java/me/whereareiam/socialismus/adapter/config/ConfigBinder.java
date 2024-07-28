@@ -6,7 +6,10 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.MapBinder;
 import com.google.inject.name.Names;
 import me.whereareiam.socialismus.adapter.config.dynamic.ChatsConfig;
+import me.whereareiam.socialismus.adapter.config.management.ConfigLoader;
 import me.whereareiam.socialismus.adapter.config.management.ConfigManager;
+import me.whereareiam.socialismus.adapter.config.management.ConfigMerger;
+import me.whereareiam.socialismus.adapter.config.management.ConfigSaver;
 import me.whereareiam.socialismus.adapter.config.provider.CommandsProvider;
 import me.whereareiam.socialismus.adapter.config.provider.MessagesProvider;
 import me.whereareiam.socialismus.adapter.config.provider.SettingsProvider;
@@ -19,13 +22,17 @@ import me.whereareiam.socialismus.adapter.config.template.SettingsTemplate;
 import me.whereareiam.socialismus.adapter.config.template.chat.ChatMessagesTemplate;
 import me.whereareiam.socialismus.adapter.config.template.chat.ChatSettingsTemplate;
 import me.whereareiam.socialismus.adapter.config.template.chat.ChatTemplate;
-import me.whereareiam.socialismus.api.model.config.Settings;
 import me.whereareiam.socialismus.api.model.chat.Chat;
 import me.whereareiam.socialismus.api.model.chat.ChatMessages;
 import me.whereareiam.socialismus.api.model.chat.ChatSettings;
+import me.whereareiam.socialismus.api.model.config.Settings;
 import me.whereareiam.socialismus.api.model.config.command.Commands;
 import me.whereareiam.socialismus.api.model.config.message.Messages;
 import me.whereareiam.socialismus.api.output.DefaultConfig;
+import me.whereareiam.socialismus.api.output.config.ConfigurationLoader;
+import me.whereareiam.socialismus.api.output.config.ConfigurationManager;
+import me.whereareiam.socialismus.api.output.config.ConfigurationMerger;
+import me.whereareiam.socialismus.api.output.config.ConfigurationSaver;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -34,18 +41,26 @@ import java.util.List;
 
 public class ConfigBinder extends AbstractModule {
     private final Path dataPath;
+    private final Path modulesPath;
     private final Path chatPath;
 
     public ConfigBinder(Path dataPath) {
         this.dataPath = dataPath;
+        this.modulesPath = dataPath.resolve("modules");
         this.chatPath = dataPath.resolve("chats");
     }
 
     @Override
     protected void configure() {
         bind(Path.class).annotatedWith(Names.named("dataPath")).toInstance(dataPath);
+        bind(Path.class).annotatedWith(Names.named("modulesPath")).toInstance(modulesPath);
         bind(Path.class).annotatedWith(Names.named("chatPath")).toInstance(chatPath);
         createDirectories();
+
+        bind(ConfigurationManager.class).to(ConfigManager.class);
+        bind(ConfigurationLoader.class).to(ConfigLoader.class);
+        bind(ConfigurationSaver.class).to(ConfigSaver.class);
+        bind(ConfigurationMerger.class).to(ConfigMerger.class);
 
         bind(ObjectMapper.class).toProvider(ConfigManager.class).asEagerSingleton();
         MapBinder<Class<?>, DefaultConfig<?>> mapbinder = MapBinder.newMapBinder(binder(), new TypeLiteral<>() {}, new TypeLiteral<>() {});
@@ -78,6 +93,7 @@ public class ConfigBinder extends AbstractModule {
     private void createDirectories() {
         try {
             Files.createDirectories(dataPath);
+            Files.createDirectories(modulesPath);
             Files.createDirectories(chatPath);
         } catch (IOException e) {
             throw new RuntimeException("Failed to create directories", e);
