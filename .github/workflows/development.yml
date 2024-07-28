@@ -49,7 +49,7 @@ jobs:
           mv socialismus-platform/platform-velocity/build/libs/${{ env.NAME }}-${{ env.VERSION }}-VELOCITY.jar output/${{ env.NAME }}-VELOCITY-${{ env.VERSION }}.jar
 
       - name: Archive artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: artifacts
+          name: Build artifacts
           path: output/
