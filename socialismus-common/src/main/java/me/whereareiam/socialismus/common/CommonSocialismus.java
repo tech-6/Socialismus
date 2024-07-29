@@ -33,6 +33,7 @@ public class CommonSocialismus {
         injector.getInstance(ListenerRegistrar.class).registerListeners();
 
         injector.getInstance(ModuleService.class).loadModules();
+        injector.getInstance(Updater.class).start();
     }
 
     public void onDisable() {

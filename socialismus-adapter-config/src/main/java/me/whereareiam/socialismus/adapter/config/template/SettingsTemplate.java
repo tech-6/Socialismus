@@ -26,6 +26,7 @@ public class SettingsTemplate implements DefaultConfig<Settings> {
         updater.setCheckForUpdates(true);
         updater.setWarnAboutUpdates(true);
         updater.setWarnAboutDevBuilds(true);
+        updater.setInterval(1);
 
         settings.setUpdater(updater);
 

@@ -24,6 +24,7 @@ public class Settings {
         private boolean checkForUpdates;
         private boolean warnAboutUpdates;
         private boolean warnAboutDevBuilds;
+        private int interval;
     }
 
     @Getter

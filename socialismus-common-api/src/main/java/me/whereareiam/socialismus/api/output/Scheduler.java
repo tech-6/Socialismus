@@ -7,21 +7,21 @@ import me.whereareiam.socialismus.api.model.scheduler.RunnableTask;
 public interface Scheduler {
     void schedule(RunnableTask runnableTask);
 
-    void schedule(DelayedRunnableTask scheduledTask);
+    void schedule(DelayedRunnableTask runnableTask);
 
-    void schedule(PeriodicalRunnableTask scheduledTask);
+    void schedule(PeriodicalRunnableTask runnableTask);
 
     void schedule(RunnableTask runnableTask, boolean async);
 
-    void schedule(DelayedRunnableTask scheduledTask, boolean async);
+    void schedule(DelayedRunnableTask runnableTask, boolean async);
 
-    void schedule(PeriodicalRunnableTask scheduledTask, boolean async);
+    void schedule(PeriodicalRunnableTask runnableTask, boolean async);
 
     void cancel(RunnableTask runnableTask);
 
     void cancel(RunnableTask runnableTask, boolean force);
 
-    void cancel(DelayedRunnableTask scheduledTask);
+    void cancel(DelayedRunnableTask runnableTask);
 
-    void cancel(DelayedRunnableTask scheduledTask, boolean force);
+    void cancel(DelayedRunnableTask runnableTask, boolean force);
 }
