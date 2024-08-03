@@ -39,9 +39,7 @@ jobs:
         run: mkdir output
 
       - name: Move API
-        run: |
-          mv socialismus-common-api/build/libs/socialismus-common-api-${{ env.VERSION }}.jar output/${{ env.NAME }}-API-${{ env.VERSION }}.jar
-          mv socialismus-common-api/build/libs/socialismus-common-api-${{ env.VERSION }}-javadoc.jar output/${{ env.NAME }}-JAVADOC-${{ env.VERSION }}.jar
+        run: mv socialismus-common-api/build/libs/socialismus-common-api-${{ env.VERSION }}.jar output/${{ env.NAME }}-API-${{ env.VERSION }}.jar
 
       - name: Move platform jars
         run: |

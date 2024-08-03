@@ -1,3 +1,7 @@
+plugins {
+    `maven-publish`
+}
+
 dependencies {
     "compileOnly"(libs.bundles.adventure)
 }
@@ -18,6 +22,18 @@ tasks.register("javadocJar", Jar::class) {
     from(tasks["generateJavadocs"])
 }
 
-tasks.named("build") {
-    dependsOn("javadocJar")
+tasks.register("sourcesJar", Jar::class) {
+    archiveClassifier.set("sources")
+    from(sourceSets["main"].allSource)
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+
+            artifact(tasks["javadocJar"])
+            artifact(tasks["sourcesJar"])
+        }
+    }
 }
