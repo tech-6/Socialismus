@@ -3,6 +3,7 @@ package me.whereareiam.socialismus.command.management;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
+import me.whereareiam.socialismus.api.AnsiColor;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.output.command.CommandBase;
@@ -43,7 +44,7 @@ public class CommandProcessor implements CommandService {
                 injector.getInstance(ReloadCommand.class)
         ).forEach(this::registerCommand);
 
-        loggingHelper.info("  Loaded " + commandManager.commands().size() + " command" + (commandManager.commands().size() == 1 ? "" : "s"));
+        loggingHelper.info("  Loaded " + AnsiColor.GRAY + commandManager.commands().size() + AnsiColor.RESET + " command" + (commandManager.commands().size() == 1 ? "" : "s"));
     }
 
     @Override

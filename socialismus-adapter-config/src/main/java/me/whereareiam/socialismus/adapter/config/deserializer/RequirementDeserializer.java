@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.model.requirement.PermissionRequirement;
 import me.whereareiam.socialismus.api.model.requirement.Requirement;
 import me.whereareiam.socialismus.api.model.requirement.WorldRequirement;
@@ -12,6 +13,7 @@ import me.whereareiam.socialismus.api.type.requirement.RequirementConditionType;
 
 import java.io.IOException;
 
+@Singleton
 public class RequirementDeserializer extends JsonDeserializer<Requirement> {
     @Override
     public Requirement deserialize(JsonParser parser, DeserializationContext ctxt) throws IOException {

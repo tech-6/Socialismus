@@ -39,7 +39,7 @@ public class DebugCommand implements CommandBase {
     public void onCommand(DummyPlayer dummyPlayer) {
         String message = String.join("\n", messages.get().getCommands().getDebugCommand().getFormat());
 
-        message = message.replace("{serverVersion}", platformInteractor.getServerVersion())
+        message = message.replace("{serverVersion}", platformInteractor.getServerVersion().name())
                 .replace("{pluginVersion}", pluginInteractor.getPluginVersion())
                 .replace("{serverPlatform}", PlatformType.getType().name())
                 .replace("{pluginPlatform}", PluginType.getType().name())

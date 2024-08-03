@@ -60,6 +60,7 @@ public class ModuleManager implements ModuleService {
 
     @Override
     public void unloadModules() {
+        loggingHelper.info("Unloading modules...");
         modules.forEach(lifecycleController::disableModule);
         modules.forEach(lifecycleController::unloadModule);
 

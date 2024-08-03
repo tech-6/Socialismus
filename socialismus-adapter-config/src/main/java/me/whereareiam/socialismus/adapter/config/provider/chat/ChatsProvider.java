@@ -6,6 +6,7 @@ import com.google.inject.name.Named;
 import me.whereareiam.socialismus.adapter.config.dynamic.ChatsConfig;
 import me.whereareiam.socialismus.adapter.config.management.ConfigLoader;
 import me.whereareiam.socialismus.adapter.config.management.ConfigManager;
+import me.whereareiam.socialismus.api.AnsiColor;
 import me.whereareiam.socialismus.api.Reloadable;
 import me.whereareiam.socialismus.api.input.registry.Registry;
 import me.whereareiam.socialismus.api.model.chat.Chat;
@@ -43,7 +44,7 @@ public class ChatsProvider implements Provider<List<Chat>>, Reloadable {
         if (chats != null) return chats;
 
         loadChats();
-        loggingHelper.info("  Loaded " + chats.size() + " chat" + (chats.size() == 1 ? "" : "s"));
+        loggingHelper.info("  Loaded " + AnsiColor.GRAY + chats.size() + AnsiColor.RESET + " chat" + (chats.size() == 1 ? "" : "s"));
 
         return chats;
     }

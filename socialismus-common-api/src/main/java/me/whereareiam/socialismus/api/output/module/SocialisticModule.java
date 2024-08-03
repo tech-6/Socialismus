@@ -1,11 +1,14 @@
 package me.whereareiam.socialismus.api.output.module;
 
+import lombok.Setter;
 import me.whereareiam.socialismus.api.model.module.InternalModule;
 
 import java.nio.file.Path;
 
+@Setter
 public abstract class SocialisticModule {
     protected InternalModule module;
+
     protected Path workingDirectory;
 
     public abstract void onLoad();

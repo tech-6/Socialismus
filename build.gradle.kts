@@ -4,7 +4,7 @@ import java.util.Properties
 defaultTasks("build", "shadowJar")
 
 allprojects {
-    version = (System.getenv("VERSION") ?: "dev").uppercase()
+    version = (System.getenv("VERSION") ?: "dev")
 
     apply(plugin = "java")
 

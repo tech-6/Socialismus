@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import me.whereareiam.socialismus.api.AnsiColor;
 import me.whereareiam.socialismus.api.model.config.Settings;
 import me.whereareiam.socialismus.api.model.scheduler.PeriodicalRunnableTask;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
@@ -50,7 +51,7 @@ public class Updater {
     private void checkForUpdate() {
         String version = Constants.getVersion();
         if (updater.isWarnAboutDevBuilds() && version.equals("DEV")) {
-            loggingHelper.info("You are using a local build of Socialismus.");
+            loggingHelper.info("You are using a " + AnsiColor.ORANGE + "local build" + AnsiColor.RESET + " of Socialismus.");
             return;
         }
 

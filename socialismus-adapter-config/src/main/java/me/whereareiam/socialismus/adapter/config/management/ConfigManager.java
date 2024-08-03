@@ -8,13 +8,16 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import me.whereareiam.socialismus.adapter.config.deserializer.RequirementDeserializer;
+import me.whereareiam.socialismus.adapter.config.deserializer.VersionDeserializer;
 import me.whereareiam.socialismus.api.model.requirement.Requirement;
 import me.whereareiam.socialismus.api.output.config.ConfigurationManager;
 import me.whereareiam.socialismus.api.type.ConfigurationType;
+import me.whereareiam.socialismus.api.type.Version;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,10 +27,12 @@ import java.util.stream.Stream;
 
 @Singleton
 public class ConfigManager implements Provider<ObjectMapper>, ConfigurationManager {
+    private final Injector injector;
     private final Path dataPath;
 
     @Inject
-    public ConfigManager(@Named("dataPath") Path dataPath) {
+    public ConfigManager(Injector injector, @Named("dataPath") Path dataPath) {
+        this.injector = injector;
         this.dataPath = dataPath;
     }
 
@@ -71,7 +76,8 @@ public class ConfigManager implements Provider<ObjectMapper>, ConfigurationManag
         }
 
         SimpleModule module = new SimpleModule();
-        module.addDeserializer(Requirement.class, new RequirementDeserializer());
+        module.addDeserializer(Requirement.class, injector.getInstance(RequirementDeserializer.class));
+        module.addDeserializer(Version.class, injector.getInstance(VersionDeserializer.class));
 
         objectMapper.registerModule(module);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
