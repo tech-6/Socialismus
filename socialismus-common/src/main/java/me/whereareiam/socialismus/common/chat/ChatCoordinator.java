@@ -3,6 +3,7 @@ package me.whereareiam.socialismus.common.chat;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import lombok.Getter;
+import me.whereareiam.socialismus.api.PlatformType;
 import me.whereareiam.socialismus.api.model.chat.message.ChatMessage;
 import me.whereareiam.socialismus.api.model.chat.message.FormattedChatMessage;
 import me.whereareiam.socialismus.common.chat.processor.ChatMessageProcessor;
@@ -27,7 +28,7 @@ public class ChatCoordinator {
 
         FormattedChatMessage formattedChatMessage = formattedChatMessageProcessor.process(chatMessage);
 
-        if (!formattedChatMessage.isVanillaSending()) {
+        if (PlatformType.isProxy() || !formattedChatMessage.isVanillaSending()) {
             formattedChatMessage.setCancelled(true);
             chatBroadcaster.broadcast(formattedChatMessage);
         }

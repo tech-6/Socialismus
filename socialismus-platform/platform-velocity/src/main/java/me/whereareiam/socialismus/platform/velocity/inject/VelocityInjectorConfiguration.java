@@ -16,12 +16,14 @@ import me.whereareiam.socialismus.platform.velocity.listener.VelocityListenerReg
 import org.incendo.cloud.CommandManager;
 
 public class VelocityInjectorConfiguration extends AbstractModule {
+    private final VelocitySocialismus socialismus;
     private final PluginContainer plugin;
     private final ProxyServer proxyServer;
     private final VelocityDependencyResolver dependencyResolver;
     private final org.bstats.velocity.Metrics metrics;
 
-    public VelocityInjectorConfiguration(PluginContainer plugin, ProxyServer proxyServer, VelocityDependencyResolver dependencyResolver, org.bstats.velocity.Metrics metrics) {
+    public VelocityInjectorConfiguration(VelocitySocialismus socialismus, PluginContainer plugin, ProxyServer proxyServer, VelocityDependencyResolver dependencyResolver, org.bstats.velocity.Metrics metrics) {
+        this.socialismus = socialismus;
         this.plugin = plugin;
         this.proxyServer = proxyServer;
         this.dependencyResolver = dependencyResolver;
@@ -30,6 +32,7 @@ public class VelocityInjectorConfiguration extends AbstractModule {
 
     @Override
     protected void configure() {
+        bind(VelocitySocialismus.class).toInstance(socialismus);
         bind(PluginContainer.class).toInstance(plugin);
         bind(ProxyServer.class).toInstance(proxyServer);
         bind(EventManager.class).toInstance(proxyServer.getEventManager());

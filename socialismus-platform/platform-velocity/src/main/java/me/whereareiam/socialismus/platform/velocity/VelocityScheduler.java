@@ -15,23 +15,25 @@ import java.util.Map;
 
 @Singleton
 public class VelocityScheduler implements Scheduler {
+    private final VelocitySocialismus socialismus;
     private final com.velocitypowered.api.scheduler.Scheduler scheduler;
     private final Map<String, Map<Integer, ScheduledTask>> tasks = new HashMap<>();
 
     @Inject
-    public VelocityScheduler(ProxyServer proxyServer) {
+    public VelocityScheduler(VelocitySocialismus socialismus, ProxyServer proxyServer) {
+        this.socialismus = socialismus;
         this.scheduler = proxyServer.getScheduler();
     }
 
     @Override
     public void schedule(RunnableTask runnableTask) {
-        ScheduledTask task = scheduler.buildTask(this, runnableTask.getRunnable()).schedule();
+        ScheduledTask task = scheduler.buildTask(socialismus, runnableTask.getRunnable()).schedule();
         tasks.put(runnableTask.getModule(), Map.of(runnableTask.getId(), task));
     }
 
     @Override
     public void schedule(DelayedRunnableTask runnableTask) {
-        ScheduledTask task = scheduler.buildTask(this,
+        ScheduledTask task = scheduler.buildTask(socialismus,
                 runnableTask.getRunnable()).delay(Duration.ofMillis(runnableTask.getDelay())
         ).schedule();
         tasks.put(runnableTask.getModule(), Map.of(runnableTask.getId(), task));
@@ -39,7 +41,7 @@ public class VelocityScheduler implements Scheduler {
 
     @Override
     public void schedule(PeriodicalRunnableTask runnableTask) {
-        ScheduledTask task = scheduler.buildTask(this,
+        ScheduledTask task = scheduler.buildTask(socialismus,
                 runnableTask.getRunnable()).repeat(Duration.ofMillis(runnableTask.getDelay())
         ).schedule();
 

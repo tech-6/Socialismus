@@ -44,6 +44,7 @@ public class MessagesTemplate implements DefaultConfig<Messages> {
         CommandMessages.HelpCommand helpCommand = new CommandMessages.HelpCommand();
         helpCommand.setFormat(List.of(" ", "<gold><bold> Socialismus</bold> <white>Command help", " ", "{commands}", "{pagination}"));
         helpCommand.setCommandFormat(" <yellow>/{command}{arguments}</yellow> <dark_gray>- <white>{description}");
+        helpCommand.setNoCommands("  <red>No commands found</red>");
 
         commandMessages.setHelpCommand(helpCommand);
 

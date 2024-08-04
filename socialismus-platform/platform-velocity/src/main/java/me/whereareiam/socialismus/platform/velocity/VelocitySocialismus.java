@@ -31,13 +31,15 @@ import java.nio.file.Path;
 @SuppressWarnings("unused")
 public class VelocitySocialismus extends CommonSocialismus {
     private final ProxyServer proxyServer;
+    private final PluginContainer pluginContainer;
     private final Logger logger;
     private final Metrics.Factory metricsFactory;
     private final Path dataPath;
 
     @Inject
-    public VelocitySocialismus(ProxyServer proxyServer, Logger logger, Metrics.Factory metricsFactory, @DataDirectory Path dataPath) {
+    public VelocitySocialismus(ProxyServer proxyServer, PluginContainer pluginContainer, Logger logger, Metrics.Factory metricsFactory, @DataDirectory Path dataPath) {
         this.proxyServer = proxyServer;
+        this.pluginContainer = pluginContainer;
         this.logger = logger;
         this.metricsFactory = metricsFactory;
         this.dataPath = dataPath;
@@ -49,7 +51,9 @@ public class VelocitySocialismus extends CommonSocialismus {
         dependencyResolver.loadLibraries();
         dependencyResolver.resolveDependencies();
 
-        new VelocityInjector((PluginContainer) this,
+        new VelocityInjector(
+                this,
+                pluginContainer,
                 proxyServer,
                 dependencyResolver,
                 metricsFactory.make(this, Constants.getBStatsVelocityId()),

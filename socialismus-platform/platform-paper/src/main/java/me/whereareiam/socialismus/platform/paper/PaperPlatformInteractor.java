@@ -7,6 +7,12 @@ import me.whereareiam.socialismus.api.type.Version;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 @Singleton
 public class PaperPlatformInteractor implements PlatformInteractor {
     @Override
@@ -20,5 +26,48 @@ public class PaperPlatformInteractor implements PlatformInteractor {
     @Override
     public Version getServerVersion() {
         return Version.of(Bukkit.getVersion());
+    }
+
+    @Override
+    public Optional<DummyPlayer> getDummyPlayer(UUID uniqueId) {
+        Player player = Bukkit.getPlayer(uniqueId);
+        if (player == null) return Optional.empty();
+
+        return Optional.of(
+                DummyPlayer.builder()
+                        .username(player.getName())
+                        .uniqueId(player.getUniqueId())
+                        .audience(null)
+                        .location(player.getWorld().getName())
+                        .locale(player.locale())
+                        .build()
+        );
+    }
+
+    @Override
+    public List<DummyPlayer> getPlayers(Set<UUID> uniqueIds) {
+        return Bukkit.getOnlinePlayers().stream()
+                .filter(player -> uniqueIds.contains(player.getUniqueId()))
+                .map(player -> DummyPlayer.builder()
+                        .username(player.getName())
+                        .uniqueId(player.getUniqueId())
+                        .audience(null)
+                        .location(player.getWorld().getName())
+                        .locale(player.locale())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DummyPlayer> getOnlinePlayers() {
+        return Bukkit.getOnlinePlayers().stream()
+                .map(player -> DummyPlayer.builder()
+                        .username(player.getName())
+                        .uniqueId(player.getUniqueId())
+                        .audience(null)
+                        .location(player.getWorld().getName())
+                        .locale(player.locale())
+                        .build())
+                .collect(Collectors.toList());
     }
 }
