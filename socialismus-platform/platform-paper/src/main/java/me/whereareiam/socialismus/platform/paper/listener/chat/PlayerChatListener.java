@@ -61,6 +61,7 @@ public class PlayerChatListener implements Listener {
                         .collect(Collectors.toSet()),
                 content,
                 null,
+                false,
                 false
         );
     }

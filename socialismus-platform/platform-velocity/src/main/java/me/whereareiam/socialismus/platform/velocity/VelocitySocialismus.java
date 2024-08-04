@@ -24,7 +24,8 @@ import java.nio.file.Path;
         authors = "whereareiam",
         dependencies = {
                 @Dependency(id = "packetevents", optional = true),
-                @Dependency(id = "papiproxybridge", optional = true)
+                @Dependency(id = "papiproxybridge", optional = true),
+                @Dependency(id = "redisbungee", optional = true),
         }
 )
 @SuppressWarnings("unused")

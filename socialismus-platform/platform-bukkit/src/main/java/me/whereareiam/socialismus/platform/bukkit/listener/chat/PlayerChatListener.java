@@ -61,6 +61,7 @@ public class PlayerChatListener implements Listener {
                 recipients.stream().map(Entity::getUniqueId).collect(Collectors.toSet()),
                 content,
                 null,
+                false,
                 false
         );
     }

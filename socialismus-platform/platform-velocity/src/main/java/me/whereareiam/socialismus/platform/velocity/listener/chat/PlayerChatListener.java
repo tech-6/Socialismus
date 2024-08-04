@@ -8,11 +8,9 @@ import com.velocitypowered.api.event.player.PlayerChatEvent;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.whereareiam.socialismus.api.model.chat.message.ChatMessage;
-import me.whereareiam.socialismus.api.model.chat.message.FormattedChatMessage;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.common.chat.ChatCoordinator;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextReplacementConfig;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -34,22 +32,11 @@ public class PlayerChatListener {
         Collection<Player> recipients = proxyServer.getAllPlayers();
         Component content = Component.text(event.getMessage());
 
-        FormattedChatMessage formattedChatMessage = chatCoordinator.handleChatEvent(
+        chatCoordinator.handleChatEvent(
                 createChatMessage(player, recipients, content)
         );
 
         event.setResult(PlayerChatEvent.ChatResult.denied());
-        notifyRecipients(formattedChatMessage);
-    }
-
-    private void notifyRecipients(FormattedChatMessage formattedChatMessage) {
-        Component message = formattedChatMessage.getFormat().replaceText(createTextReplacementConfig(formattedChatMessage));
-
-        Collection<Player> recipients = proxyServer.getAllPlayers().stream()
-                .filter(player -> formattedChatMessage.getRecipients().contains(player.getUniqueId()))
-                .toList();
-
-        recipients.forEach(player -> player.sendMessage(message));
     }
 
     private ChatMessage createChatMessage(Player player, Collection<Player> recipients, Component content) {
@@ -68,14 +55,8 @@ public class PlayerChatListener {
                         .collect(Collectors.toSet()),
                 content,
                 null,
+                false,
                 false
         );
-    }
-
-    private TextReplacementConfig createTextReplacementConfig(ChatMessage chatMessage) {
-        return TextReplacementConfig.builder()
-                .matchLiteral("{message}")
-                .replacement(chatMessage.getContent())
-                .build();
     }
 }

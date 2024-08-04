@@ -13,16 +13,25 @@ import me.whereareiam.socialismus.common.chat.processor.FormattedChatMessageProc
 public class ChatCoordinator {
     private final ChatMessageProcessor chatMessageProcessor;
     private final FormattedChatMessageProcessor formattedChatMessageProcessor;
+    private final ChatBroadcaster chatBroadcaster;
 
     @Inject
-    public ChatCoordinator(ChatMessageProcessor chatMessageProcessor, FormattedChatMessageProcessor formattedChatMessageProcessor) {
+    public ChatCoordinator(ChatMessageProcessor chatMessageProcessor, FormattedChatMessageProcessor formattedChatMessageProcessor, ChatBroadcaster chatBroadcaster) {
         this.chatMessageProcessor = chatMessageProcessor;
         this.formattedChatMessageProcessor = formattedChatMessageProcessor;
+        this.chatBroadcaster = chatBroadcaster;
     }
 
     public FormattedChatMessage handleChatEvent(ChatMessage chatMessage) {
         chatMessage = chatMessageProcessor.process(chatMessage);
 
-        return formattedChatMessageProcessor.process(chatMessage);
+        FormattedChatMessage formattedChatMessage = formattedChatMessageProcessor.process(chatMessage);
+
+        if (!formattedChatMessage.isVanillaSending()) {
+            formattedChatMessage.setCancelled(true);
+            chatBroadcaster.broadcast(formattedChatMessage);
+        }
+
+        return formattedChatMessage;
     }
 }

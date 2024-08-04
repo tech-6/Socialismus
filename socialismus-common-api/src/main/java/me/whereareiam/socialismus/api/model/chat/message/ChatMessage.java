@@ -24,4 +24,5 @@ public class ChatMessage {
     private Component content;
     private Chat chat;
     private boolean cancelled;
+    private boolean vanillaSending;
 }

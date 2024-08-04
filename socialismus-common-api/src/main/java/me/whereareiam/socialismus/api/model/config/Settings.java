@@ -31,6 +31,7 @@ public class Settings {
     @Setter
     @ToString
     public static class Miscellaneous {
+        private boolean vanillaSending;
         private boolean allowLegacyParsing;
         private boolean allowBrigadierCommands;
         private int commandsPerPage;

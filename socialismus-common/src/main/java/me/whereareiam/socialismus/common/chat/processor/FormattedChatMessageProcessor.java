@@ -1,11 +1,14 @@
 package me.whereareiam.socialismus.common.chat.processor;
 
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import lombok.Getter;
 import me.whereareiam.socialismus.api.input.WorkerProcessor;
 import me.whereareiam.socialismus.api.model.Worker;
 import me.whereareiam.socialismus.api.model.chat.message.ChatMessage;
 import me.whereareiam.socialismus.api.model.chat.message.FormattedChatMessage;
+import me.whereareiam.socialismus.api.model.config.Settings;
 import net.kyori.adventure.text.Component;
 
 import java.util.LinkedList;
@@ -14,6 +17,12 @@ import java.util.LinkedList;
 @Singleton
 public class FormattedChatMessageProcessor implements WorkerProcessor<FormattedChatMessage> {
     private final LinkedList<Worker<FormattedChatMessage>> workers = new LinkedList<>();
+    private final Provider<Settings> settings;
+
+    @Inject
+    public FormattedChatMessageProcessor(Provider<Settings> settings) {
+        this.settings = settings;
+    }
 
     public FormattedChatMessage process(ChatMessage chatMessage) {
         FormattedChatMessage formattedChatMessage = FormattedChatMessage.builder()
@@ -22,6 +31,7 @@ public class FormattedChatMessageProcessor implements WorkerProcessor<FormattedC
                 .content(chatMessage.getContent())
                 .chat(chatMessage.getChat())
                 .cancelled(chatMessage.isCancelled())
+                .vanillaSending(settings.get().getMisc().isVanillaSending())
                 .format(Component.empty())
                 .build();
 

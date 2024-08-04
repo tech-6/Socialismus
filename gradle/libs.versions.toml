@@ -20,6 +20,7 @@ paper = "1.21-R0.1-SNAPSHOT"
 placeholderAPI = "2.11.6"
 papiProxyBridge = "1.6"
 bStats = "3.0.2"
+valiobungee = "main-SNAPSHOT"
 
 # adventure
 adventure = "4.17.0"
@@ -55,6 +56,7 @@ papiProxyBridge = { group = "net.william278", name = "papiproxybridge", version.
 bStats = { group = "org.bstats", name = "bstats-base", version.ref = "bStats" }
 bStats-velocity = { group = "org.bstats", name = "bstats-velocity", version.ref = "bStats" }
 bStats-bukkit = { group = "org.bstats", name = "bstats-bukkit", version.ref = "bStats" }
+valiobungee = { group = "com.github.ProxioDev.ValioBungee", name = "RedisBungee-Velocity", version.ref = "valiobungee" }
 
 # libby
 libby-core = { group = "com.alessiodp.libby", name = "libby-core", version.ref = "libby" }

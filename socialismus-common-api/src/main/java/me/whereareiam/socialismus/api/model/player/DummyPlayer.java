@@ -14,10 +14,11 @@ import java.util.UUID;
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 public class DummyPlayer {
-	private final String username;
-	private final UUID uniqueId;
-	private final Audience audience;
+    private final String username;
+    private final UUID uniqueId;
+    private final Audience audience;
 
-	private final String location; // can be worldName or serverName
-	private final Locale locale;
+    // can be worldName, serverName or null
+    private final String location;
+    private final Locale locale;
 }

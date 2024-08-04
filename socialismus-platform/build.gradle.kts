@@ -24,11 +24,9 @@ subprojects {
     dependencies {
         "implementation"(project(":socialismus-integration:integration-papiproxybridge"))
         "implementation"(project(":socialismus-integration:integration-bstats"))
-        "implementation"(project(":socialismus-adapter-database"))
         "implementation"(project(":socialismus-adapter-command"))
         "implementation"(project(":socialismus-adapter-config"))
         "implementation"(project(":socialismus-adapter-module"))
-        "implementation"(project(":socialismus-adapter-redis"))
         "implementation"(project(":socialismus-platform"))
         "implementation"(project(":socialismus-common-api"))
         "implementation"(project(":socialismus-common"))
@@ -46,15 +44,18 @@ subprojects {
             }
 
             tasks.named<Copy>("processResources") {
-                filter<ReplaceTokens>("tokens" to mapOf(
-                            "projectName" to rootProject.name,
-                            "projectVersion" to project.version
-                ))
+                filter<ReplaceTokens>(
+                    "tokens" to mapOf(
+                        "projectName" to rootProject.name,
+                        "projectVersion" to project.version
+                    )
+                )
             }
         }
 
         "platform-velocity" -> {
             dependencies {
+                "implementation"(project(":socialismus-integration:integration-valiobungee"))
                 "implementation"(rootProject.libs.bundles.bStats.velocity)
             }
 
