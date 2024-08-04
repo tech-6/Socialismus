@@ -51,6 +51,7 @@ public class CommandMessages {
     public static class HelpCommand {
         private List<String> format;
         private String commandFormat;
+        private String noCommands;
     }
 
     @Getter

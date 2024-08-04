@@ -37,6 +37,9 @@ public class HelpBuilder {
     }
 
     private String buildCommandList(Collection<Command<DummyPlayer>> commands, String message, int page) {
+        if (commands.isEmpty())
+            return message.replace("{commands}", messages.get().getCommands().getHelpCommand().getNoCommands());
+
         long skip = (long) (page - 1) * settings.get().getMisc().getCommandsPerPage();
 
         List<String> commandDescriptions = commands.stream().skip(skip).limit(settings.get().getMisc().getCommandsPerPage()).map(command -> {
