@@ -10,49 +10,59 @@ import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.whereareiam.socialismus.common.CommonSocialismus;
+import me.whereareiam.socialismus.common.Constants;
 import me.whereareiam.socialismus.platform.velocity.inject.VelocityInjector;
+import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;
 
 @Plugin(
-		id = "socialismus",
-		name = "@projectName@",
-		version = "@projectVersion@",
-		authors = "whereareiam",
-		dependencies = {
-				@Dependency(id = "packetevents", optional = true),
-				@Dependency(id = "papiproxybridge", optional = true)
-		}
+        id = "socialismus",
+        name = "@projectName@",
+        version = "@projectVersion@",
+        authors = "whereareiam",
+        dependencies = {
+                @Dependency(id = "packetevents", optional = true),
+                @Dependency(id = "papiproxybridge", optional = true)
+        }
 )
 @SuppressWarnings("unused")
 public class VelocitySocialismus extends CommonSocialismus {
-	private final ProxyServer proxyServer;
-	private final Logger logger;
-	private final Path dataPath;
+    private final ProxyServer proxyServer;
+    private final Logger logger;
+    private final Metrics.Factory metricsFactory;
+    private final Path dataPath;
 
-	@Inject
-	public VelocitySocialismus(ProxyServer proxyServer, Logger logger, @DataDirectory Path dataPath) {
-		this.proxyServer = proxyServer;
-		this.logger = logger;
-		this.dataPath = dataPath;
-	}
+    @Inject
+    public VelocitySocialismus(ProxyServer proxyServer, Logger logger, Metrics.Factory metricsFactory, @DataDirectory Path dataPath) {
+        this.proxyServer = proxyServer;
+        this.logger = logger;
+        this.metricsFactory = metricsFactory;
+        this.dataPath = dataPath;
+    }
 
-	@Subscribe
-	public void onProxyInitializationEvent(ProxyInitializeEvent event) {
-		VelocityDependencyResolver dependencyResolver = new VelocityDependencyResolver(this, logger, dataPath, proxyServer.getPluginManager());
-		dependencyResolver.loadLibraries();
-		dependencyResolver.resolveDependencies();
+    @Subscribe
+    public void onProxyInitializationEvent(ProxyInitializeEvent event) {
+        VelocityDependencyResolver dependencyResolver = new VelocityDependencyResolver(this, logger, dataPath, proxyServer.getPluginManager());
+        dependencyResolver.loadLibraries();
+        dependencyResolver.resolveDependencies();
 
-		new VelocityInjector((PluginContainer) this, proxyServer, dependencyResolver, dataPath);
-		VelocityLoggingHelper.setLogger(logger);
+        new VelocityInjector((PluginContainer) this,
+                proxyServer,
+                dependencyResolver,
+                metricsFactory.make(this, Constants.getBStatsVelocityId()),
+                dataPath
+        );
 
-		super.onEnable();
-	}
+        VelocityLoggingHelper.setLogger(logger);
 
-	@Subscribe
-	public void onProxyShutdownEvent(ProxyShutdownEvent event) {
-		super.onDisable();
+        super.onEnable();
+    }
 
-	}
+    @Subscribe
+    public void onProxyShutdownEvent(ProxyShutdownEvent event) {
+        super.onDisable();
+
+    }
 }

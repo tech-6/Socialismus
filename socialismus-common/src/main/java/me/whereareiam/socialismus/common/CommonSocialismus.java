@@ -35,6 +35,7 @@ public class CommonSocialismus {
 
         injector.getInstance(Updater.class).start();
         injector.getInstance(ModuleService.class).loadModules();
+        injector.getInstance(IntegrationInitializer.class);
     }
 
     public void onDisable() {

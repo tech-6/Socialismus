@@ -14,12 +14,12 @@ import me.whereareiam.socialismus.api.input.serializer.SerializationService;
 import me.whereareiam.socialismus.api.model.chat.message.ChatMessage;
 import me.whereareiam.socialismus.api.model.chat.message.FormattedChatMessage;
 import me.whereareiam.socialismus.api.model.serializer.SerializerContent;
-import me.whereareiam.socialismus.api.output.integration.FormattingIntegration;
+import me.whereareiam.socialismus.api.output.integration.Integration;
 import me.whereareiam.socialismus.api.type.requirement.RequirementType;
 import me.whereareiam.socialismus.common.chat.ChatContainer;
 import me.whereareiam.socialismus.common.chat.processor.ChatMessageProcessor;
 import me.whereareiam.socialismus.common.chat.processor.FormattedChatMessageProcessor;
-import me.whereareiam.socialismus.common.provider.FormattingIntegrationProvider;
+import me.whereareiam.socialismus.common.provider.IntegrationProvider;
 import me.whereareiam.socialismus.common.provider.ReloadableProvider;
 import me.whereareiam.socialismus.common.requirement.RequirementRegistry;
 import me.whereareiam.socialismus.common.requirement.validation.PermissionRequirementValidation;
@@ -41,8 +41,8 @@ public class CommonConfiguration extends AbstractModule {
         bind(SerializationService.class).to(Serializer.class);
         bind(new TypeLiteral<WorkerProcessor<SerializerContent>>() {}).to(Serializer.class);
 
-        bind(new TypeLiteral<Registry<FormattingIntegration>>() {}).to(FormattingIntegrationProvider.class);
-        bind(new TypeLiteral<Set<FormattingIntegration>>() {}).toProvider(FormattingIntegrationProvider.class).asEagerSingleton();
+        bind(new TypeLiteral<Registry<Integration>>() {}).to(IntegrationProvider.class);
+        bind(new TypeLiteral<Set<Integration>>() {}).toProvider(IntegrationProvider.class).asEagerSingleton();
 
         bind(new TypeLiteral<Registry<Reloadable>>() {}).to(ReloadableProvider.class);
         bind(new TypeLiteral<Set<Reloadable>>() {}).annotatedWith(Names.named("reloadables")).toProvider(ReloadableProvider.class).asEagerSingleton();

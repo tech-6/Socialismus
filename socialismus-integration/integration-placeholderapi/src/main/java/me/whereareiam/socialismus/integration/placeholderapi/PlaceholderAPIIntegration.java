@@ -6,15 +6,16 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.whereareiam.socialismus.api.input.registry.Registry;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.output.integration.FormattingIntegration;
+import me.whereareiam.socialismus.api.output.integration.Integration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 @Singleton
 public class PlaceholderAPIIntegration implements FormattingIntegration {
-    private final Registry<FormattingIntegration> registry;
-
     @Inject
-    public PlaceholderAPIIntegration(Registry<FormattingIntegration> registry) {this.registry = registry;}
+    public PlaceholderAPIIntegration(Registry<Integration> registry) {
+        if (isAvailable()) registry.register(this);
+    }
 
     @Override
     public String format(DummyPlayer dummyPlayer, String content) {
@@ -24,13 +25,17 @@ public class PlaceholderAPIIntegration implements FormattingIntegration {
     }
 
     @Override
+    public String getName() {
+        return "PlaceholderAPI";
+    }
+
+    @Override
     public boolean isAvailable() {
         try {
             Class.forName("me.clip.placeholderapi.PlaceholderAPI");
-            registry.register(this);
 
             return true;
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException | NoClassDefFoundError e) {
             return false;
         }
     }

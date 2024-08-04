@@ -18,8 +18,8 @@ paper = "1.21-R0.1-SNAPSHOT"
 
 # platform integrations
 placeholderAPI = "2.11.6"
-packetEvents = "2.3.0"
 papiProxyBridge = "1.6"
+bStats = "3.0.2"
 
 # adventure
 adventure = "4.17.0"
@@ -51,9 +51,10 @@ paper = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" 
 
 # platform integrations
 placeholderAPI = { group = "me.clip", name = "placeholderapi", version.ref = "placeholderAPI" }
-packetEventsSpigot = { group = "com.github.retrooper.packetevents", name = "spigot", version.ref = "packetEvents" }
-packetEventsVelocity = { group = "com.github.retrooper.packetevents", name = "velocity", version.ref = "packetEvents" }
 papiProxyBridge = { group = "net.william278", name = "papiproxybridge", version.ref = "papiProxyBridge" }
+bStats = { group = "org.bstats", name = "bstats-base", version.ref = "bStats" }
+bStats-velocity = { group = "org.bstats", name = "bstats-velocity", version.ref = "bStats" }
+bStats-bukkit = { group = "org.bstats", name = "bstats-bukkit", version.ref = "bStats" }
 
 # libby
 libby-core = { group = "com.alessiodp.libby", name = "libby-core", version.ref = "libby" }
@@ -89,6 +90,10 @@ paper = ["paper"]
 velocity = ["velocity"]
 config = ["jackson", "jackson-YAML"]
 cloud = ["cloud-core", "cloud-annotations", "cloud-minecraft-extras"]
+
+bStats = ["bStats", "bStats-bukkit", "bStats-velocity"]
+bStats-bukkit = ["bStats", "bStats-bukkit"]
+bStats-velocity = ["bStats", "bStats-velocity"]
 
 [plugins]
 

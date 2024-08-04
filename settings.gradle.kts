@@ -2,10 +2,10 @@ rootProject.name = "Socialismus"
 
 include("socialismus-integration:integration-papiproxybridge")
 include("socialismus-integration:integration-placeholderapi")
-include("socialismus-integration:integration-packetevents")
-include("socialismus-platform:platform-paper")
-include("socialismus-platform:platform-bukkit")
+include("socialismus-integration:integration-bstats")
 include("socialismus-platform:platform-velocity")
+include("socialismus-platform:platform-bukkit")
+include("socialismus-platform:platform-paper")
 include("socialismus-platform:platform-all")
 include("socialismus-adapter-database")
 include("socialismus-adapter-command")

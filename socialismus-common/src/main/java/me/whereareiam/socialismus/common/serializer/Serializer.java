@@ -13,12 +13,14 @@ import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.model.serializer.SerializerContent;
 import me.whereareiam.socialismus.api.model.serializer.SerializerPlaceholder;
 import me.whereareiam.socialismus.api.output.integration.FormattingIntegration;
+import me.whereareiam.socialismus.api.output.integration.Integration;
 import me.whereareiam.socialismus.api.type.SerializationType;
 import net.kyori.adventure.text.Component;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Singleton
 public class Serializer implements SerializationService, SerializationWorker {
@@ -30,10 +32,13 @@ public class Serializer implements SerializationService, SerializationWorker {
     private final LinkedList<Worker<SerializerContent>> workers = new LinkedList<>();
 
     @Inject
-    public Serializer(Provider<Messages> messages, Provider<Settings> settings, Set<FormattingIntegration> formatters) {
+    public Serializer(Provider<Messages> messages, Provider<Settings> settings, Set<Integration> integrations) {
         this.messages = messages;
         this.serializationType = settings.get().getSerializer();
-        this.formatters = formatters;
+        this.formatters = integrations.stream()
+                .filter(FormattingIntegration.class::isInstance)
+                .map(FormattingIntegration.class::cast)
+                .collect(Collectors.toSet());
     }
 
     @Override

@@ -9,7 +9,7 @@ dependencies {
 tasks.register("generateJavadocs", Javadoc::class) {
     source = sourceSets["main"].allJava
     classpath = configurations["compileClasspath"]
-    destinationDir = file("$buildDir/generated/javadoc")
+    destinationDir = file(layout.buildDirectory.dir("/generated/javadoc"))
 
     options {
         title = "Socialismus API"

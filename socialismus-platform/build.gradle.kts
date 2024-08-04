@@ -12,6 +12,7 @@ subprojects {
         archiveBaseName.set(rootProject.name)
 
         relocate("com.alessiodp.libby", "me.whereareiam.socialismus.library.libby")
+        relocate("org.bstats", "me.whereareiam.socialismus.library.bStats")
     }
 
     repositories {
@@ -22,6 +23,7 @@ subprojects {
 
     dependencies {
         "implementation"(project(":socialismus-integration:integration-papiproxybridge"))
+        "implementation"(project(":socialismus-integration:integration-bstats"))
         "implementation"(project(":socialismus-adapter-database"))
         "implementation"(project(":socialismus-adapter-command"))
         "implementation"(project(":socialismus-adapter-config"))
@@ -38,7 +40,7 @@ subprojects {
         "platform-paper", "platform-bukkit" -> {
             dependencies {
                 "implementation"(project(":socialismus-integration:integration-placeholderapi"))
-                "implementation"(project(":socialismus-integration:integration-packetevents"))
+                "implementation"(rootProject.libs.bundles.bStats.bukkit)
 
                 "compileOnly"(rootProject.libs.cloud.paper)
             }
@@ -52,9 +54,13 @@ subprojects {
         }
 
         "platform-velocity" -> {
+            dependencies {
+                "implementation"(rootProject.libs.bundles.bStats.velocity)
+            }
+
             tasks.register<Copy>("processSources") {
                 from("src/main/java")
-                into("$buildDir/processed-src")
+                into(layout.buildDirectory.dir("processed-src"))
                 include("**/*.java")
                 filter { line ->
                     line.replace("@projectName@", rootProject.name)
@@ -64,7 +70,7 @@ subprojects {
 
             tasks.named<JavaCompile>("compileJava") {
                 dependsOn("processSources")
-                source = fileTree("$buildDir/processed-src")
+                source = fileTree(layout.buildDirectory.dir("processed-src"))
             }
         }
     }
