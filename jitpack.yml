@@ -2,6 +2,6 @@ jdk:
   - openjdk21
 install:
   - cd socialismus-common-api
-  - ../gradlew build publishToMavenLocal -x test
+  - ../gradlew build generateJavadocs javadocJar sourcesJar publishToMavenLocal -x test
 env:
   VERSION: ${GIT_BRANCH}-${GIT_COMMIT::10}
