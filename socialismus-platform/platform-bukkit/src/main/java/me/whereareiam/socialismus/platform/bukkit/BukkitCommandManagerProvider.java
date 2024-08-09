@@ -36,8 +36,6 @@ public class BukkitCommandManagerProvider extends CommandManagerProvider {
                 commandSenderMapper
         );
 
-        if (commandManager.hasCapability(CloudBukkitCapabilities.NATIVE_BRIGADIER) && settings.get().getMisc().isAllowBrigadierCommands())
-            commandManager.registerBrigadier();
         if (commandManager.hasCapability(CloudBukkitCapabilities.ASYNCHRONOUS_COMPLETION))
             commandManager.registerAsynchronousCompletions();
 
@@ -46,7 +44,7 @@ public class BukkitCommandManagerProvider extends CommandManagerProvider {
 
     @Override
     protected CommandManager<DummyPlayer> createPaperCommandManager() {
-        throw new UnsupportedOperationException("PaperCommandManager is not supported on Bukkit");
+        return createLegacyPaperCommandManager();
     }
 
     @Override

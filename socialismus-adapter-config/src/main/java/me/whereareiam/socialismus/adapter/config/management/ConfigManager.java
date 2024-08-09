@@ -1,6 +1,8 @@
 package me.whereareiam.socialismus.adapter.config.management;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -15,6 +17,7 @@ import com.google.inject.name.Named;
 import me.whereareiam.socialismus.adapter.config.deserializer.RequirementDeserializer;
 import me.whereareiam.socialismus.adapter.config.deserializer.VersionDeserializer;
 import me.whereareiam.socialismus.api.model.requirement.Requirement;
+import me.whereareiam.socialismus.api.output.DefaultConfig;
 import me.whereareiam.socialismus.api.output.config.ConfigurationManager;
 import me.whereareiam.socialismus.api.type.ConfigurationType;
 import me.whereareiam.socialismus.api.type.Version;
@@ -22,13 +25,20 @@ import me.whereareiam.socialismus.api.type.Version;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 @Singleton
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class ConfigManager implements Provider<ObjectMapper>, ConfigurationManager {
     private final Injector injector;
     private final Path dataPath;
+
+    private final Map<Class<?>, DefaultConfig<?>> templates = new HashMap<>();
+
+    private ObjectMapper objectMapper;
 
     @Inject
     public ConfigManager(Injector injector, @Named("dataPath") Path dataPath) {
@@ -58,8 +68,32 @@ public class ConfigManager implements Provider<ObjectMapper>, ConfigurationManag
     }
 
     @Override
+    public void addDeserializer(Class<?> clazz, Object deserializer) {
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(clazz, (JsonDeserializer) deserializer);
+        objectMapper.registerModule(module);
+    }
+
+    @Override
+    public void addSerializer(Class<?> clazz, Object serializer) {
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(clazz, (JsonSerializer) serializer);
+        objectMapper.registerModule(module);
+    }
+
+    @Override
+    public void addTemplate(Class<?> clazz, DefaultConfig<?> template) {
+        templates.put(clazz, template);
+    }
+
+    @Override
+    public <T> DefaultConfig<T> getTemplate(Class<T> clazz) {
+        return (DefaultConfig<T>) templates.get(clazz);
+    }
+
+    @Override
     public ObjectMapper get() {
-        ObjectMapper objectMapper;
+        if (objectMapper != null) return objectMapper;
 
         switch (getConfigurationType()) {
             case JSON -> objectMapper = new JsonMapper();
@@ -75,11 +109,9 @@ public class ConfigManager implements Provider<ObjectMapper>, ConfigurationManag
             default -> throw new IllegalArgumentException("Unsupported configuration type");
         }
 
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(Requirement.class, injector.getInstance(RequirementDeserializer.class));
-        module.addDeserializer(Version.class, injector.getInstance(VersionDeserializer.class));
+        addDeserializer(Requirement.class, injector.getInstance(RequirementDeserializer.class));
+        addDeserializer(Version.class, injector.getInstance(VersionDeserializer.class));
 
-        objectMapper.registerModule(module);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         return objectMapper;

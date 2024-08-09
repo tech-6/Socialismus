@@ -17,38 +17,38 @@ import java.util.Locale;
 
 @Singleton
 public class CommandSenderMapper implements SenderMapper<CommandSender, DummyPlayer> {
-	private final BukkitAudiences audiences;
+    private final BukkitAudiences audiences;
 
-	@Inject
-	public CommandSenderMapper(BukkitAudiences audiences) {
-		this.audiences = audiences;
-	}
+    @Inject
+    public CommandSenderMapper(BukkitAudiences audiences) {
+        this.audiences = audiences;
+    }
 
-	@Override
-	public @NonNull DummyPlayer map(@NonNull CommandSender source) {
-		DummyPlayer dummyPlayer;
-		if (source instanceof ConsoleCommandSender) {
-			dummyPlayer = DummyCommandPlayer.builder().commandSender(source).audience(audiences.sender(source)).build();
-		} else {
-			Player player = Bukkit.getPlayer(source.getName());
-			if (player == null)
-				throw new NullPointerException("A player with the name " + source.getName() + " was not found");
+    @Override
+    public @NonNull DummyPlayer map(@NonNull CommandSender source) {
+        DummyPlayer dummyPlayer;
+        if (source instanceof ConsoleCommandSender) {
+            dummyPlayer = DummyCommandPlayer.builder().commandSender(source).audience(audiences.sender(source)).build();
+        } else {
+            Player player = Bukkit.getPlayer(source.getName());
+            if (player == null)
+                throw new NullPointerException("A player with the name " + source.getName() + " was not found");
 
-			dummyPlayer = DummyCommandPlayer.builder()
-					.commandSender(source)
-					.username(player.getName())
-					.uniqueId(player.getUniqueId())
-					.audience(audiences.player(player))
-					.location(player.getWorld().getName())
-					.locale(Locale.of(player.getLocale()))
-					.build();
-		}
+            dummyPlayer = DummyCommandPlayer.builder()
+                    .commandSender(source)
+                    .username(player.getName())
+                    .uniqueId(player.getUniqueId())
+                    .audience(audiences.player(player))
+                    .location(player.getWorld().getName())
+                    .locale(Locale.of(player.getLocale()))
+                    .build();
+        }
 
-		return dummyPlayer;
-	}
+        return dummyPlayer;
+    }
 
-	@Override
-	public @Nonnull CommandSender reverse(final @Nonnull DummyPlayer dummyPlayer) {
-		return (CommandSender) ((DummyCommandPlayer) dummyPlayer).getCommandSender();
-	}
+    @Override
+    public @Nonnull CommandSender reverse(final @Nonnull DummyPlayer dummyPlayer) {
+        return (CommandSender) ((DummyCommandPlayer) dummyPlayer).getCommandSender();
+    }
 }

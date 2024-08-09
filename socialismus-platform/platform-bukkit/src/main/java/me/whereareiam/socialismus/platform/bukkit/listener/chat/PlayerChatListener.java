@@ -1,5 +1,6 @@
 package me.whereareiam.socialismus.platform.bukkit.listener.chat;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.ComponentUtil;
 import me.whereareiam.socialismus.api.model.chat.message.ChatMessage;
@@ -24,6 +25,7 @@ public class PlayerChatListener implements Listener {
     private final ChatCoordinator chatCoordinator;
     private final BukkitAudiences audiences;
 
+    @Inject
     public PlayerChatListener(ChatCoordinator chatCoordinator, BukkitAudiences audiences) {
         this.chatCoordinator = chatCoordinator;
         this.audiences = audiences;

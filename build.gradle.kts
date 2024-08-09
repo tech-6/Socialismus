@@ -1,6 +1,3 @@
-import org.gradle.api.tasks.Copy
-import java.util.Properties
-
 defaultTasks("build", "shadowJar")
 
 allprojects {
