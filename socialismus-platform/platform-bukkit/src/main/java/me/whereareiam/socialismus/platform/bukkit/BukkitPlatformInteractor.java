@@ -50,7 +50,7 @@ public class BukkitPlatformInteractor implements PlatformInteractor {
 
     @Override
     public List<DummyPlayer> getPlayers(Set<UUID> uniqueIds) {
-        return Bukkit.getOnlinePlayers().stream()
+        return Bukkit.getOnlinePlayers().parallelStream()
                 .filter(player -> uniqueIds.contains(player.getUniqueId()))
                 .map(player -> DummyPlayer.builder()
                         .username(player.getName())
@@ -64,7 +64,7 @@ public class BukkitPlatformInteractor implements PlatformInteractor {
 
     @Override
     public List<DummyPlayer> getOnlinePlayers() {
-        return Bukkit.getOnlinePlayers().stream()
+        return Bukkit.getOnlinePlayers().parallelStream()
                 .map(player -> DummyPlayer.builder()
                         .username(player.getName())
                         .uniqueId(player.getUniqueId())

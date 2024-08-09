@@ -52,7 +52,7 @@ public class VelocityPlatformInteractor implements PlatformInteractor {
 
     @Override
     public List<DummyPlayer> getPlayers(Set<UUID> uniqueIds) {
-        return proxyServer.getAllPlayers().stream()
+        return proxyServer.getAllPlayers().parallelStream()
                 .filter(player -> uniqueIds.contains(player.getUniqueId()))
                 .map(player -> DummyPlayer.builder()
                         .username(player.getUsername())
@@ -66,7 +66,7 @@ public class VelocityPlatformInteractor implements PlatformInteractor {
 
     @Override
     public List<DummyPlayer> getOnlinePlayers() {
-        return proxyServer.getAllPlayers().stream()
+        return proxyServer.getAllPlayers().parallelStream()
                 .map(player -> DummyPlayer.builder()
                         .username(player.getUsername())
                         .uniqueId(player.getUniqueId())

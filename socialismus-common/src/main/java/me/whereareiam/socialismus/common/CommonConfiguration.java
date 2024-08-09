@@ -38,14 +38,14 @@ public class CommonConfiguration extends AbstractModule {
         bind(new TypeLiteral<WorkerProcessor<ChatMessage>>() {}).to(ChatMessageProcessor.class);
         bind(new TypeLiteral<WorkerProcessor<FormattedChatMessage>>() {}).to(FormattedChatMessageProcessor.class);
 
-        bind(SerializationService.class).to(Serializer.class);
-        bind(new TypeLiteral<WorkerProcessor<SerializerContent>>() {}).to(Serializer.class);
-
-        bind(new TypeLiteral<Registry<Integration>>() {}).to(IntegrationProvider.class);
+        bind(new TypeLiteral<Registry<Integration>>() {}).to(IntegrationProvider.class).asEagerSingleton();
         bind(new TypeLiteral<Set<Integration>>() {}).toProvider(IntegrationProvider.class).asEagerSingleton();
 
-        bind(new TypeLiteral<Registry<Reloadable>>() {}).to(ReloadableProvider.class);
+        bind(new TypeLiteral<Registry<Reloadable>>() {}).to(ReloadableProvider.class).asEagerSingleton();
         bind(new TypeLiteral<Set<Reloadable>>() {}).annotatedWith(Names.named("reloadables")).toProvider(ReloadableProvider.class).asEagerSingleton();
+
+        bind(SerializationService.class).to(Serializer.class);
+        bind(new TypeLiteral<WorkerProcessor<SerializerContent>>() {}).to(Serializer.class);
 
         bind(PermissionRequirementValidation.class).asEagerSingleton();
         bind(WorldRequirementValidation.class).asEagerSingleton();

@@ -35,7 +35,6 @@ public class CommonSocialismus {
 
         injector.getInstance(Updater.class).start();
         injector.getInstance(ModuleService.class).loadModules();
-        injector.getInstance(IntegrationInitializer.class);
     }
 
     public void onDisable() {
@@ -47,7 +46,7 @@ public class CommonSocialismus {
         List<String> content = new ArrayList<>();
 
         content.add(" ");
-        content.add(AnsiColor.CYAN + "  █▀ █▀▀   " + AnsiColor.RESET + "Socialismus v" + AnsiColor.GRAY + Constants.getVersion());
+        content.add(AnsiColor.CYAN + "  █▀ █▀▀   " + AnsiColor.RESET + "Socialismus v" + AnsiColor.GRAY + Constants.getVersion() + AnsiColor.RESET);
         content.add(AnsiColor.CYAN + "  ▄█ █▄▄   " + AnsiColor.RESET + "Platform: "
                 + AnsiColor.GRAY
                 + PlatformType.getType().toString()

@@ -19,6 +19,8 @@ public class PlaceholderAPIIntegration implements FormattingIntegration {
 
     @Override
     public String format(DummyPlayer dummyPlayer, String content) {
+        if (dummyPlayer.getUniqueId() == null) return content;
+
         OfflinePlayer player = Bukkit.getOfflinePlayer(dummyPlayer.getUniqueId());
 
         return PlaceholderAPI.setPlaceholders(player, content);

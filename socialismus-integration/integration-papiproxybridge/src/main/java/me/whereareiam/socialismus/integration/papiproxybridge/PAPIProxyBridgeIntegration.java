@@ -19,6 +19,8 @@ public class PAPIProxyBridgeIntegration implements FormattingIntegration {
     public String format(DummyPlayer dummyPlayer, String content) {
         final PlaceholderAPI placeholderAPI = PlaceholderAPI.createInstance();
 
+        if (dummyPlayer.getUniqueId() == null) return content;
+
         return placeholderAPI.formatPlaceholders(content, dummyPlayer.getUniqueId()).getNow(content);
     }
 

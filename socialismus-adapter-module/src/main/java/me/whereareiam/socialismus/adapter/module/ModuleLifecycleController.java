@@ -51,7 +51,7 @@ public class ModuleLifecycleController {
             injector.injectMembers(module.getModule());
 
             module.getModule().setModule(module);
-            module.getModule().setWorkingDirectory(module.getPath().getParent().resolve(module.getName()));
+            module.getModule().setWorkingPath(module.getPath().getParent().resolve(module.getName()));
 
             module.setState(ModuleState.LOADED);
 

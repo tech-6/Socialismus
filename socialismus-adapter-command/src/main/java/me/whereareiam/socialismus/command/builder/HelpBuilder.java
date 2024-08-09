@@ -44,7 +44,9 @@ public class HelpBuilder {
 
         List<String> commandDescriptions = commands.stream().skip(skip).limit(settings.get().getMisc().getCommandsPerPage()).map(command -> {
             String commandFormat = messages.get().getCommands().getHelpCommand().getCommandFormat();
-            return commandFormat.replace("{command}", command.rootComponent().name()).replace("{arguments}", formatCommandArguments(command.rootComponent().name(), command.nonFlagArguments())).replace("{description}", command.commandDescription().description().textDescription());
+            return commandFormat.replace("{command}", command.rootComponent().name())
+                    .replace("{arguments}", formatCommandArguments(command.rootComponent().name(), command.nonFlagArguments()))
+                    .replace("{description}", command.commandDescription().description().textDescription());
         }).collect(Collectors.toList());
 
         String commandsString = String.join("\n", commandDescriptions);
@@ -55,7 +57,7 @@ public class HelpBuilder {
         if (arguments.isEmpty()) return "";
 
         CommandMessages.Format messageFormat = messages.get().getCommands().getFormat();
-        String formattedArguments = arguments.stream()
+        String formattedArguments = arguments.parallelStream()
                 .filter(argument -> !argument.name().equals(commandName))
                 .map(argument -> switch (argument.type()) {
                     case REQUIRED_VARIABLE -> messageFormat.getArgument().replace("{argument}", argument.name());

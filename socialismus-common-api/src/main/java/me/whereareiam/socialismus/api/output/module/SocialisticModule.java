@@ -9,7 +9,7 @@ import java.nio.file.Path;
 public abstract class SocialisticModule {
     protected InternalModule module;
 
-    protected Path workingDirectory;
+    protected Path workingPath;
 
     public abstract void onLoad();
 

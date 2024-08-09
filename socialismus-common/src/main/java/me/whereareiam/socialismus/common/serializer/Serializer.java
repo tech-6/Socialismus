@@ -19,26 +19,22 @@ import net.kyori.adventure.text.Component;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Singleton
 public class Serializer implements SerializationService, SerializationWorker {
     private final Provider<Messages> messages;
     private final SerializationType serializationType;
-    private final Set<FormattingIntegration> formatters;
-
     @Getter
     private final LinkedList<Worker<SerializerContent>> workers = new LinkedList<>();
+    @Inject
+    private Set<Integration> integrations;
 
     @Inject
-    public Serializer(Provider<Messages> messages, Provider<Settings> settings, Set<Integration> integrations) {
+    public Serializer(Provider<Messages> messages, Provider<Settings> settings) {
         this.messages = messages;
         this.serializationType = settings.get().getSerializer();
-        this.formatters = integrations.stream()
-                .filter(FormattingIntegration.class::isInstance)
-                .map(FormattingIntegration.class::cast)
-                .collect(Collectors.toSet());
     }
 
     @Override
@@ -63,6 +59,11 @@ public class Serializer implements SerializationService, SerializationWorker {
     }
 
     private String hookIntegrations(SerializerContent content) {
+        final List<FormattingIntegration> formatters = integrations.stream()
+                .filter(integration -> integration instanceof FormattingIntegration)
+                .map(integration -> (FormattingIntegration) integration)
+                .toList();
+
         for (FormattingIntegration formatter : formatters)
             if (formatter.isAvailable())
                 content.setMessage(formatter.format(content.getDummyPlayer(), content.getMessage()));

@@ -57,7 +57,7 @@ public class ChatsProvider implements Provider<List<Chat>>, Reloadable {
     private void loadChats() {
         chats = new ArrayList<>();
         try (Stream<Path> paths = Files.list(dataPath)) {
-            paths.filter(path -> path.getFileName().endsWith(configurationType.getExtension())).forEach(path -> {
+            paths.filter(path -> path.getFileName().toString().endsWith(configurationType.getExtension())).forEach(path -> {
                 String fileName = path.getFileName().toString().replace(configurationType.getExtension(), "");
 
                 if (Files.isDirectory(path)
