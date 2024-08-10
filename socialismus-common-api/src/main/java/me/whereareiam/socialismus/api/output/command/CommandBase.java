@@ -1,3 +1,7 @@
 package me.whereareiam.socialismus.api.output.command;
 
-public interface CommandBase {}
+import java.util.Map;
+
+public interface CommandBase {
+    Map<String, String> getTranslations();
+}

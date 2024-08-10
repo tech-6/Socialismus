@@ -2,6 +2,7 @@ package me.whereareiam.socialismus.adapter.config.provider;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import me.whereareiam.socialismus.adapter.config.management.ConfigLoader;
 import me.whereareiam.socialismus.api.Reloadable;
@@ -10,6 +11,7 @@ import me.whereareiam.socialismus.api.model.config.message.Messages;
 
 import java.nio.file.Path;
 
+@Singleton
 public class MessagesProvider implements Provider<Messages>, Reloadable {
     private final Path dataPath;
     private final ConfigLoader configLoader;
@@ -25,7 +27,9 @@ public class MessagesProvider implements Provider<Messages>, Reloadable {
 
     @Override
     public Messages get() {
-        if (messages == null) load();
+        if (messages != null) return messages;
+
+        load();
 
         return messages;
     }

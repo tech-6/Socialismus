@@ -11,6 +11,8 @@ import org.incendo.cloud.annotations.Command;
 import org.incendo.cloud.annotations.CommandDescription;
 import org.incendo.cloud.annotations.Permission;
 
+import java.util.Map;
+
 @Singleton
 public class MainCommand implements CommandBase {
     private final CommandManager<DummyPlayer> commandManager;
@@ -32,6 +34,18 @@ public class MainCommand implements CommandBase {
                         + " "
                         + commands.get().getCommands().get("help").getAliases().getFirst()
                         + " 1"
+        );
+    }
+
+    @Override
+    public Map<String, String> getTranslations() {
+        final me.whereareiam.socialismus.api.model.config.command.Command command = commands.get().getCommands().get("main");
+
+        return Map.of(
+                "command." + command.getAliases().getFirst() + ".name", command.getUsage().replace("{command}", String.join("|", command.getAliases())),
+                "command." + command.getAliases().getFirst() + ".permission", command.getPermission(),
+                "command." + command.getAliases().getFirst() + ".description", command.getDescription(),
+                "command." + command.getAliases().getFirst() + ".usage", command.getUsage()
         );
     }
 }

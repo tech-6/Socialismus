@@ -20,7 +20,6 @@ public class RequirementDeserializer extends JsonDeserializer<Requirement> {
         ObjectCodec codec = parser.getCodec();
         JsonNode root = codec.readTree(parser);
 
-        Requirement requirement = null;
         if (root.has("worlds")) return codec.treeToValue(root, WorldRequirement.class);
 
         if (root.has("permissions")) {
@@ -29,9 +28,9 @@ public class RequirementDeserializer extends JsonDeserializer<Requirement> {
             if (pr.getCondition() != RequirementConditionType.HAS && pr.getCondition() != RequirementConditionType.CONTAINS)
                 pr.setCondition(RequirementConditionType.HAS);
 
-            requirement = pr;
+            return pr;
         }
 
-        return requirement;
+        return null;
     }
 }

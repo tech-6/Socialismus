@@ -16,6 +16,18 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import me.whereareiam.socialismus.adapter.config.deserializer.RequirementDeserializer;
 import me.whereareiam.socialismus.adapter.config.deserializer.VersionDeserializer;
+import me.whereareiam.socialismus.adapter.config.dynamic.ChatsConfig;
+import me.whereareiam.socialismus.adapter.config.template.CommandsTemplate;
+import me.whereareiam.socialismus.adapter.config.template.MessagesTemplate;
+import me.whereareiam.socialismus.adapter.config.template.SettingsTemplate;
+import me.whereareiam.socialismus.adapter.config.template.chat.ChatMessagesTemplate;
+import me.whereareiam.socialismus.adapter.config.template.chat.ChatSettingsTemplate;
+import me.whereareiam.socialismus.adapter.config.template.chat.ChatTemplate;
+import me.whereareiam.socialismus.api.model.chat.ChatMessages;
+import me.whereareiam.socialismus.api.model.chat.ChatSettings;
+import me.whereareiam.socialismus.api.model.config.Settings;
+import me.whereareiam.socialismus.api.model.config.command.Commands;
+import me.whereareiam.socialismus.api.model.config.message.Messages;
 import me.whereareiam.socialismus.api.model.requirement.Requirement;
 import me.whereareiam.socialismus.api.output.DefaultConfig;
 import me.whereareiam.socialismus.api.output.config.ConfigurationManager;
@@ -44,8 +56,11 @@ public class ConfigManager implements Provider<ObjectMapper>, ConfigurationManag
     public ConfigManager(Injector injector, @Named("dataPath") Path dataPath) {
         this.injector = injector;
         this.dataPath = dataPath;
+
+        addTemplates();
     }
 
+    @Override
     public ConfigurationType getConfigurationType() {
         try (Stream<Path> paths = Files.list(this.dataPath)) {
             Optional<Path> configFile = paths
@@ -115,5 +130,14 @@ public class ConfigManager implements Provider<ObjectMapper>, ConfigurationManag
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         return objectMapper;
+    }
+
+    private void addTemplates() {
+        templates.put(Settings.class, injector.getInstance(SettingsTemplate.class));
+        templates.put(Messages.class, injector.getInstance(MessagesTemplate.class));
+        templates.put(Commands.class, injector.getInstance(CommandsTemplate.class));
+        templates.put(ChatMessages.class, injector.getInstance(ChatMessagesTemplate.class));
+        templates.put(ChatSettings.class, injector.getInstance(ChatSettingsTemplate.class));
+        templates.put(ChatsConfig.class, injector.getInstance(ChatTemplate.class));
     }
 }

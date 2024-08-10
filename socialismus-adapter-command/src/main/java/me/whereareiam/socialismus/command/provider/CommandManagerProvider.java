@@ -13,6 +13,8 @@ public abstract class CommandManagerProvider implements Provider<CommandManager<
     protected final Provider<Settings> settings;
     private final CommandExceptionHandler exceptionHandler;
 
+    private CommandManager<DummyPlayer> commandManager;
+
     public CommandManagerProvider(CommandExceptionHandler exceptionHandler, Provider<Settings> settings) {
         this.exceptionHandler = exceptionHandler;
         this.settings = settings;
@@ -20,7 +22,9 @@ public abstract class CommandManagerProvider implements Provider<CommandManager<
 
     @Override
     public CommandManager<DummyPlayer> get() {
-        CommandManager<DummyPlayer> commandManager = switch (PlatformType.getType()) {
+        if (commandManager != null) return commandManager;
+
+        commandManager = switch (PlatformType.getType()) {
             case BUKKIT, SPIGOT -> createLegacyPaperCommandManager();
             case FOLIA, PAPER -> {
                 if (settings.get().getMisc().isAllowBrigadierCommands()) yield createPaperCommandManager();

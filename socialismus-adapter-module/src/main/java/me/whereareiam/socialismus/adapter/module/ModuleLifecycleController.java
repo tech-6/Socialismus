@@ -48,12 +48,11 @@ public class ModuleLifecycleController {
             Class<?> moduleClass = Class.forName(module.getMain(), true, loader);
 
             module.setModule((SocialisticModule) injector.getInstance(moduleClass));
-            injector.injectMembers(module.getModule());
-
-            module.getModule().setModule(module);
-            module.getModule().setWorkingPath(module.getPath().getParent().resolve(module.getName()));
 
             module.setState(ModuleState.LOADED);
+            module.getModule().setModule(module);
+            module.getModule().setWorkingPath(module.getPath().getParent().resolve(module.getName()));
+            injector.injectMembers(module.getModule());
 
             if (checkRequirements(module)) return;
 

@@ -7,6 +7,7 @@ import me.whereareiam.socialismus.api.PlatformType;
 import me.whereareiam.socialismus.api.PluginType;
 import me.whereareiam.socialismus.api.input.PluginInteractor;
 import me.whereareiam.socialismus.api.input.serializer.SerializationService;
+import me.whereareiam.socialismus.api.model.config.command.Commands;
 import me.whereareiam.socialismus.api.model.config.message.Messages;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.output.PlatformInteractor;
@@ -15,20 +16,24 @@ import org.incendo.cloud.annotations.Command;
 import org.incendo.cloud.annotations.CommandDescription;
 import org.incendo.cloud.annotations.Permission;
 
+import java.util.Map;
+
 @Singleton
 @Command("%command.main")
 public class DebugCommand implements CommandBase {
     private final SerializationService serializer;
     private final Provider<Messages> messages;
+    private final Provider<Commands> commands;
 
     // Data provider
     private final PluginInteractor pluginInteractor;
     private final PlatformInteractor platformInteractor;
 
     @Inject
-    public DebugCommand(SerializationService serializer, Provider<Messages> messages, PluginInteractor pluginInteractor, PlatformInteractor platformInteractor) {
+    public DebugCommand(SerializationService serializer, Provider<Messages> messages, Provider<Commands> commands, PluginInteractor pluginInteractor, PlatformInteractor platformInteractor) {
         this.serializer = serializer;
         this.messages = messages;
+        this.commands = commands;
         this.pluginInteractor = pluginInteractor;
         this.platformInteractor = platformInteractor;
     }
@@ -47,5 +52,17 @@ public class DebugCommand implements CommandBase {
                 .replace("{os}", System.getProperty("os.name"));
 
         dummyPlayer.getAudience().sendMessage(serializer.format(dummyPlayer, message));
+    }
+
+    @Override
+    public Map<String, String> getTranslations() {
+        final me.whereareiam.socialismus.api.model.config.command.Command command = commands.get().getCommands().get("debug");
+
+        return Map.of(
+                "command." + command.getAliases().getFirst() + ".name", command.getUsage().replace("{command}", String.join("|", command.getAliases())),
+                "command." + command.getAliases().getFirst() + ".permission", command.getPermission(),
+                "command." + command.getAliases().getFirst() + ".description", command.getDescription(),
+                "command." + command.getAliases().getFirst() + ".usage", command.getUsage()
+        );
     }
 }

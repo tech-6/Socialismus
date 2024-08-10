@@ -12,10 +12,11 @@ import me.whereareiam.socialismus.command.executor.DebugCommand;
 import me.whereareiam.socialismus.command.executor.HelpCommand;
 import me.whereareiam.socialismus.command.executor.MainCommand;
 import me.whereareiam.socialismus.command.executor.ReloadCommand;
-import me.whereareiam.socialismus.command.provider.DynamicCommandProvider;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.annotations.AnnotationParser;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 
 @Singleton
@@ -25,8 +26,10 @@ public class CommandProcessor implements CommandService {
     private final CommandManager<DummyPlayer> commandManager;
     private final AnnotationParser<DummyPlayer> annotationParser;
 
+    private final Map<String, String> translations = new HashMap<>();
+
     @Inject
-    public CommandProcessor(Injector injector, CommandManager<DummyPlayer> commandManager, DynamicCommandProvider commandProvider, LoggingHelper loggingHelper) {
+    public CommandProcessor(Injector injector, CommandManager<DummyPlayer> commandManager, CommandTranslator commandProvider, LoggingHelper loggingHelper) {
         this.injector = injector;
         this.commandManager = commandManager;
         this.annotationParser = new AnnotationParser<>(commandManager, DummyPlayer.class);
@@ -48,13 +51,29 @@ public class CommandProcessor implements CommandService {
     }
 
     @Override
+    public void registerTranslation(String key, String value) {
+        translations.put(key, value);
+    }
+
+    @Override
     public void registerCommand(CommandBase command) {
+        translations.putAll(command.getTranslations());
         annotationParser.parse(command);
     }
 
     @Override
     public int getCommandCount() {
         return commandManager.commands().size();
+    }
+
+    @Override
+    public String getTranslation(String key) {
+        return translations.get(key);
+    }
+
+    @Override
+    public Map<String, String> getTranslations() {
+        return translations;
     }
 }
 

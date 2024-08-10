@@ -2,6 +2,7 @@ package me.whereareiam.socialismus.adapter.config.provider.chat;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import me.whereareiam.socialismus.adapter.config.dynamic.ChatsConfig;
 import me.whereareiam.socialismus.adapter.config.management.ConfigLoader;
@@ -21,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
+@Singleton
 public class ChatsProvider implements Provider<List<Chat>>, Reloadable {
     private final Path dataPath;
     private final LoggingHelper loggingHelper;

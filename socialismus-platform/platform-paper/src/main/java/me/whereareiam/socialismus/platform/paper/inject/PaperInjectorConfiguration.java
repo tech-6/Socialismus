@@ -37,7 +37,7 @@ public class PaperInjectorConfiguration extends AbstractModule {
         bind(ListenerRegistrar.class).to(PaperListenerRegistrar.class);
         bind(PlatformInteractor.class).to(PaperPlatformInteractor.class);
         bind(PlatformClassLoader.class).to(PaperClassLoader.class);
-        bind(new TypeLiteral<CommandManager<DummyPlayer>>() {}).toProvider(PaperCommandManagerProvider.class).asEagerSingleton();
+        bind(new TypeLiteral<CommandManager<DummyPlayer>>() {}).toProvider(PaperCommandManagerProvider.class);
 
         bind(org.bstats.bukkit.Metrics.class).toInstance(new org.bstats.bukkit.Metrics((JavaPlugin) plugin, Constants.getBStatsBukkitId()));
         bind(Metrics.class).to(PaperMetrics.class);

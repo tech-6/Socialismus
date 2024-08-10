@@ -57,7 +57,7 @@ public class HelpBuilder {
         if (arguments.isEmpty()) return "";
 
         CommandMessages.Format messageFormat = messages.get().getCommands().getFormat();
-        String formattedArguments = arguments.parallelStream()
+        return arguments.parallelStream()
                 .filter(argument -> !argument.name().equals(commandName))
                 .map(argument -> switch (argument.type()) {
                     case REQUIRED_VARIABLE -> messageFormat.getArgument().replace("{argument}", argument.name());
@@ -65,8 +65,9 @@ public class HelpBuilder {
                             messageFormat.getOptionalArgument().replace("{argument}", argument.name());
                     default -> argument.name();
                 })
-                .collect(Collectors.joining(" "));
-
-        return " " + formattedArguments;
+                .collect(Collectors.collectingAndThen(
+                        Collectors.joining(" "),
+                        formattedArguments -> formattedArguments.isEmpty() ? "" : " " + formattedArguments
+                ));
     }
 }

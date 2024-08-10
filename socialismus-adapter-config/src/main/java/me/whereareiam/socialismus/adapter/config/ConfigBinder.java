@@ -66,11 +66,11 @@ public class ConfigBinder extends AbstractModule {
         MapBinder<Class<?>, DefaultConfig<?>> mapbinder = MapBinder.newMapBinder(binder(), new TypeLiteral<>() {}, new TypeLiteral<>() {});
         addTemplates(mapbinder);
 
-        bind(SettingsProvider.class).asEagerSingleton();
+        bind(SettingsProvider.class);
         bind(Settings.class).toProvider(SettingsProvider.class);
-        bind(MessagesProvider.class).asEagerSingleton();
+        bind(MessagesProvider.class);
         bind(Messages.class).toProvider(MessagesProvider.class);
-        bind(CommandsProvider.class).asEagerSingleton();
+        bind(CommandsProvider.class);
         bind(Commands.class).toProvider(CommandsProvider.class);
 
         bind(ChatsProvider.class).asEagerSingleton();

@@ -6,6 +6,7 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import me.whereareiam.socialismus.api.Reloadable;
 import me.whereareiam.socialismus.api.input.serializer.SerializationService;
+import me.whereareiam.socialismus.api.model.config.command.Commands;
 import me.whereareiam.socialismus.api.model.config.message.CommandMessages;
 import me.whereareiam.socialismus.api.model.config.message.Messages;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
@@ -15,6 +16,7 @@ import org.incendo.cloud.annotations.Command;
 import org.incendo.cloud.annotations.CommandDescription;
 import org.incendo.cloud.annotations.Permission;
 
+import java.util.Map;
 import java.util.Set;
 
 @Singleton
@@ -22,12 +24,14 @@ import java.util.Set;
 public class ReloadCommand implements CommandBase {
     private final Set<Reloadable> reloadables;
     private final Provider<Messages> messages;
+    private final Provider<Commands> commands;
     private final SerializationService serializer;
 
     @Inject
-    public ReloadCommand(@Named("reloadables") Set<Reloadable> reloadables, Provider<Messages> messages, SerializationService serializer) {
+    public ReloadCommand(@Named("reloadables") Set<Reloadable> reloadables, Provider<Messages> messages, Provider<Commands> commands, SerializationService serializer) {
         this.reloadables = reloadables;
         this.messages = messages;
+        this.commands = commands;
         this.serializer = serializer;
     }
 
@@ -45,5 +49,17 @@ public class ReloadCommand implements CommandBase {
         } catch (Exception e) {
             audience.sendMessage(serializer.format(dummyPlayer, commandMessages.getException().replace("{exception}", e.getMessage())));
         }
+    }
+
+    @Override
+    public Map<String, String> getTranslations() {
+        final me.whereareiam.socialismus.api.model.config.command.Command command = commands.get().getCommands().get("reload");
+
+        return Map.of(
+                "command." + command.getAliases().getFirst() + ".name", command.getUsage().replace("{command}", String.join("|", command.getAliases())),
+                "command." + command.getAliases().getFirst() + ".permission", command.getPermission(),
+                "command." + command.getAliases().getFirst() + ".description", command.getDescription(),
+                "command." + command.getAliases().getFirst() + ".usage", command.getUsage()
+        );
     }
 }

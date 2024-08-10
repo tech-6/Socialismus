@@ -2,6 +2,7 @@ package me.whereareiam.socialismus.adapter.config.provider;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import me.whereareiam.socialismus.adapter.config.management.ConfigLoader;
 import me.whereareiam.socialismus.api.Reloadable;
@@ -10,9 +11,11 @@ import me.whereareiam.socialismus.api.model.config.Settings;
 
 import java.nio.file.Path;
 
+@Singleton
 public class SettingsProvider implements Provider<Settings>, Reloadable {
     private final Path dataPath;
     private final ConfigLoader configLoader;
+
     private Settings settings;
 
     @Inject
@@ -25,7 +28,9 @@ public class SettingsProvider implements Provider<Settings>, Reloadable {
 
     @Override
     public Settings get() {
-        if (settings == null) load();
+        if (settings != null) return settings;
+        
+        load();
 
         return settings;
     }
