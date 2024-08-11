@@ -9,42 +9,73 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.incendo.cloud.SenderMapper;
 
 import javax.annotation.Nonnull;
 import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
 
 @Singleton
 public class CommandSenderMapper implements SenderMapper<CommandSender, DummyPlayer> {
     private final BukkitAudiences audiences;
+    private final Plugin plugin;
 
     @Inject
-    public CommandSenderMapper(BukkitAudiences audiences) {
+    public CommandSenderMapper(BukkitAudiences audiences, Plugin plugin) {
         this.audiences = audiences;
+        this.plugin = plugin;
     }
 
     @Override
     public @NonNull DummyPlayer map(@NonNull CommandSender source) {
-        DummyPlayer dummyPlayer;
-        if (source instanceof ConsoleCommandSender) {
-            dummyPlayer = DummyCommandPlayer.builder().commandSender(source).audience(audiences.sender(source)).build();
-        } else {
-            Player player = Bukkit.getPlayer(source.getName());
-            if (player == null)
-                throw new NullPointerException("A player with the name " + source.getName() + " was not found");
+        if (source instanceof ConsoleCommandSender)
+            return mapConsoleCommandSender(source);
 
-            dummyPlayer = DummyCommandPlayer.builder()
-                    .commandSender(source)
-                    .username(player.getName())
-                    .uniqueId(player.getUniqueId())
-                    .audience(audiences.player(player))
-                    .location(player.getWorld().getName())
-                    .locale(Locale.of(player.getLocale()))
-                    .build();
+        return mapPlayerCommandSender(source);
+    }
+
+    private DummyPlayer mapConsoleCommandSender(CommandSender source) {
+        return DummyCommandPlayer.builder()
+                .commandSender(source)
+                .audience(audiences.sender(source))
+                .build();
+    }
+
+    private DummyPlayer mapPlayerCommandSender(CommandSender source) {
+        Player player = Bukkit.getPlayer(source.getName());
+        if (player != null) return buildDummyPlayer(source, player);
+
+        return getDelayedDummyPlayer(source);
+    }
+
+    private DummyPlayer buildDummyPlayer(CommandSender source, Player player) {
+        return DummyCommandPlayer.builder()
+                .commandSender(source)
+                .username(player.getName())
+                .uniqueId(player.getUniqueId())
+                .audience(audiences.sender(player))
+                .location(player.getWorld().getName())
+                .locale(Locale.forLanguageTag(player.getLocale()))
+                .build();
+    }
+
+    private DummyPlayer getDelayedDummyPlayer(CommandSender source) {
+        CompletableFuture<DummyPlayer> future = new CompletableFuture<>();
+        Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> {
+            Player delayedPlayer = Bukkit.getPlayer(source.getName());
+            if (delayedPlayer != null) {
+                future.complete(buildDummyPlayer(source, delayedPlayer));
+            } else {
+                future.completeExceptionally(new IllegalStateException("Player not found"));
+            }
+        }, 20);
+        try {
+            return future.get();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-
-        return dummyPlayer;
     }
 
     @Override
