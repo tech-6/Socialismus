@@ -4,13 +4,16 @@ import com.google.inject.Injector;
 import me.whereareiam.socialismus.api.AnsiColor;
 import me.whereareiam.socialismus.api.PlatformType;
 import me.whereareiam.socialismus.api.PluginType;
+import me.whereareiam.socialismus.api.model.chat.ChatMessages;
+import me.whereareiam.socialismus.api.model.chat.ChatSettings;
 import me.whereareiam.socialismus.api.output.ListenerRegistrar;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.output.command.CommandService;
 import me.whereareiam.socialismus.api.output.module.ModuleService;
 import me.whereareiam.socialismus.common.chat.ChatContainer;
-import me.whereareiam.socialismus.common.chat.worker.ChatSelector;
 import me.whereareiam.socialismus.common.chat.worker.FormatSelector;
+import me.whereareiam.socialismus.common.chat.worker.chatmessage.ChatSelector;
+import me.whereareiam.socialismus.common.chat.worker.chatmessage.RecipientSelector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +26,13 @@ public class CommonSocialismus {
 
         printWelcomeMessage();
 
-        // Initialize all chats before first event is triggered, leads to faster response time
+        // Initialize all component before first event is triggered, leads to faster response time
         injector.getInstance(ChatContainer.class);
         injector.getInstance(ChatSelector.class);
+        injector.getInstance(RecipientSelector.class);
         injector.getInstance(FormatSelector.class);
+        injector.getInstance(ChatMessages.class);
+        injector.getInstance(ChatSettings.class);
 
         injector.getInstance(CommandService.class).registerCommands();
 

@@ -9,6 +9,8 @@ import java.util.Set;
 import java.util.UUID;
 
 public interface PlatformInteractor {
+    boolean areWithinRange(UUID player1, UUID player2, double range);
+
     boolean hasPermission(DummyPlayer dummyPlayer, String permission);
 
     Version getServerVersion();

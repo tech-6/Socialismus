@@ -1,4 +1,4 @@
-package me.whereareiam.socialismus.common.chat.worker;
+package me.whereareiam.socialismus.common.chat.worker.chatmessage;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -48,10 +48,6 @@ public class ChatSelector {
         this.chatSettings = chatSettings;
         this.serializer = serializer;
 
-        // init configs
-        chatMessages.get();
-        chatSettings.get();
-
         workerProcessor.addWorker(new Worker<>(this::selectChat, 0, true, false));
     }
 
@@ -94,7 +90,7 @@ public class ChatSelector {
     private boolean checkRequirements(InternalChat chat, ChatMessage chatMessage) {
         if (chat.getRequirements().isEmpty()) return true;
         for (Map.Entry<RequirementType, ? extends Requirement> entry : chat.getRequirements().get(Participants.SENDER).getGroups().entrySet())
-            if (!requirementValidator.isRequirementMet(entry, chatMessage)) {
+            if (!requirementValidator.isRequirementMet(entry, chatMessage.getSender())) {
                 chat = getAlternativeChat(chat, chatMessage);
                 if (chat == null) return false;
             }

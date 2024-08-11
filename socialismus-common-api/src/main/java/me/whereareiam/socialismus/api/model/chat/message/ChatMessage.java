@@ -19,7 +19,7 @@ import java.util.UUID;
 @SuperBuilder(toBuilder = true)
 public class ChatMessage {
     private final DummyPlayer sender;
-    private final Set<UUID> recipients;
+    private Set<UUID> recipients;
 
     private Component content;
     private Chat chat;

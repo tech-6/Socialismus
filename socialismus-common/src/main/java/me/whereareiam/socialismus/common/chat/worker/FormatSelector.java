@@ -76,7 +76,7 @@ public class FormatSelector {
     private boolean checkRequirements(ChatFormat chatFormat, FormattedChatMessage formattedChatMessage) {
         if (chatFormat.getRequirements().isEmpty()) return true;
         for (Map.Entry<RequirementType, ? extends Requirement> entry : chatFormat.getRequirements().get(Participants.SENDER).getGroups().entrySet())
-            if (!requirementValidator.isRequirementMet(entry, formattedChatMessage)) {
+            if (!requirementValidator.isRequirementMet(entry, formattedChatMessage.getSender())) {
                 chatFormat = getAlternativeChatFormat(chatFormat, formattedChatMessage);
                 if (chatFormat == null) return false;
             }
@@ -98,7 +98,7 @@ public class FormatSelector {
 
     private void notifyAboutAbsentFormat(FormattedChatMessage formattedChatMessage) {
         if (!chatSettings.get().isNotifyNoFormat()) return;
-        
+
         formattedChatMessage.getSender().getAudience().sendMessage(
                 serializer.format(formattedChatMessage.getSender(), chatMessages.get().getNoChatMatch())
         );

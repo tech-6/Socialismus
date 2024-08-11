@@ -22,6 +22,15 @@ public class BukkitPlatformInteractor implements PlatformInteractor {
     }
 
     @Override
+    public boolean areWithinRange(UUID player1, UUID player2, double range) {
+        Player p1 = Bukkit.getPlayer(player1);
+        Player p2 = Bukkit.getPlayer(player2);
+        if (p1 == null || p2 == null) return false;
+
+        return p1.getLocation().distanceSquared(p2.getLocation()) <= range * range;
+    }
+
+    @Override
     public boolean hasPermission(DummyPlayer dummyPlayer, String permission) {
         Player player = Bukkit.getPlayer(dummyPlayer.getUniqueId());
         if (player == null) return false;

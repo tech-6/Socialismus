@@ -1,13 +1,15 @@
 package me.whereareiam.socialismus.common.requirement;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.input.chat.RequirementValidation;
-import me.whereareiam.socialismus.api.model.chat.message.ChatMessage;
+import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.model.requirement.Requirement;
 import me.whereareiam.socialismus.api.type.requirement.RequirementType;
 
 import java.util.Map;
 
+@Singleton
 public class RequirementValidator {
     private final RequirementRegistry requirementRegistry;
 
@@ -16,11 +18,11 @@ public class RequirementValidator {
         this.requirementRegistry = requirementRegistry;
     }
 
-    public boolean isRequirementMet(Map.Entry<RequirementType, ? extends Requirement> entry, ChatMessage chatMessage) {
+    public boolean isRequirementMet(Map.Entry<RequirementType, ? extends Requirement> entry, DummyPlayer dummyPlayer) {
         RequirementValidation checker = requirementRegistry.get(entry.getKey());
-        if (checker == null) {
+        if (checker == null)
             return false;
-        }
-        return checker.check(entry.getValue(), chatMessage.getSender());
+
+        return checker.check(entry.getValue(), dummyPlayer);
     }
 }

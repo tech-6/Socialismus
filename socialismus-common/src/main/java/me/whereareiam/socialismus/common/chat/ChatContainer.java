@@ -11,6 +11,7 @@ import me.whereareiam.socialismus.api.model.chat.Chat;
 import me.whereareiam.socialismus.api.model.chat.ChatSettings;
 import me.whereareiam.socialismus.api.model.chat.InternalChat;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
+import me.whereareiam.socialismus.api.type.chat.ChatType;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -60,10 +61,11 @@ public class ChatContainer implements ChatContainerService, Reloadable {
 
     @Override
     public boolean hasChatBySymbol(String symbol) {
-        return chats.values().stream().anyMatch(chat ->
-                (symbol.isEmpty() && chat.getParameters().getSymbol().isEmpty())
+        return chats.values().stream()
+                .filter(chat -> !chat.getParameters().getType().equals(ChatType.CUSTOM))
+                .anyMatch(chat -> (symbol.isEmpty() && chat.getParameters().getSymbol().isEmpty())
                         || chat.getParameters().getSymbol().equals(symbol)
-        );
+                );
     }
 
     @Override
@@ -76,6 +78,7 @@ public class ChatContainer implements ChatContainerService, Reloadable {
     @Override
     public List<InternalChat> getChatBySymbol(String symbol) {
         return chats.values().stream()
+                .filter(chat -> !chat.getParameters().getType().equals(ChatType.CUSTOM))
                 .filter(chat -> !chat.getId().equals(chatSettings.get().getFallback().getChatId()))
                 .filter(chat -> (symbol.isEmpty() && chat.getParameters().getSymbol().isEmpty())
                         || chat.getParameters().getSymbol().equals(symbol)

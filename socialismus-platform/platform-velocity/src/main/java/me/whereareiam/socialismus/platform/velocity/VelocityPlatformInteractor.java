@@ -24,6 +24,18 @@ public class VelocityPlatformInteractor implements PlatformInteractor {
     }
 
     @Override
+    public boolean areWithinRange(UUID player1, UUID player2, double range) {
+        return proxyServer.getPlayer(player1)
+                .flatMap(p1 -> proxyServer.getPlayer(player2)
+                        .flatMap(p2 -> p1.getCurrentServer()
+                                .flatMap(s1 -> p2.getCurrentServer()
+                                        .map(s1::equals)
+                                )
+                        )
+                ).orElse(false);
+    }
+
+    @Override
     public boolean hasPermission(DummyPlayer dummyPlayer, String permission) {
         return proxyServer
                 .getPlayer(dummyPlayer.getUniqueId())
