@@ -29,7 +29,8 @@ public enum Version {
     V_1_20_4,
     V_1_20_5,
     V_1_20_6,
-    V_1_21;
+    V_1_21,
+    V_1_21_1;
 
     public static Version of(String version) {
         if (version == null || version.isEmpty()) return Version.UNSUPPORTED;

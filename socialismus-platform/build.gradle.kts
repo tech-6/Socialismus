@@ -14,7 +14,6 @@ subprojects {
         relocate("com.alessiodp.libby", "me.whereareiam.socialismus.library.libby")
         relocate("org.bstats", "me.whereareiam.socialismus.library.bStats")
 
-        relocate("net.kyori.adventure", "me.whereareiam.socialismus.library.adventure")
         relocate("com.google.inject", "me.whereareiam.socialismus.library.guice")
         relocate("com.google.common", "me.whereareiam.socialismus.library.guava")
         relocate("org.yaml.snakeyaml", "me.whereareiam.socialismus.library.snakeyaml")

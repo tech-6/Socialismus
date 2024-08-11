@@ -11,7 +11,7 @@ import java.util.Map;
 public class PluginVersionChart implements Chart {
     @Override
     public CustomChart getChart() {
-        return new DrilldownPie("pluginVersion", this::getData);
+        return new DrilldownPie("detailedPluginVersion", this::getData);
     }
 
     private Map<String, Map<String, Integer>> getData() {
