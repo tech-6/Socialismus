@@ -2,7 +2,7 @@ package me.whereareiam.socialismus.api.type.requirement;
 
 public enum RequirementType {
     PERMISSION,
-    PLACEHOLDER, // TODO
+    PLACEHOLDER,
     WORLD,
-    SERVER // TODO
+    SERVER
 }

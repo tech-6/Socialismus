@@ -12,25 +12,48 @@ import me.whereareiam.socialismus.api.model.requirement.WorldRequirement;
 import me.whereareiam.socialismus.api.type.requirement.RequirementConditionType;
 
 import java.io.IOException;
+import java.util.List;
 
 @Singleton
 public class RequirementDeserializer extends JsonDeserializer<Requirement> {
+    private static final List<RequirementConditionType> PLACEHOLDER_CONDITIONS = List.of(
+            RequirementConditionType.EQUALS,
+            RequirementConditionType.GREATER_THAN,
+            RequirementConditionType.LESS_THAN,
+            RequirementConditionType.GREATER_THAN_OR_EQUALS,
+            RequirementConditionType.LESS_THAN_OR_EQUALS
+    );
+
+    private static final List<RequirementConditionType> PERMISSION_CONDITIONS = List.of(
+            RequirementConditionType.HAS,
+            RequirementConditionType.CONTAINS
+    );
+
     @Override
     public Requirement deserialize(JsonParser parser, DeserializationContext ctxt) throws IOException {
         ObjectCodec codec = parser.getCodec();
         JsonNode root = codec.readTree(parser);
 
-        if (root.has("worlds")) return codec.treeToValue(root, WorldRequirement.class);
+        if (root.has("worlds")) {
+            return codec.treeToValue(root, WorldRequirement.class);
+        }
+
+        if (root.has("placeholder")) {
+            return handlePermissionRequirement(codec, root, PLACEHOLDER_CONDITIONS, RequirementConditionType.EQUALS);
+        }
 
         if (root.has("permissions")) {
-            PermissionRequirement pr = codec.treeToValue(root, PermissionRequirement.class);
-
-            if (pr.getCondition() != RequirementConditionType.HAS && pr.getCondition() != RequirementConditionType.CONTAINS)
-                pr.setCondition(RequirementConditionType.HAS);
-
-            return pr;
+            return handlePermissionRequirement(codec, root, PERMISSION_CONDITIONS, RequirementConditionType.HAS);
         }
 
         return null;
+    }
+
+    private PermissionRequirement handlePermissionRequirement(ObjectCodec codec, JsonNode root, List<RequirementConditionType> validConditions, RequirementConditionType defaultCondition) throws IOException {
+        PermissionRequirement pr = codec.treeToValue(root, PermissionRequirement.class);
+        if (!validConditions.contains(pr.getCondition()))
+            pr.setCondition(defaultCondition);
+
+        return pr;
     }
 }
