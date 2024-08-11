@@ -1,8 +1,8 @@
 package me.whereareiam.socialismus.adapter.config.template;
 
 import com.google.inject.Singleton;
-import me.whereareiam.socialismus.api.model.config.command.Command;
-import me.whereareiam.socialismus.api.model.config.command.Commands;
+import me.whereareiam.socialismus.api.model.Command;
+import me.whereareiam.socialismus.api.model.config.Commands;
 import me.whereareiam.socialismus.api.output.DefaultConfig;
 
 import java.util.List;
@@ -14,37 +14,37 @@ public class CommandsTemplate implements DefaultConfig<Commands> {
         Commands commands = new Commands();
 
         // Default values
-        Command main = new Command(
-                List.of("socialismus", "social"),
-                "",
-                "Main command",
-                "{command}",
-                true
-        );
+        Command main = Command.builder()
+                .aliases(List.of("socialismus", "social"))
+                .permission("")
+                .description("Main command")
+                .usage("{command}")
+                .enabled(true)
+                .build();
 
-        Command help = new Command(
-                List.of("help"),
-                "",
-                "Help command",
-                "{command} [page]",
-                true
-        );
+        Command help = Command.builder()
+                .aliases(List.of("help"))
+                .permission("")
+                .description("Help command")
+                .usage("{command} [page]")
+                .enabled(true)
+                .build();
 
-        Command debug = new Command(
-                List.of("debug"),
-                "socialismus.admin",
-                "Debug command",
-                "{command}",
-                true
-        );
+        Command debug = Command.builder()
+                .aliases(List.of("debug"))
+                .permission("socialismus.admin")
+                .description("Debug command")
+                .usage("{command}")
+                .enabled(true)
+                .build();
 
-        Command reload = new Command(
-                List.of("reload"),
-                "socialismus.admin",
-                "Reload command",
-                "{command}",
-                true
-        );
+        Command reload = Command.builder()
+                .aliases(List.of("reload"))
+                .permission("socialismus.admin")
+                .description("Reload command")
+                .usage("{command}")
+                .enabled(true)
+                .build();
 
         commands.getCommands().put("main", main);
         commands.getCommands().put("help", help);

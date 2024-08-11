@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -18,6 +19,7 @@ public class CommandMessages {
     private String invalidSyntaxNumber;
     private String invalidSyntaxString;
 
+    private Map<String, String> arguments;
     private Format format;
     private Pagination pagination;
     private HelpCommand helpCommand;

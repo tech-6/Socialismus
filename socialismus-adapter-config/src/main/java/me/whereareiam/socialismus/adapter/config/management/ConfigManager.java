@@ -25,8 +25,8 @@ import me.whereareiam.socialismus.adapter.config.template.chat.ChatSettingsTempl
 import me.whereareiam.socialismus.adapter.config.template.chat.ChatTemplate;
 import me.whereareiam.socialismus.api.model.chat.ChatMessages;
 import me.whereareiam.socialismus.api.model.chat.ChatSettings;
+import me.whereareiam.socialismus.api.model.config.Commands;
 import me.whereareiam.socialismus.api.model.config.Settings;
-import me.whereareiam.socialismus.api.model.config.command.Commands;
 import me.whereareiam.socialismus.api.model.config.message.Messages;
 import me.whereareiam.socialismus.api.model.requirement.Requirement;
 import me.whereareiam.socialismus.api.output.DefaultConfig;

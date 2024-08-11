@@ -6,7 +6,7 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import me.whereareiam.socialismus.api.Reloadable;
 import me.whereareiam.socialismus.api.input.serializer.SerializationService;
-import me.whereareiam.socialismus.api.model.config.command.Commands;
+import me.whereareiam.socialismus.api.model.config.Commands;
 import me.whereareiam.socialismus.api.model.config.message.CommandMessages;
 import me.whereareiam.socialismus.api.model.config.message.Messages;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
@@ -53,7 +53,7 @@ public class ReloadCommand implements CommandBase {
 
     @Override
     public Map<String, String> getTranslations() {
-        final me.whereareiam.socialismus.api.model.config.command.Command command = commands.get().getCommands().get("reload");
+        me.whereareiam.socialismus.api.model.Command command = commands.get().getCommands().get("reload");
 
         return Map.of(
                 "command." + command.getAliases().getFirst() + ".name", command.getUsage().replace("{command}", String.join("|", command.getAliases())),

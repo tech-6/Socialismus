@@ -6,6 +6,7 @@ import me.whereareiam.socialismus.api.model.config.message.Messages;
 import me.whereareiam.socialismus.api.output.DefaultConfig;
 
 import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class MessagesTemplate implements DefaultConfig<Messages> {
@@ -23,6 +24,10 @@ public class MessagesTemplate implements DefaultConfig<Messages> {
         commandMessages.setInvalidSyntaxBoolean("{prefix}<white>You tried to use <gray>{content}</gray> as a boolean, but it's not a valid value, please use <green>true</green> or <red>false</red>.</white>");
         commandMessages.setInvalidSyntaxNumber("{prefix}<white>You tried to use <gray>{content}</gray> as a number, but it's not a valid value, please use a valid number.</white>");
         commandMessages.setInvalidSyntaxString("{prefix}<white>You tried to use <gray>{content}</gray> as a string, but it's not a valid value, please use a valid string.</white>");
+
+        commandMessages.setArguments(Map.of(
+                "page", "Page"
+        ));
 
         CommandMessages.Format format = new CommandMessages.Format();
         format.setFormat("<gray>{command}</gray>");

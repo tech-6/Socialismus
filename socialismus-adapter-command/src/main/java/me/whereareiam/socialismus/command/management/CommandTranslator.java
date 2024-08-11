@@ -3,8 +3,8 @@ package me.whereareiam.socialismus.command.management;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import me.whereareiam.socialismus.api.model.config.command.Command;
-import me.whereareiam.socialismus.api.model.config.command.Commands;
+import me.whereareiam.socialismus.api.model.Command;
+import me.whereareiam.socialismus.api.model.config.Commands;
 import me.whereareiam.socialismus.api.output.command.CommandService;
 import org.incendo.cloud.annotations.string.PatternReplacingStringProcessor;
 

@@ -3,7 +3,7 @@ package me.whereareiam.socialismus.command.executor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import me.whereareiam.socialismus.api.model.config.command.Commands;
+import me.whereareiam.socialismus.api.model.config.Commands;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.output.command.CommandBase;
 import org.incendo.cloud.CommandManager;
@@ -39,7 +39,7 @@ public class MainCommand implements CommandBase {
 
     @Override
     public Map<String, String> getTranslations() {
-        final me.whereareiam.socialismus.api.model.config.command.Command command = commands.get().getCommands().get("main");
+        me.whereareiam.socialismus.api.model.Command command = commands.get().getCommands().get("main");
 
         return Map.of(
                 "command." + command.getAliases().getFirst() + ".name", command.getUsage().replace("{command}", String.join("|", command.getAliases())),

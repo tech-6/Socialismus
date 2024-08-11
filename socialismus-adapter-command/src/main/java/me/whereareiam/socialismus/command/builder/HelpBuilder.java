@@ -56,14 +56,18 @@ public class HelpBuilder {
     private String formatCommandArguments(String commandName, List<? extends CommandComponent<?>> arguments) {
         if (arguments.isEmpty()) return "";
 
+        CommandMessages commandMessages = messages.get().getCommands();
+
         CommandMessages.Format messageFormat = messages.get().getCommands().getFormat();
         return arguments.parallelStream()
                 .filter(argument -> !argument.name().equals(commandName))
                 .map(argument -> switch (argument.type()) {
-                    case REQUIRED_VARIABLE -> messageFormat.getArgument().replace("{argument}", argument.name());
+                    case REQUIRED_VARIABLE ->
+                            messageFormat.getArgument().replace("{argument}", commandMessages.getArguments().get(argument.name()) != null ? commandMessages.getArguments().get(argument.name()) : argument.name());
                     case OPTIONAL_VARIABLE ->
-                            messageFormat.getOptionalArgument().replace("{argument}", argument.name());
-                    default -> argument.name();
+                            messageFormat.getOptionalArgument().replace("{argument}", commandMessages.getArguments().get(argument.name()) != null ? commandMessages.getArguments().get(argument.name()) : argument.name());
+                    default ->
+                            commandMessages.getArguments().get(argument.name()) != null ? commandMessages.getArguments().get(argument.name()) : argument.name();
                 })
                 .collect(Collectors.collectingAndThen(
                         Collectors.joining(" "),
