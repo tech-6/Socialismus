@@ -5,6 +5,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.model.config.Settings;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
+import me.whereareiam.socialismus.api.output.PlatformInteractor;
 import me.whereareiam.socialismus.command.management.CommandExceptionHandler;
 import me.whereareiam.socialismus.command.provider.CommandManagerProvider;
 import me.whereareiam.socialismus.platform.paper.mapper.CommandSenderMapper;
@@ -25,8 +26,9 @@ public class PaperCommandManagerProvider extends CommandManagerProvider {
     private final CommandSourceStackMapper commandSourceStackMapper;
 
     @Inject
-    public PaperCommandManagerProvider(CommandExceptionHandler exceptionHandler, Provider<Settings> settings, Plugin plugin, CommandSenderMapper commandSenderMapper, CommandSourceStackMapper commandSourceStackMapper) {
-        super(exceptionHandler, settings);
+    public PaperCommandManagerProvider(CommandExceptionHandler exceptionHandler, Provider<Settings> settings, Plugin plugin, PlatformInteractor interactor, CommandSenderMapper commandSenderMapper,
+                                       CommandSourceStackMapper commandSourceStackMapper) {
+        super(exceptionHandler, settings, interactor);
         this.plugin = plugin;
         this.commandSenderMapper = commandSenderMapper;
         this.commandSourceStackMapper = commandSourceStackMapper;

@@ -1,13 +1,13 @@
 package me.whereareiam.socialismus.api.input;
 
+import com.alessiodp.libby.Library;
+
 public interface DependencyResolver {
-	void resolveDependencies();
+    void resolveDependencies();
 
-	void loadLibraries();
+    void loadLibraries();
 
-	void addDependency(String groupId, String artifactId, String version);
+    void addDependency(Library library);
 
-	void addDependency(String groupId, String artifactId, String version, boolean resolveTransitiveDependencies);
-
-	void clearDependencies();
+    void clearDependencies();
 }

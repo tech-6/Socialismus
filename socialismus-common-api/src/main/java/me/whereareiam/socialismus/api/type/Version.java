@@ -49,4 +49,16 @@ public enum Version {
                 .max(Comparator.comparing(Enum::name))
                 .orElse(UNSUPPORTED);
     }
+
+    public static boolean isLowerThan(Version version1, Version version2) {
+        return version1.ordinal() < version2.ordinal();
+    }
+
+    public static boolean isHigherThan(Version version1, Version version2) {
+        return version1.ordinal() > version2.ordinal();
+    }
+
+    public boolean isAtLeast(Version version) {
+        return !isLowerThan(this, version);
+    }
 }

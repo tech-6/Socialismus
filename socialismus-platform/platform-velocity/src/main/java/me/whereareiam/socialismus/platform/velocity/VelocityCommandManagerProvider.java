@@ -7,6 +7,7 @@ import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.whereareiam.socialismus.api.model.config.Settings;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
+import me.whereareiam.socialismus.api.output.PlatformInteractor;
 import me.whereareiam.socialismus.command.management.CommandExceptionHandler;
 import me.whereareiam.socialismus.command.provider.CommandManagerProvider;
 import me.whereareiam.socialismus.platform.velocity.mapper.CommandSourceMapper;
@@ -23,8 +24,8 @@ public class VelocityCommandManagerProvider extends CommandManagerProvider {
     private final CommandSourceMapper commandSourceMapper;
 
     @Inject
-    public VelocityCommandManagerProvider(CommandExceptionHandler exceptionHandler, Provider<Settings> settings, PluginContainer plugin, ProxyServer proxyServer, CommandSourceMapper commandSourceMapper) {
-        super(exceptionHandler, settings);
+    public VelocityCommandManagerProvider(CommandExceptionHandler exceptionHandler, Provider<Settings> settings, PlatformInteractor interactor, PluginContainer plugin, ProxyServer proxyServer, CommandSourceMapper commandSourceMapper) {
+        super(exceptionHandler, settings, interactor);
         this.plugin = plugin;
         this.proxyServer = proxyServer;
         this.commandSourceMapper = commandSourceMapper;

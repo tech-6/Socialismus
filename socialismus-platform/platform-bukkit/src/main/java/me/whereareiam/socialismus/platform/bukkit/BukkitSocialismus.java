@@ -9,30 +9,29 @@ import java.util.logging.Logger;
 
 @SuppressWarnings("unused")
 public class BukkitSocialismus extends JavaPlugin {
-	private final CommonSocialismus commonSocialismus = new CommonSocialismus();
-	private final Path dataPath = getDataFolder().toPath();
-	private final Logger logger = getLogger();
+    private final CommonSocialismus commonSocialismus = new CommonSocialismus();
+    private final Path dataPath = getDataFolder().toPath();
+    private final Logger logger = getLogger();
 
-	private BukkitDependencyResolver dependencyResolver;
+    private BukkitDependencyResolver dependencyResolver;
 
-	@Override
-	public void onLoad() {
-		dependencyResolver = new BukkitDependencyResolver(this);
-		dependencyResolver.loadLibraries();
-		dependencyResolver.resolveDependencies();
-	}
+    @Override
+    public void onLoad() {
+        dependencyResolver = new BukkitDependencyResolver(this);
+        dependencyResolver.loadLibraries();
+        dependencyResolver.resolveDependencies();
+    }
 
-	@Override
-	public void onEnable() {
-		new BukkitInjector(this, dependencyResolver, dataPath);
-		BukkitLoggingHelper.setLogger(logger);
+    @Override
+    public void onEnable() {
+        new BukkitInjector(this, dependencyResolver, dataPath);
+        BukkitLoggingHelper.setLogger(logger);
 
-		commonSocialismus.onEnable();
-	}
+        commonSocialismus.onEnable();
+    }
 
-	@Override
-	public void onDisable() {
-		commonSocialismus.onDisable();
-
-	}
+    @Override
+    public void onDisable() {
+        commonSocialismus.onDisable();
+    }
 }

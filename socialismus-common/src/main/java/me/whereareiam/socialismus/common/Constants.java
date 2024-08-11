@@ -23,8 +23,6 @@ public class Constants {
     @Getter
     private static final String cloudPaperVersion = "@cloudPaperVersion@";
     @Getter
-    private static final String cloudBukkitVersion = "@cloudBukkitVersion@";
-    @Getter
     private static final String cloudVelocityVersion = "@cloudVelocityVersion@";
     @Getter
     private static final String cloudMinecraftExtrasVersion = "@cloudMinecraftExtrasVersion@";

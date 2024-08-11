@@ -2,8 +2,13 @@ plugins {
     `maven-publish`
 }
 
+repositories {
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+}
+
 dependencies {
     "compileOnly"(libs.bundles.adventure)
+    "compileOnly"(libs.libby.core)
 }
 
 tasks.register("generateJavadocs", Javadoc::class) {

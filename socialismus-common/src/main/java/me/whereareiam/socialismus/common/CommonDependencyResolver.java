@@ -1,6 +1,7 @@
 package me.whereareiam.socialismus.common;
 
 import com.alessiodp.libby.Library;
+import com.alessiodp.libby.relocation.Relocation;
 import me.whereareiam.socialismus.api.input.DependencyResolver;
 
 import java.util.ArrayList;
@@ -12,36 +13,69 @@ public abstract class CommonDependencyResolver implements DependencyResolver {
     @Override
     public void loadLibraries() {
         // Common libraries
+        addDependency(Library.builder()
+                .groupId("com{}google{}inject")
+                .artifactId("guice")
+                .version(Constants.getGuiceVersion())
+                .resolveTransitiveDependencies(true)
+                .relocate(
+                        Relocation.builder()
+                                .pattern("com{}google{}inject")
+                                .relocatedPattern("me.whereareiam.socialismus.library.guice")
+                                .build()
+                ).relocate(
+                        Relocation.builder()
+                                .pattern("com{}google{}common")
+                                .relocatedPattern("me.whereareiam.socialismus.library.guava")
+                                .build()
+                ).build());
 
-        addDependency("com.google.inject", "guice", Constants.getGuiceVersion(), true);
+        // Cloud libraries
+        addDependency(Library.builder()
+                .groupId("org{}incendo")
+                .artifactId("cloud-core")
+                .version(Constants.getCloudVersion())
+                .resolveTransitiveDependencies(false)
+                .build());
 
-        // lamp
-        addDependency("org.incendo", "cloud-core", Constants.getCloudVersion(), false);
-        addDependency("org.incendo", "cloud-annotations", Constants.getCloudVersion(), false);
-        addDependency("org.incendo", "cloud-minecraft-extras", Constants.getCloudMinecraftExtrasVersion(), false);
+        addDependency(Library.builder()
+                .groupId("org{}incendo")
+                .artifactId("cloud-annotations")
+                .version(Constants.getCloudVersion())
+                .resolveTransitiveDependencies(false)
+                .build());
 
-        // jackson
-        addDependency("com.fasterxml.jackson.core", "jackson-databind", Constants.getJacksonVersion(), true);
-        addDependency("com.fasterxml.jackson.dataformat", "jackson-dataformat-yaml", Constants.getJacksonVersion(), false);
+        addDependency(Library.builder()
+                .groupId("org{}incendo")
+                .artifactId("cloud-minecraft-extras")
+                .version(Constants.getCloudMinecraftExtrasVersion())
+                .resolveTransitiveDependencies(false)
+                .build());
+
+        // Jackson libraries
+        addDependency(Library.builder()
+                .groupId("com{}fasterxml{}jackson{}core")
+                .artifactId("jackson-databind")
+                .version(Constants.getJacksonVersion())
+                .resolveTransitiveDependencies(true)
+                .build());
+
+        addDependency(Library.builder()
+                .groupId("com{}fasterxml{}jackson{}dataformat")
+                .artifactId("jackson-dataformat-yaml")
+                .version(Constants.getJacksonVersion())
+                .resolveTransitiveDependencies(true)
+                .relocate(
+                        Relocation.builder()
+                                .pattern("org{}yaml{}snakeyaml")
+                                .relocatedPattern("me.whereareiam.socialismus.library.snakeyaml")
+                                .build()
+                ).build());
     }
 
     @Override
-    public void addDependency(String groupId, String artifactId, String version) {
-        libraries.add(Library.builder()
-                .groupId(groupId)
-                .artifactId(artifactId)
-                .version(version)
-                .build());
-    }
-
-    @Override
-    public void addDependency(String groupId, String artifactId, String version, boolean resolveTransitiveDependencies) {
-        libraries.add(Library.builder()
-                .groupId(groupId)
-                .artifactId(artifactId)
-                .version(version)
-                .resolveTransitiveDependencies(resolveTransitiveDependencies)
-                .build());
+    public void addDependency(Library library) {
+        libraries.add(library);
     }
 
     @Override
