@@ -16,6 +16,7 @@ tasks.register<Copy>("processSources") {
         line.replace("@version@", rootProject.version.toString())
             .replace("@guiceVersion@", rootProject.libs.versions.guice.get())
             .replace("@jacksonVersion@", rootProject.libs.versions.jackson.get())
+            .replace("@adventureVersion@", rootProject.libs.versions.adventure.minimessage.get())
             .replace("@adventureBukkitVersion@", rootProject.libs.versions.adventure.platform.bukkit.get())
             .replace("@cloudVersion@", rootProject.libs.versions.cloud.core.get())
             .replace("@cloudPaperVersion@", rootProject.libs.versions.cloud.paper.get())

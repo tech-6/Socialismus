@@ -53,8 +53,8 @@ public class PlayerChatListener implements Listener {
                         .collect(Collectors.toSet())
         );
 
-        event.setFormat(ComponentUtil.toString(formattedChatMessage.getFormat()).replace("{message}", "%2$s"));
-        event.setMessage(ComponentUtil.toString(formattedChatMessage.getContent()));
+        event.setFormat(ComponentUtil.toString(formattedChatMessage.getFormat(), true).replace("{message}", "%2$s"));
+        event.setMessage(ComponentUtil.toString(formattedChatMessage.getContent(), true));
     }
 
     private ChatMessage createChatMessage(Player player, Set<Player> recipients, Component content) {

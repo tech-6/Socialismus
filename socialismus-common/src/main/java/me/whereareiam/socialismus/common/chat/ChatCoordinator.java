@@ -25,8 +25,10 @@ public class ChatCoordinator {
 
     public FormattedChatMessage handleChatEvent(ChatMessage chatMessage) {
         chatMessage = chatMessageProcessor.process(chatMessage);
+        if (chatMessage.isCancelled()) return FormattedChatMessage.builder().cancelled(true).build();
 
         FormattedChatMessage formattedChatMessage = formattedChatMessageProcessor.process(chatMessage);
+        if (formattedChatMessage.isCancelled()) return formattedChatMessage;
 
         if (PlatformType.isProxy() || !formattedChatMessage.isVanillaSending()) {
             formattedChatMessage.setCancelled(true);

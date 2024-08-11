@@ -16,6 +16,8 @@ public class Constants {
     @Getter
     private static final String jacksonVersion = "@jacksonVersion@";
     @Getter
+    private static final String adventureVersion = "@adventureVersion@";
+    @Getter
     private static final String adventureBukkitVersion = "@adventureBukkitVersion@";
 
     @Getter

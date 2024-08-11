@@ -8,6 +8,7 @@ import me.whereareiam.socialismus.api.model.chat.Chat;
 import me.whereareiam.socialismus.api.model.chat.message.ChatMessage;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.model.requirement.Requirement;
+import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.output.PlatformInteractor;
 import me.whereareiam.socialismus.api.type.Participants;
 import me.whereareiam.socialismus.api.type.requirement.RequirementType;
@@ -22,11 +23,13 @@ import java.util.stream.Collectors;
 public class RecipientSelector {
     private final RequirementValidator requirementValidator;
     private final PlatformInteractor interactor;
+    private final LoggingHelper loggingHelper;
 
     @Inject
-    public RecipientSelector(WorkerProcessor<ChatMessage> workerProcessor, RequirementValidator requirementValidator, PlatformInteractor interactor) {
+    public RecipientSelector(WorkerProcessor<ChatMessage> workerProcessor, RequirementValidator requirementValidator, PlatformInteractor interactor, LoggingHelper loggingHelper) {
         this.requirementValidator = requirementValidator;
         this.interactor = interactor;
+        this.loggingHelper = loggingHelper;
 
         workerProcessor.addWorker(new Worker<>(this::selectRecipients, 50, true, false));
     }
@@ -52,6 +55,8 @@ public class RecipientSelector {
                     .filter(recipient -> checkRequirements(chat, recipient))
                     .collect(Collectors.toSet());
         }
+
+        loggingHelper.debug("Recipients before: " + chatMessage.getRecipients().size() + ", after: " + recipients.size());
 
         chatMessage.setRecipients(recipients);
         if (recipients.isEmpty()) chatMessage.setCancelled(true);

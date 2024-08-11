@@ -6,6 +6,7 @@ import me.whereareiam.socialismus.api.input.WorkerProcessor;
 import me.whereareiam.socialismus.api.model.Worker;
 import me.whereareiam.socialismus.api.model.chat.message.ChatMessage;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 
 @Getter
@@ -27,7 +28,7 @@ public class ChatMessageProcessor implements WorkerProcessor<ChatMessage> {
     public void addWorker(Worker<ChatMessage> worker) {
         if (workers.stream().noneMatch(w -> w.getPriority() == worker.getPriority())) {
             workers.add(worker);
-            workers.sort((a, b) -> Integer.compare(b.getPriority(), a.getPriority()));
+            workers.sort(Comparator.comparingInt(Worker::getPriority));
         }
     }
 

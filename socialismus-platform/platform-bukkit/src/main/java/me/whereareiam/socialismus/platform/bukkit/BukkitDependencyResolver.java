@@ -40,6 +40,36 @@ public class BukkitDependencyResolver extends CommonDependencyResolver {
                 .build());
 
         addDependency(Library.builder()
+                .groupId("net{}kyori")
+                .artifactId("adventure-text-serializer-plain")
+                .version(Constants.getAdventureVersion())
+                .relocate(Relocation.builder()
+                        .pattern("net{}kyori")
+                        .relocatedPattern("me.whereareiam.socialismus.library")
+                        .build())
+                .build());
+
+        addDependency(Library.builder()
+                .groupId("net{}kyori")
+                .artifactId("adventure-text-serializer-gson")
+                .version(Constants.getAdventureVersion())
+                .relocate(Relocation.builder()
+                        .pattern("net{}kyori")
+                        .relocatedPattern("me.whereareiam.socialismus.library")
+                        .build())
+                .build());
+
+        addDependency(Library.builder()
+                .groupId("net{}kyori")
+                .artifactId("adventure-text-minimessage")
+                .version(Constants.getAdventureVersion())
+                .relocate(Relocation.builder()
+                        .pattern("net{}kyori")
+                        .relocatedPattern("me.whereareiam.socialismus.library")
+                        .build())
+                .build());
+
+        addDependency(Library.builder()
                 .groupId("org{}incendo")
                 .artifactId("cloud-paper")
                 .version(Constants.getCloudPaperVersion())
