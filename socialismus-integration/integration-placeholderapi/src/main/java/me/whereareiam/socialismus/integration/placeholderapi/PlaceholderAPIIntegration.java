@@ -12,9 +12,11 @@ import org.bukkit.OfflinePlayer;
 
 @Singleton
 public class PlaceholderAPIIntegration implements FormattingIntegration {
+    private final Registry<Integration> registry;
+
     @Inject
     public PlaceholderAPIIntegration(Registry<Integration> registry) {
-        if (isAvailable()) registry.register(this);
+        this.registry = registry;
     }
 
     @Override
@@ -40,5 +42,12 @@ public class PlaceholderAPIIntegration implements FormattingIntegration {
         } catch (ClassNotFoundException | NoClassDefFoundError e) {
             return false;
         }
+    }
+
+    @Override
+    public void register() {
+        if (!isAvailable()) return;
+
+        registry.register(this);
     }
 }

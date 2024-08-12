@@ -3,6 +3,7 @@ package me.whereareiam.socialismus.platform.paper;
 import me.whereareiam.socialismus.common.CommonInjector;
 import me.whereareiam.socialismus.common.CommonSocialismus;
 import me.whereareiam.socialismus.integration.bstats.bStatsIntegration;
+import me.whereareiam.socialismus.integration.placeholderapi.PlaceholderAPIIntegration;
 import me.whereareiam.socialismus.platform.paper.inject.PaperInjector;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -31,6 +32,7 @@ public class PaperSocialismus extends JavaPlugin {
 
         commonSocialismus.onEnable();
 
+        CommonInjector.getInjector().getInstance(PlaceholderAPIIntegration.class).register();
         CommonInjector.getInjector().getInstance(bStatsIntegration.class).register();
     }
 

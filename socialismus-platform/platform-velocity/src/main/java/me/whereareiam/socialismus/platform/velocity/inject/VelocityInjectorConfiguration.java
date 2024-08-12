@@ -9,8 +9,6 @@ import me.whereareiam.socialismus.api.input.DependencyResolver;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.output.*;
 import me.whereareiam.socialismus.integration.bstats.Metrics;
-import me.whereareiam.socialismus.integration.bstats.bStatsIntegration;
-import me.whereareiam.socialismus.integration.papiproxybridge.PAPIProxyBridgeIntegration;
 import me.whereareiam.socialismus.platform.velocity.*;
 import me.whereareiam.socialismus.platform.velocity.listener.VelocityListenerRegistrar;
 import org.incendo.cloud.CommandManager;
@@ -47,12 +45,5 @@ public class VelocityInjectorConfiguration extends AbstractModule {
 
         bind(org.bstats.velocity.Metrics.class).toInstance(metrics);
         bind(Metrics.class).to(VelocityMetrics.class);
-
-        initIntegrations();
-    }
-
-    private void initIntegrations() {
-        bind(bStatsIntegration.class).asEagerSingleton();
-        bind(PAPIProxyBridgeIntegration.class).asEagerSingleton();
     }
 }

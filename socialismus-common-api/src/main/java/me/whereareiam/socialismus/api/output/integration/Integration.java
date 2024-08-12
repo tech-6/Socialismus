@@ -4,4 +4,6 @@ public interface Integration {
     String getName();
 
     boolean isAvailable();
+
+    void register();
 }

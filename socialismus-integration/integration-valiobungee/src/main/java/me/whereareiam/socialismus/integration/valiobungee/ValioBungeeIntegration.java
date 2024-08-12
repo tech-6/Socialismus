@@ -6,8 +6,10 @@ import me.whereareiam.socialismus.api.output.integration.Integration;
 
 @Singleton
 public class ValioBungeeIntegration implements Integration {
+    private final Registry<Integration> registry;
+
     public ValioBungeeIntegration(Registry<Integration> registry) {
-        registry.register(this);
+        this.registry = registry;
     }
 
     @Override
@@ -24,5 +26,12 @@ public class ValioBungeeIntegration implements Integration {
         } catch (ClassNotFoundException | NoClassDefFoundError e) {
             return false;
         }
+    }
+
+    @Override
+    public void register() {
+        if (!isAvailable()) return;
+
+        registry.register(this);
     }
 }

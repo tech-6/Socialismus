@@ -13,6 +13,8 @@ import me.whereareiam.socialismus.common.CommonInjector;
 import me.whereareiam.socialismus.common.CommonSocialismus;
 import me.whereareiam.socialismus.common.Constants;
 import me.whereareiam.socialismus.integration.bstats.bStatsIntegration;
+import me.whereareiam.socialismus.integration.papiproxybridge.PAPIProxyBridgeIntegration;
+import me.whereareiam.socialismus.integration.valiobungee.ValioBungeeIntegration;
 import me.whereareiam.socialismus.platform.velocity.inject.VelocityInjector;
 import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
@@ -66,6 +68,8 @@ public class VelocitySocialismus extends CommonSocialismus {
 
         super.onEnable();
 
+        CommonInjector.getInjector().getInstance(PAPIProxyBridgeIntegration.class).register();
+        CommonInjector.getInjector().getInstance(ValioBungeeIntegration.class).register();
         CommonInjector.getInjector().getInstance(bStatsIntegration.class).register();
     }
 

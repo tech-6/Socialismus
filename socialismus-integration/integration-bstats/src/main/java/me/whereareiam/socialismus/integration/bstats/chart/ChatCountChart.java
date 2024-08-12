@@ -20,6 +20,6 @@ public class ChatCountChart implements Chart {
     }
 
     private String getData() {
-        return String.valueOf(containerService.getChats().size());
+        return containerService.getChats().isEmpty() ? "NONE" : String.valueOf(containerService.getChats().size());
     }
 }

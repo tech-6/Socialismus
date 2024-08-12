@@ -10,12 +10,14 @@ import me.whereareiam.socialismus.api.output.integration.Integration;
 @Singleton
 public class bStatsIntegration implements Integration {
     private final Injector injector;
+    private final Registry<Integration> registry;
+
+    private Metrics metrics;
 
     @Inject
     public bStatsIntegration(Injector injector, Registry<Integration> registry) {
         this.injector = injector;
-
-        registry.register(this);
+        this.registry = registry;
     }
 
     @Override
@@ -26,7 +28,7 @@ public class bStatsIntegration implements Integration {
     @Override
     public boolean isAvailable() {
         try {
-            injector.getInstance(Metrics.class);
+            metrics = injector.getInstance(Metrics.class);
 
             return true;
         } catch (ConfigurationException e) {
@@ -34,7 +36,11 @@ public class bStatsIntegration implements Integration {
         }
     }
 
+    @Override
     public void register() {
-        injector.getInstance(Metrics.class).register();
+        if (!isAvailable()) return;
+
+        metrics.register();
+        registry.register(this);
     }
 }
