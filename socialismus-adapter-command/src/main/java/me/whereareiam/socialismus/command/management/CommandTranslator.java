@@ -51,7 +51,6 @@ public class CommandTranslator {
                         String result = entry.getValue().apply(commandEntity);
                         return result != null && !result.isEmpty() ? result : "";
                     }
-
                 }
             }
 

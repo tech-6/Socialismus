@@ -58,7 +58,6 @@ public class CommandProcessor implements CommandService {
     @Override
     public void registerCommand(CommandBase command) {
         translations.putAll(command.getTranslations());
-        System.out.println(command.getTranslations().get("command.announce.usage"));
         annotationParser.parse(command);
     }
 

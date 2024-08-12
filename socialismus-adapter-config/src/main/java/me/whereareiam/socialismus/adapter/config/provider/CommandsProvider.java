@@ -11,6 +11,7 @@ import me.whereareiam.socialismus.api.model.CommandEntity;
 import me.whereareiam.socialismus.api.model.config.Commands;
 
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.Map;
 
 @Singleton
@@ -43,8 +44,7 @@ public class CommandsProvider implements Provider<Map<String, CommandEntity>>, R
     }
 
     private void load() {
-        Commands config = configLoader.load(dataPath.resolve("commands"), Commands.class);
-        commands = Map.copyOf(config.getCommands());
+        commands = new HashMap<>(configLoader.load(dataPath.resolve("commands"), Commands.class).getCommands());
     }
 
     @Override

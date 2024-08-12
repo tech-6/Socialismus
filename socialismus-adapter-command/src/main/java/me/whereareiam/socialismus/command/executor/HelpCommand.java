@@ -49,10 +49,10 @@ public class HelpCommand implements CommandBase {
         CommandEntity commandEntity = commands.get().get("help");
 
         return Map.of(
-                "commandEntity." + commandEntity.getAliases().getFirst() + ".name", commandEntity.getUsage().replace("{commandEntity}", String.join("|", commandEntity.getAliases())),
-                "commandEntity." + commandEntity.getAliases().getFirst() + ".permission", commandEntity.getPermission(),
-                "commandEntity." + commandEntity.getAliases().getFirst() + ".description", commandEntity.getDescription(),
-                "commandEntity." + commandEntity.getAliases().getFirst() + ".usage", commandEntity.getUsage()
+                "command." + commandEntity.getAliases().getFirst() + ".name", commandEntity.getUsage().replace("{command}", String.join("|", commandEntity.getAliases())),
+                "command." + commandEntity.getAliases().getFirst() + ".permission", commandEntity.getPermission(),
+                "command." + commandEntity.getAliases().getFirst() + ".description", commandEntity.getDescription(),
+                "command." + commandEntity.getAliases().getFirst() + ".usage", commandEntity.getUsage()
         );
     }
 }
