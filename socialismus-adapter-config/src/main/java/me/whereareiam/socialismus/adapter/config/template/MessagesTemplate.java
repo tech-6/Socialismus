@@ -27,6 +27,7 @@ public class MessagesTemplate implements DefaultConfig<Messages> {
 
         commandMessages.setArguments(Map.of(
                 "id", "ID",
+                "bool", "true/false",
                 "page", "Page"
         ));
 

@@ -39,6 +39,11 @@ public class BukkitPlatformInteractor implements PlatformInteractor {
     }
 
     @Override
+    public int getOnlinePlayersCount() {
+        return Bukkit.getOnlinePlayers().size();
+    }
+
+    @Override
     public Version getServerVersion() {
         return Version.of(Bukkit.getVersion());
     }

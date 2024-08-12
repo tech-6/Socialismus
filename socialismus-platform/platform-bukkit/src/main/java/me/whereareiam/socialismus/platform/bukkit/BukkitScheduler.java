@@ -15,6 +15,7 @@ import java.util.Map;
 
 @Singleton
 public class BukkitScheduler implements Scheduler {
+    private static final long MS_TO_TICKS = 20L;
     private final Plugin plugin;
     private final Map<String, Map<Integer, BukkitTask>> tasks = new HashMap<>();
 
@@ -53,10 +54,12 @@ public class BukkitScheduler implements Scheduler {
     @Override
     public void schedule(DelayedRunnableTask runnableTask, boolean async) {
         BukkitTask task;
+        long delayInTicks = runnableTask.getDelay() / MS_TO_TICKS;
+
         if (async) {
-            task = Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, runnableTask.getRunnable(), runnableTask.getDelay());
+            task = Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, runnableTask.getRunnable(), delayInTicks);
         } else {
-            task = Bukkit.getScheduler().runTaskLater(plugin, runnableTask.getRunnable(), runnableTask.getDelay());
+            task = Bukkit.getScheduler().runTaskLater(plugin, runnableTask.getRunnable(), delayInTicks);
         }
 
         tasks.put(runnableTask.getModule(), Map.of(runnableTask.getId(), task));
@@ -65,10 +68,14 @@ public class BukkitScheduler implements Scheduler {
     @Override
     public void schedule(PeriodicalRunnableTask runnableTask, boolean async) {
         BukkitTask task;
+
+        long delayInTicks = runnableTask.getDelay() / MS_TO_TICKS;
+        long periodInTicks = runnableTask.getPeriod() / MS_TO_TICKS;
+
         if (async) {
-            task = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, runnableTask.getRunnable(), runnableTask.getDelay(), runnableTask.getPeriod());
+            task = Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, runnableTask.getRunnable(), delayInTicks, periodInTicks);
         } else {
-            task = Bukkit.getScheduler().runTaskTimer(plugin, runnableTask.getRunnable(), runnableTask.getDelay(), runnableTask.getPeriod());
+            task = Bukkit.getScheduler().runTaskTimer(plugin, runnableTask.getRunnable(), delayInTicks, periodInTicks);
         }
 
         tasks.put(runnableTask.getModule(), Map.of(runnableTask.getId(), task));

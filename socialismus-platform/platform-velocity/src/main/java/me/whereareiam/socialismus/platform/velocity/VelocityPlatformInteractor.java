@@ -44,6 +44,11 @@ public class VelocityPlatformInteractor implements PlatformInteractor {
     }
 
     @Override
+    public int getOnlinePlayersCount() {
+        return proxyServer.getPlayerCount();
+    }
+
+    @Override
     public Version getServerVersion() {
         return Version.getLatest();
     }

@@ -13,6 +13,8 @@ public interface PlatformInteractor {
 
     boolean hasPermission(DummyPlayer dummyPlayer, String permission);
 
+    int getOnlinePlayersCount();
+
     Version getServerVersion();
 
     Optional<DummyPlayer> getDummyPlayer(UUID uniqueId);
