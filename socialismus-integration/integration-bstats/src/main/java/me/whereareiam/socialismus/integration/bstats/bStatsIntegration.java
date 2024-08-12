@@ -10,7 +10,6 @@ import me.whereareiam.socialismus.api.output.integration.Integration;
 @Singleton
 public class bStatsIntegration implements Integration {
     private final Injector injector;
-    private boolean registered;
 
     @Inject
     public bStatsIntegration(Injector injector, Registry<Integration> registry) {
@@ -27,16 +26,15 @@ public class bStatsIntegration implements Integration {
     @Override
     public boolean isAvailable() {
         try {
-            Metrics metrics = injector.getInstance(Metrics.class);
-
-            if (!registered) {
-                metrics.register();
-                registered = true;
-            }
+            injector.getInstance(Metrics.class);
 
             return true;
         } catch (ConfigurationException e) {
             return false;
         }
+    }
+
+    public void register() {
+        injector.getInstance(Metrics.class).register();
     }
 }

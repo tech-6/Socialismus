@@ -15,7 +15,7 @@ import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.output.PlatformInteractor;
 import me.whereareiam.socialismus.api.type.Participants;
 import me.whereareiam.socialismus.api.type.requirement.RequirementType;
-import me.whereareiam.socialismus.common.requirement.RequirementValidator;
+import me.whereareiam.socialismus.common.requirement.RequirementEvaluator;
 import me.whereareiam.socialismus.common.serializer.Serializer;
 
 import java.util.Map;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 @Singleton
 public class RecipientSelector {
-    private final RequirementValidator requirementValidator;
+    private final RequirementEvaluator requirementEvaluator;
     private final Provider<ChatSettings> settings;
     private final Provider<ChatMessages> messages;
     private final PlatformInteractor interactor;
@@ -33,9 +33,9 @@ public class RecipientSelector {
     private final Serializer serializer;
 
     @Inject
-    public RecipientSelector(WorkerProcessor<ChatMessage> workerProcessor, RequirementValidator requirementValidator, Provider<ChatSettings> settings, Provider<ChatMessages> messages,
+    public RecipientSelector(WorkerProcessor<ChatMessage> workerProcessor, RequirementEvaluator requirementEvaluator, Provider<ChatSettings> settings, Provider<ChatMessages> messages,
                              PlatformInteractor interactor, LoggingHelper loggingHelper, Serializer serializer) {
-        this.requirementValidator = requirementValidator;
+        this.requirementEvaluator = requirementEvaluator;
         this.settings = settings;
         this.messages = messages;
         this.interactor = interactor;
@@ -83,7 +83,7 @@ public class RecipientSelector {
     private boolean checkRequirements(Chat chat, UUID uniqueId) {
         if (chat.getRequirements().isEmpty()) return true;
         for (Map.Entry<RequirementType, ? extends Requirement> entry : chat.getRequirements().get(Participants.RECIPIENT).getGroups().entrySet())
-            return interactor.getDummyPlayer(uniqueId).map(player -> requirementValidator.isRequirementMet(entry, player)).orElse(false);
+            return interactor.getDummyPlayer(uniqueId).map(player -> requirementEvaluator.isRequirementMet(entry, player)).orElse(false);
 
         return true;
     }

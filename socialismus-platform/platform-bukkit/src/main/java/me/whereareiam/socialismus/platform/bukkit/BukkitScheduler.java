@@ -90,18 +90,16 @@ public class BukkitScheduler implements Scheduler {
     }
 
     @Override
-    public void cancel(RunnableTask runnableTask, boolean force) {
-        cancel(runnableTask);
-    }
-
-    @Override
     public void cancel(DelayedRunnableTask runnableTask) {
         cancel((RunnableTask) runnableTask);
     }
 
     @Override
-    public void cancel(DelayedRunnableTask runnableTask, boolean force) {
-        cancel((RunnableTask) runnableTask, force);
+    public void cancelByModule(String module) {
+        if (tasks.containsKey(module)) {
+            tasks.get(module).values().forEach(BukkitTask::cancel);
+            tasks.remove(module);
+        }
     }
 }
 

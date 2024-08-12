@@ -76,18 +76,16 @@ public class PaperScheduler implements Scheduler {
     }
 
     @Override
-    public void cancel(RunnableTask runnableTask, boolean force) {
-        cancel(runnableTask);
-    }
-
-    @Override
     public void cancel(DelayedRunnableTask runnableTask) {
         cancel((RunnableTask) runnableTask);
     }
 
     @Override
-    public void cancel(DelayedRunnableTask runnableTask, boolean force) {
-        cancel((RunnableTask) runnableTask, force);
+    public void cancelByModule(String module) {
+        if (tasks.containsKey(module)) {
+            tasks.get(module).values().forEach(ScheduledTask::cancel);
+            tasks.remove(module);
+        }
     }
 }
 

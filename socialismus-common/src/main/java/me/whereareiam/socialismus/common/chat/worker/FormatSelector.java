@@ -15,7 +15,7 @@ import me.whereareiam.socialismus.api.model.serializer.SerializerPlaceholder;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.type.Participants;
 import me.whereareiam.socialismus.api.type.requirement.RequirementType;
-import me.whereareiam.socialismus.common.requirement.RequirementValidator;
+import me.whereareiam.socialismus.common.requirement.RequirementEvaluator;
 import me.whereareiam.socialismus.common.serializer.Serializer;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import java.util.Map;
 @Singleton
 public class FormatSelector {
     private final LoggingHelper loggingHelper;
-    private final RequirementValidator requirementValidator;
+    private final RequirementEvaluator requirementEvaluator;
 
     // Configs
     private final Provider<ChatMessages> chatMessages;
@@ -36,10 +36,10 @@ public class FormatSelector {
     private final Serializer serializer;
 
     @Inject
-    public FormatSelector(LoggingHelper loggingHelper, WorkerProcessor<FormattedChatMessage> workerProcessor, RequirementValidator requirementValidator,
+    public FormatSelector(LoggingHelper loggingHelper, WorkerProcessor<FormattedChatMessage> workerProcessor, RequirementEvaluator requirementEvaluator,
                           Provider<ChatMessages> chatMessages, Provider<ChatSettings> chatSettings, Serializer serializer) {
         this.loggingHelper = loggingHelper;
-        this.requirementValidator = requirementValidator;
+        this.requirementEvaluator = requirementEvaluator;
         this.chatMessages = chatMessages;
         this.chatSettings = chatSettings;
         this.serializer = serializer;
@@ -76,7 +76,7 @@ public class FormatSelector {
     private boolean checkRequirements(ChatFormat chatFormat, FormattedChatMessage formattedChatMessage) {
         if (chatFormat.getRequirements().isEmpty()) return true;
         for (Map.Entry<RequirementType, ? extends Requirement> entry : chatFormat.getRequirements().get(Participants.SENDER).getGroups().entrySet())
-            if (!requirementValidator.isRequirementMet(entry, formattedChatMessage.getSender())) {
+            if (!requirementEvaluator.isRequirementMet(entry, formattedChatMessage.getSender())) {
                 chatFormat = getAlternativeChatFormat(chatFormat, formattedChatMessage);
                 if (chatFormat == null) return false;
             }

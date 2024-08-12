@@ -28,13 +28,13 @@ public class Serializer implements SerializationService, SerializationWorker {
     private final SerializationType serializationType;
     @Getter
     private final LinkedList<Worker<SerializerContent>> workers = new LinkedList<>();
-    @Inject
-    private Set<Integration> integrations;
+    private final Provider<Set<Integration>> integrations;
 
     @Inject
-    public Serializer(Provider<Messages> messages, Provider<Settings> settings) {
+    public Serializer(Provider<Messages> messages, Provider<Settings> settings, Provider<Set<Integration>> integrations) {
         this.messages = messages;
         this.serializationType = settings.get().getSerializer();
+        this.integrations = integrations;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class Serializer implements SerializationService, SerializationWorker {
     }
 
     private String hookIntegrations(SerializerContent content) {
-        final List<FormattingIntegration> formatters = integrations.stream()
+        final List<FormattingIntegration> formatters = integrations.get().stream()
                 .filter(integration -> integration instanceof FormattingIntegration)
                 .map(integration -> (FormattingIntegration) integration)
                 .toList();

@@ -10,11 +10,11 @@ import me.whereareiam.socialismus.api.type.requirement.RequirementType;
 import java.util.Map;
 
 @Singleton
-public class RequirementValidator {
+public class RequirementEvaluator {
     private final RequirementRegistry requirementRegistry;
 
     @Inject
-    public RequirementValidator(RequirementRegistry requirementRegistry) {
+    public RequirementEvaluator(RequirementRegistry requirementRegistry) {
         this.requirementRegistry = requirementRegistry;
     }
 

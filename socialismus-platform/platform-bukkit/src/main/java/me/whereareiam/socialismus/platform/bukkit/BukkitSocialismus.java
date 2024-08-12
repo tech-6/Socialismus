@@ -1,6 +1,8 @@
 package me.whereareiam.socialismus.platform.bukkit;
 
+import me.whereareiam.socialismus.common.CommonInjector;
 import me.whereareiam.socialismus.common.CommonSocialismus;
+import me.whereareiam.socialismus.integration.bstats.bStatsIntegration;
 import me.whereareiam.socialismus.platform.bukkit.inject.BukkitInjector;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -28,6 +30,8 @@ public class BukkitSocialismus extends JavaPlugin {
         BukkitLoggingHelper.setLogger(logger);
 
         commonSocialismus.onEnable();
+
+        CommonInjector.getInjector().getInstance(bStatsIntegration.class).register();
     }
 
     @Override

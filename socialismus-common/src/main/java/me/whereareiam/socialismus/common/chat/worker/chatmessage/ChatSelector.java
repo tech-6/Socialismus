@@ -15,7 +15,7 @@ import me.whereareiam.socialismus.api.model.requirement.Requirement;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.type.Participants;
 import me.whereareiam.socialismus.api.type.requirement.RequirementType;
-import me.whereareiam.socialismus.common.requirement.RequirementValidator;
+import me.whereareiam.socialismus.common.requirement.RequirementEvaluator;
 import me.whereareiam.socialismus.common.serializer.Serializer;
 import net.kyori.adventure.text.TextReplacementConfig;
 
@@ -28,7 +28,7 @@ import java.util.Optional;
 public class ChatSelector {
     private final LoggingHelper loggingHelper;
     private final ChatContainerService containerService;
-    private final RequirementValidator requirementValidator;
+    private final RequirementEvaluator requirementEvaluator;
 
     // Configs
     private final Provider<ChatMessages> chatMessages;
@@ -38,12 +38,12 @@ public class ChatSelector {
     private final Serializer serializer;
 
     @Inject
-    public ChatSelector(ChatContainerService containerService, LoggingHelper loggingHelper, RequirementValidator requirementValidator,
+    public ChatSelector(ChatContainerService containerService, LoggingHelper loggingHelper, RequirementEvaluator requirementEvaluator,
                         Provider<ChatMessages> chatMessages, Provider<ChatSettings> chatSettings, Serializer serializer,
                         WorkerProcessor<ChatMessage> workerProcessor) {
         this.loggingHelper = loggingHelper;
         this.containerService = containerService;
-        this.requirementValidator = requirementValidator;
+        this.requirementEvaluator = requirementEvaluator;
         this.chatMessages = chatMessages;
         this.chatSettings = chatSettings;
         this.serializer = serializer;
@@ -90,7 +90,7 @@ public class ChatSelector {
     private boolean checkRequirements(InternalChat chat, ChatMessage chatMessage) {
         if (chat.getRequirements().isEmpty()) return true;
         for (Map.Entry<RequirementType, ? extends Requirement> entry : chat.getRequirements().get(Participants.SENDER).getGroups().entrySet())
-            if (!requirementValidator.isRequirementMet(entry, chatMessage.getSender())) {
+            if (!requirementEvaluator.isRequirementMet(entry, chatMessage.getSender())) {
                 chat = getAlternativeChat(chat, chatMessage);
                 if (chat == null) return false;
             }

@@ -19,9 +19,7 @@ public interface Scheduler {
 
     void cancel(RunnableTask runnableTask);
 
-    void cancel(RunnableTask runnableTask, boolean force);
-
     void cancel(DelayedRunnableTask runnableTask);
 
-    void cancel(DelayedRunnableTask runnableTask, boolean force);
+    void cancelByModule(String module);
 }

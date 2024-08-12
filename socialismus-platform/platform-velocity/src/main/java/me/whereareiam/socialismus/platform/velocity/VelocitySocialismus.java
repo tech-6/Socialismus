@@ -9,8 +9,10 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
+import me.whereareiam.socialismus.common.CommonInjector;
 import me.whereareiam.socialismus.common.CommonSocialismus;
 import me.whereareiam.socialismus.common.Constants;
+import me.whereareiam.socialismus.integration.bstats.bStatsIntegration;
 import me.whereareiam.socialismus.platform.velocity.inject.VelocityInjector;
 import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
@@ -63,6 +65,8 @@ public class VelocitySocialismus extends CommonSocialismus {
         VelocityLoggingHelper.setLogger(logger);
 
         super.onEnable();
+
+        CommonInjector.getInjector().getInstance(bStatsIntegration.class).register();
     }
 
     @Subscribe
