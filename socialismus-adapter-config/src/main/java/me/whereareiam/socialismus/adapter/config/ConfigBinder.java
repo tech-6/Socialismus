@@ -22,6 +22,8 @@ import me.whereareiam.socialismus.adapter.config.template.SettingsTemplate;
 import me.whereareiam.socialismus.adapter.config.template.chat.ChatMessagesTemplate;
 import me.whereareiam.socialismus.adapter.config.template.chat.ChatSettingsTemplate;
 import me.whereareiam.socialismus.adapter.config.template.chat.ChatTemplate;
+import me.whereareiam.socialismus.api.input.registry.Registry;
+import me.whereareiam.socialismus.api.model.CommandEntity;
 import me.whereareiam.socialismus.api.model.chat.Chat;
 import me.whereareiam.socialismus.api.model.chat.ChatMessages;
 import me.whereareiam.socialismus.api.model.chat.ChatSettings;
@@ -38,6 +40,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 
 public class ConfigBinder extends AbstractModule {
     private final Path dataPath;
@@ -71,7 +74,8 @@ public class ConfigBinder extends AbstractModule {
         bind(MessagesProvider.class);
         bind(Messages.class).toProvider(MessagesProvider.class);
         bind(CommandsProvider.class);
-        bind(Commands.class).toProvider(CommandsProvider.class);
+        bind(new TypeLiteral<Map<String, CommandEntity>>() {}).toProvider(CommandsProvider.class);
+        bind(new TypeLiteral<Registry<Map<String, CommandEntity>>>() {}).to(CommandsProvider.class).asEagerSingleton();
 
         bind(ChatsProvider.class).asEagerSingleton();
         bind(new TypeLiteral<List<Chat>>() {}).annotatedWith(Names.named("chats")).toProvider(ChatsProvider.class);

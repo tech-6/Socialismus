@@ -1,7 +1,7 @@
 package me.whereareiam.socialismus.adapter.config.template;
 
 import com.google.inject.Singleton;
-import me.whereareiam.socialismus.api.model.Command;
+import me.whereareiam.socialismus.api.model.CommandEntity;
 import me.whereareiam.socialismus.api.model.config.Commands;
 import me.whereareiam.socialismus.api.output.DefaultConfig;
 
@@ -14,7 +14,7 @@ public class CommandsTemplate implements DefaultConfig<Commands> {
         Commands commands = new Commands();
 
         // Default values
-        Command main = Command.builder()
+        CommandEntity main = CommandEntity.builder()
                 .aliases(List.of("socialismus", "social"))
                 .permission("")
                 .description("Main command")
@@ -22,7 +22,7 @@ public class CommandsTemplate implements DefaultConfig<Commands> {
                 .enabled(true)
                 .build();
 
-        Command help = Command.builder()
+        CommandEntity help = CommandEntity.builder()
                 .aliases(List.of("help"))
                 .permission("")
                 .description("Help command")
@@ -30,7 +30,7 @@ public class CommandsTemplate implements DefaultConfig<Commands> {
                 .enabled(true)
                 .build();
 
-        Command debug = Command.builder()
+        CommandEntity debug = CommandEntity.builder()
                 .aliases(List.of("debug"))
                 .permission("socialismus.admin")
                 .description("Debug command")
@@ -38,7 +38,7 @@ public class CommandsTemplate implements DefaultConfig<Commands> {
                 .enabled(true)
                 .build();
 
-        Command reload = Command.builder()
+        CommandEntity reload = CommandEntity.builder()
                 .aliases(List.of("reload"))
                 .permission("socialismus.admin")
                 .description("Reload command")

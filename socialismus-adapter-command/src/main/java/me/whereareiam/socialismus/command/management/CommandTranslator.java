@@ -3,8 +3,7 @@ package me.whereareiam.socialismus.command.management;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import me.whereareiam.socialismus.api.model.Command;
-import me.whereareiam.socialismus.api.model.config.Commands;
+import me.whereareiam.socialismus.api.model.CommandEntity;
 import me.whereareiam.socialismus.api.output.command.CommandService;
 import org.incendo.cloud.annotations.string.PatternReplacingStringProcessor;
 
@@ -22,17 +21,17 @@ public class CommandTranslator {
     private static final Pattern DESCRIPTION_PATTERN = Pattern.compile("%description\\.(.*)");
     private static final Pattern USAGE_PATTERN = Pattern.compile("%usage\\.(.*)");
 
-    private final Provider<Commands> commands;
+    private final Provider<Map<String, CommandEntity>> commands;
     private final CommandService commandService;
 
     @Inject
-    public CommandTranslator(Provider<Commands> commands, CommandService commandService) {
+    public CommandTranslator(Provider<Map<String, CommandEntity>> commands, CommandService commandService) {
         this.commands = commands;
         this.commandService = commandService;
     }
 
     public PatternReplacingStringProcessor getProcessor() {
-        Map<Pattern, Function<Command, String>> patternFunctionMap = new HashMap<>();
+        Map<Pattern, Function<CommandEntity, String>> patternFunctionMap = new HashMap<>();
 
         patternFunctionMap.put(COMMAND_PATTERN, command -> getTranslation("command." + command.getAliases().getFirst() + ".name"));
         patternFunctionMap.put(PERMISSION_PATTERN, command -> getTranslation("command." + command.getAliases().getFirst() + ".permission"));
@@ -42,16 +41,17 @@ public class CommandTranslator {
         Function<MatchResult, String> replacementFunction = matchResult -> {
             String input = matchResult.group(0);
 
-            for (Map.Entry<Pattern, Function<Command, String>> entry : patternFunctionMap.entrySet()) {
+            for (Map.Entry<Pattern, Function<CommandEntity, String>> entry : patternFunctionMap.entrySet()) {
                 Matcher matcher = entry.getKey().matcher(input);
                 if (matcher.find()) {
                     String commandName = matcher.group(1);
-                    Command command = commands.get().getCommands().get(commandName);
+                    CommandEntity commandEntity = commands.get().get(commandName);
 
-                    if (command != null) {
-                        String result = entry.getValue().apply(command);
+                    if (commandEntity != null) {
+                        String result = entry.getValue().apply(commandEntity);
                         return result != null && !result.isEmpty() ? result : "";
                     }
+
                 }
             }
 

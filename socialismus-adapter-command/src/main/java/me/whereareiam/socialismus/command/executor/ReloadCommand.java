@@ -6,7 +6,7 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import me.whereareiam.socialismus.api.Reloadable;
 import me.whereareiam.socialismus.api.input.serializer.SerializationService;
-import me.whereareiam.socialismus.api.model.config.Commands;
+import me.whereareiam.socialismus.api.model.CommandEntity;
 import me.whereareiam.socialismus.api.model.config.message.CommandMessages;
 import me.whereareiam.socialismus.api.model.config.message.Messages;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
@@ -24,11 +24,11 @@ import java.util.Set;
 public class ReloadCommand implements CommandBase {
     private final Set<Reloadable> reloadables;
     private final Provider<Messages> messages;
-    private final Provider<Commands> commands;
+    private final Provider<Map<String, CommandEntity>> commands;
     private final SerializationService serializer;
 
     @Inject
-    public ReloadCommand(@Named("reloadables") Set<Reloadable> reloadables, Provider<Messages> messages, Provider<Commands> commands, SerializationService serializer) {
+    public ReloadCommand(@Named("reloadables") Set<Reloadable> reloadables, Provider<Messages> messages, Provider<Map<String, CommandEntity>> commands, SerializationService serializer) {
         this.reloadables = reloadables;
         this.messages = messages;
         this.commands = commands;
@@ -53,13 +53,13 @@ public class ReloadCommand implements CommandBase {
 
     @Override
     public Map<String, String> getTranslations() {
-        me.whereareiam.socialismus.api.model.Command command = commands.get().getCommands().get("reload");
+        CommandEntity commandEntity = commands.get().get("reload");
 
         return Map.of(
-                "command." + command.getAliases().getFirst() + ".name", command.getUsage().replace("{command}", String.join("|", command.getAliases())),
-                "command." + command.getAliases().getFirst() + ".permission", command.getPermission(),
-                "command." + command.getAliases().getFirst() + ".description", command.getDescription(),
-                "command." + command.getAliases().getFirst() + ".usage", command.getUsage()
+                "commandEntity." + commandEntity.getAliases().getFirst() + ".name", commandEntity.getUsage().replace("{commandEntity}", String.join("|", commandEntity.getAliases())),
+                "commandEntity." + commandEntity.getAliases().getFirst() + ".permission", commandEntity.getPermission(),
+                "commandEntity." + commandEntity.getAliases().getFirst() + ".description", commandEntity.getDescription(),
+                "commandEntity." + commandEntity.getAliases().getFirst() + ".usage", commandEntity.getUsage()
         );
     }
 }

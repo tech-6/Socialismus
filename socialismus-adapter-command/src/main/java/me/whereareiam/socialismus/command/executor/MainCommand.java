@@ -3,7 +3,7 @@ package me.whereareiam.socialismus.command.executor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import me.whereareiam.socialismus.api.model.config.Commands;
+import me.whereareiam.socialismus.api.model.CommandEntity;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.output.command.CommandBase;
 import org.incendo.cloud.CommandManager;
@@ -16,10 +16,10 @@ import java.util.Map;
 @Singleton
 public class MainCommand implements CommandBase {
     private final CommandManager<DummyPlayer> commandManager;
-    private final Provider<Commands> commands;
+    private final Provider<Map<String, CommandEntity>> commands;
 
     @Inject
-    public MainCommand(CommandManager<DummyPlayer> commandManager, Provider<Commands> commands) {
+    public MainCommand(CommandManager<DummyPlayer> commandManager, Provider<Map<String, CommandEntity>> commands) {
         this.commandManager = commandManager;
         this.commands = commands;
     }
@@ -30,22 +30,22 @@ public class MainCommand implements CommandBase {
     public void onCommand(DummyPlayer dummyPlayer) {
         commandManager.commandExecutor().executeCommand(
                 dummyPlayer,
-                commands.get().getCommands().get("main").getAliases().getFirst()
+                commands.get().get("main").getAliases().getFirst()
                         + " "
-                        + commands.get().getCommands().get("help").getAliases().getFirst()
+                        + commands.get().get("help").getAliases().getFirst()
                         + " 1"
         );
     }
 
     @Override
     public Map<String, String> getTranslations() {
-        me.whereareiam.socialismus.api.model.Command command = commands.get().getCommands().get("main");
+        CommandEntity commandEntity = commands.get().get("main");
 
         return Map.of(
-                "command." + command.getAliases().getFirst() + ".name", command.getUsage().replace("{command}", String.join("|", command.getAliases())),
-                "command." + command.getAliases().getFirst() + ".permission", command.getPermission(),
-                "command." + command.getAliases().getFirst() + ".description", command.getDescription(),
-                "command." + command.getAliases().getFirst() + ".usage", command.getUsage()
+                "commandEntity." + commandEntity.getAliases().getFirst() + ".name", commandEntity.getUsage().replace("{commandEntity}", String.join("|", commandEntity.getAliases())),
+                "commandEntity." + commandEntity.getAliases().getFirst() + ".permission", commandEntity.getPermission(),
+                "commandEntity." + commandEntity.getAliases().getFirst() + ".description", commandEntity.getDescription(),
+                "commandEntity." + commandEntity.getAliases().getFirst() + ".usage", commandEntity.getUsage()
         );
     }
 }

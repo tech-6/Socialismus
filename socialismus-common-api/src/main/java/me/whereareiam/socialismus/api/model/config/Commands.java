@@ -2,7 +2,7 @@ package me.whereareiam.socialismus.api.model.config;
 
 import lombok.Getter;
 import lombok.ToString;
-import me.whereareiam.socialismus.api.model.Command;
+import me.whereareiam.socialismus.api.model.CommandEntity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,5 +10,5 @@ import java.util.Map;
 @Getter
 @ToString
 public class Commands {
-    private Map<String, Command> commands = new HashMap<>();
+    private Map<String, CommandEntity> commands = new HashMap<>();
 }

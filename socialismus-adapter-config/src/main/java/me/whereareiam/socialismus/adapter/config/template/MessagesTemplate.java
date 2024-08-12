@@ -26,6 +26,7 @@ public class MessagesTemplate implements DefaultConfig<Messages> {
         commandMessages.setInvalidSyntaxString("{prefix}<white>You tried to use <gray>{content}</gray> as a string, but it's not a valid value, please use a valid string.</white>");
 
         commandMessages.setArguments(Map.of(
+                "id", "ID",
                 "page", "Page"
         ));
 
@@ -47,7 +48,7 @@ public class MessagesTemplate implements DefaultConfig<Messages> {
         commandMessages.setPagination(pagination);
 
         CommandMessages.HelpCommand helpCommand = new CommandMessages.HelpCommand();
-        helpCommand.setFormat(List.of(" ", "<gold><bold> Socialismus</bold> <white>Command help", " ", "{commands}", "{pagination}"));
+        helpCommand.setFormat(List.of(" ", "<gold><bold> Socialismus</bold> <white>CommandEntity help", " ", "{commands}", "{pagination}"));
         helpCommand.setCommandFormat(" <yellow>/{command}{arguments}</yellow> <dark_gray>- <white>{description}");
         helpCommand.setNoCommands("  <red>No commands found</red>");
 

@@ -13,7 +13,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class Command {
+public class CommandEntity {
     private List<String> aliases;
     private String permission;
     private String description;

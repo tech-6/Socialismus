@@ -7,16 +7,18 @@ import com.google.inject.name.Named;
 import me.whereareiam.socialismus.adapter.config.management.ConfigLoader;
 import me.whereareiam.socialismus.api.Reloadable;
 import me.whereareiam.socialismus.api.input.registry.Registry;
+import me.whereareiam.socialismus.api.model.CommandEntity;
 import me.whereareiam.socialismus.api.model.config.Commands;
 
 import java.nio.file.Path;
+import java.util.Map;
 
 @Singleton
-public class CommandsProvider implements Provider<Commands>, Reloadable {
+public class CommandsProvider implements Provider<Map<String, CommandEntity>>, Registry<Map<String, CommandEntity>>, Reloadable {
     private final Path dataPath;
     private final ConfigLoader configLoader;
 
-    private Commands commands;
+    private Map<String, CommandEntity> commands;
 
     @Inject
     public CommandsProvider(@Named("dataPath") Path dataPath, ConfigLoader configLoader, Registry<Reloadable> registry) {
@@ -27,7 +29,7 @@ public class CommandsProvider implements Provider<Commands>, Reloadable {
     }
 
     @Override
-    public Commands get() {
+    public Map<String, CommandEntity> get() {
         if (commands != null) return commands;
 
         load();
@@ -41,6 +43,12 @@ public class CommandsProvider implements Provider<Commands>, Reloadable {
     }
 
     private void load() {
-        commands = configLoader.load(dataPath.resolve("commands"), Commands.class);
+        Commands config = configLoader.load(dataPath.resolve("commands"), Commands.class);
+        commands = Map.copyOf(config.getCommands());
+    }
+
+    @Override
+    public void register(Map<String, CommandEntity> commands) {
+        this.commands.put(commands.keySet().iterator().next(), commands.values().iterator().next());
     }
 }
