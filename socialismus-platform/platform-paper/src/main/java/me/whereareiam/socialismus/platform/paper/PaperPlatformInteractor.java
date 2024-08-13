@@ -78,7 +78,7 @@ public class PaperPlatformInteractor implements PlatformInteractor {
                 .map(player -> DummyPlayer.builder()
                         .username(player.getName())
                         .uniqueId(player.getUniqueId())
-                        .audience(null)
+                        .audience(player)
                         .location(player.getWorld().getName())
                         .locale(player.locale())
                         .build())
