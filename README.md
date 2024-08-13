@@ -3,6 +3,10 @@
 ![dependencies](.github/assets/SocialismusPage-Dependencies.png)
 ![comparison](.github/assets/SocialismusPage-Comparison.png)
 
+# Official modules
+
+- [Chirper](https://github.com/whereareiam/Chirper) - Sends announcements to the online players on a regular basis.
+
 # Documentation
 
 Can be found [here](https://github.com/whereareiam/Socialismus/wiki).
