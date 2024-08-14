@@ -6,8 +6,10 @@ import com.google.inject.name.Names;
 import me.whereareiam.socialismus.api.Reloadable;
 import me.whereareiam.socialismus.api.input.PluginInteractor;
 import me.whereareiam.socialismus.api.input.WorkerProcessor;
-import me.whereareiam.socialismus.api.input.chat.ChatContainerService;
 import me.whereareiam.socialismus.api.input.chat.RequirementValidation;
+import me.whereareiam.socialismus.api.input.container.ChatContainerService;
+import me.whereareiam.socialismus.api.input.container.ChatHistoryContainerService;
+import me.whereareiam.socialismus.api.input.container.PlayerContainerService;
 import me.whereareiam.socialismus.api.input.registry.ExtendedRegistry;
 import me.whereareiam.socialismus.api.input.registry.Registry;
 import me.whereareiam.socialismus.api.input.serializer.SerializationService;
@@ -16,9 +18,11 @@ import me.whereareiam.socialismus.api.model.chat.message.FormattedChatMessage;
 import me.whereareiam.socialismus.api.model.serializer.SerializerContent;
 import me.whereareiam.socialismus.api.output.integration.Integration;
 import me.whereareiam.socialismus.api.type.requirement.RequirementType;
-import me.whereareiam.socialismus.common.chat.ChatContainer;
 import me.whereareiam.socialismus.common.chat.processor.ChatMessageProcessor;
 import me.whereareiam.socialismus.common.chat.processor.FormattedChatMessageProcessor;
+import me.whereareiam.socialismus.common.container.ChatContainer;
+import me.whereareiam.socialismus.common.container.ChatHistoryContainer;
+import me.whereareiam.socialismus.common.container.PlayerContainer;
 import me.whereareiam.socialismus.common.provider.IntegrationProvider;
 import me.whereareiam.socialismus.common.provider.ReloadableProvider;
 import me.whereareiam.socialismus.common.requirement.RequirementRegistry;
@@ -35,6 +39,9 @@ public class CommonConfiguration extends AbstractModule {
         bind(PluginInteractor.class).to(CommonPluginInteractor.class);
 
         bind(ChatContainerService.class).to(ChatContainer.class);
+        bind(PlayerContainerService.class).to(PlayerContainer.class);
+        bind(ChatHistoryContainerService.class).to(ChatHistoryContainer.class);
+
         bind(new TypeLiteral<WorkerProcessor<ChatMessage>>() {}).to(ChatMessageProcessor.class);
         bind(new TypeLiteral<WorkerProcessor<FormattedChatMessage>>() {}).to(FormattedChatMessageProcessor.class);
 

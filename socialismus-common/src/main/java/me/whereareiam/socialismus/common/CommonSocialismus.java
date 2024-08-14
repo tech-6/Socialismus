@@ -10,10 +10,10 @@ import me.whereareiam.socialismus.api.output.ListenerRegistrar;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.output.command.CommandService;
 import me.whereareiam.socialismus.api.output.module.ModuleService;
-import me.whereareiam.socialismus.common.chat.ChatContainer;
 import me.whereareiam.socialismus.common.chat.worker.FormatSelector;
 import me.whereareiam.socialismus.common.chat.worker.chatmessage.ChatSelector;
 import me.whereareiam.socialismus.common.chat.worker.chatmessage.RecipientSelector;
+import me.whereareiam.socialismus.common.container.ChatContainer;
 
 import java.util.ArrayList;
 import java.util.List;

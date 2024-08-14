@@ -2,9 +2,11 @@ package me.whereareiam.socialismus.api.model.player;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
 
 import java.util.Locale;
 import java.util.UUID;
@@ -18,7 +20,12 @@ public class DummyPlayer {
     private final UUID uniqueId;
     private final Audience audience;
 
-    // can be worldName, serverName or null
-    private final String location;
-    private final Locale locale;
+    @Setter
+    private String location; // can be worldName, serverName or null
+    @Setter
+    private Locale locale;
+
+    public void sendMessage(Component component) {
+        audience.sendMessage(component);
+    }
 }

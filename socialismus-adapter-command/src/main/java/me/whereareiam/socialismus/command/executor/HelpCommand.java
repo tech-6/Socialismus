@@ -41,7 +41,7 @@ public class HelpCommand implements CommandBase {
                 .filter(command -> dummyPlayer.getUsername() != null || commandManager.hasPermission(dummyPlayer, command.commandPermission().permissionString()))
                 .collect(Collectors.toList());
 
-        dummyPlayer.getAudience().sendMessage(serializer.format(dummyPlayer, helpBuilder.buildHelpMessage(allowedCommands, page)));
+        dummyPlayer.sendMessage(serializer.format(dummyPlayer, helpBuilder.buildHelpMessage(allowedCommands, page)));
     }
 
     @Override

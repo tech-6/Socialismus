@@ -20,7 +20,6 @@ import me.whereareiam.socialismus.common.serializer.Serializer;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Singleton
@@ -53,7 +52,7 @@ public class RecipientSelector {
 
         Chat chat = chatMessage.getChat();
         DummyPlayer sender = chatMessage.getSender();
-        Set<UUID> recipients = chatMessage.getRecipients();
+        Set<DummyPlayer> recipients = chatMessage.getRecipients();
 
         if (chat.getParameters().getType().isLocal()) {
             recipients = recipients.parallelStream()
@@ -63,7 +62,7 @@ public class RecipientSelector {
                     .collect(Collectors.toSet());
 
             if (recipients.isEmpty() && settings.get().isNotifyNoNearbyPlayers())
-                sender.getAudience().sendMessage(serializer.format(sender, messages.get().getNoNearbyPlayers()));
+                sender.sendMessage(serializer.format(sender, messages.get().getNoNearbyPlayers()));
         } else {
             recipients = recipients.stream()
                     .filter(recipient -> checkRequirements(chat, recipient))
@@ -75,24 +74,24 @@ public class RecipientSelector {
         chatMessage.setRecipients(recipients);
         if (recipients.isEmpty()) chatMessage.setCancelled(true);
         if (recipients.isEmpty() && settings.get().isNotifyNoPlayers() && chat.getParameters().getType().isGlobal())
-            sender.getAudience().sendMessage(serializer.format(sender, messages.get().getNoPlayers()));
+            sender.sendMessage(serializer.format(sender, messages.get().getNoPlayers()));
 
         return chatMessage;
     }
 
-    private boolean checkRequirements(Chat chat, UUID uniqueId) {
+    private boolean checkRequirements(Chat chat, DummyPlayer dummyPlayer) {
         if (chat.getRequirements().isEmpty()) return true;
         for (Map.Entry<RequirementType, ? extends Requirement> entry : chat.getRequirements().get(Participants.RECIPIENT).getGroups().entrySet())
-            return interactor.getDummyPlayer(uniqueId).map(player -> requirementEvaluator.isRequirementMet(entry, player)).orElse(false);
+            return requirementEvaluator.isRequirementMet(entry, dummyPlayer);
 
         return true;
     }
 
-    private boolean isInSameRealm(DummyPlayer sender, UUID recipient) {
-        return interactor.getDummyPlayer(recipient).map(r -> r.getLocation().equals(sender.getLocation())).orElse(false);
+    private boolean isInSameRealm(DummyPlayer sender, DummyPlayer recipient) {
+        return recipient.getLocation().equals(sender.getLocation());
     }
 
-    private boolean isWithinRadius(DummyPlayer sender, UUID recipient, double radius) {
-        return interactor.areWithinRange(sender.getUniqueId(), recipient, radius);
+    private boolean isWithinRadius(DummyPlayer sender, DummyPlayer recipient, double radius) {
+        return interactor.areWithinRange(sender.getUniqueId(), recipient.getUniqueId(), radius);
     }
 }

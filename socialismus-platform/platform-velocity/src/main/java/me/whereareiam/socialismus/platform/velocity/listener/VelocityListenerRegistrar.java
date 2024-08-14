@@ -6,7 +6,10 @@ import com.google.inject.Singleton;
 import com.velocitypowered.api.event.EventManager;
 import me.whereareiam.socialismus.api.output.ListenerRegistrar;
 import me.whereareiam.socialismus.platform.velocity.VelocitySocialismus;
+import me.whereareiam.socialismus.platform.velocity.listener.activity.ServerChangeListener;
 import me.whereareiam.socialismus.platform.velocity.listener.chat.PlayerChatListener;
+import me.whereareiam.socialismus.platform.velocity.listener.connection.PlayerJoinListener;
+import me.whereareiam.socialismus.platform.velocity.listener.connection.PlayerQuitListener;
 
 import java.util.stream.Stream;
 
@@ -26,7 +29,10 @@ public class VelocityListenerRegistrar implements ListenerRegistrar {
     @Override
     public void registerListeners() {
         Stream.of(
-                injector.getInstance(PlayerChatListener.class)
+                injector.getInstance(PlayerChatListener.class),
+                injector.getInstance(ServerChangeListener.class),
+                injector.getInstance(PlayerQuitListener.class),
+                injector.getInstance(PlayerJoinListener.class)
         ).forEach(this::registerListener);
     }
 

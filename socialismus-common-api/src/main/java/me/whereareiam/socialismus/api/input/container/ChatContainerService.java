@@ -1,7 +1,7 @@
-package me.whereareiam.socialismus.api.input.chat;
+package me.whereareiam.socialismus.api.input.container;
 
-import me.whereareiam.socialismus.api.model.chat.InternalChat;
 import me.whereareiam.socialismus.api.model.chat.Chat;
+import me.whereareiam.socialismus.api.model.chat.InternalChat;
 
 import java.util.List;
 import java.util.Optional;

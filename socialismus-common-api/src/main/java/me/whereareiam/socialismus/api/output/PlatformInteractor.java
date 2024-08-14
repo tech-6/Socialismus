@@ -3,9 +3,6 @@ package me.whereareiam.socialismus.api.output;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.type.Version;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 public interface PlatformInteractor {
@@ -16,10 +13,4 @@ public interface PlatformInteractor {
     int getOnlinePlayersCount();
 
     Version getServerVersion();
-
-    Optional<DummyPlayer> getDummyPlayer(UUID uniqueId);
-
-    List<DummyPlayer> getPlayers(Set<UUID> uniqueIds);
-
-    List<DummyPlayer> getOnlinePlayers();
 }

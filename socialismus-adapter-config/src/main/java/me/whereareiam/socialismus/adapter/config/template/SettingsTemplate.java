@@ -16,6 +16,8 @@ public class SettingsTemplate implements DefaultConfig<Settings> {
         settings.setSerializer(SerializationType.MINIMESSAGE);
 
         Settings.Miscellaneous misc = new Settings.Miscellaneous();
+        misc.setDisableJoinNotification(true);
+        misc.setDisableQuitNotification(true);
         misc.setVanillaSending(true);
         misc.setAllowLegacyParsing(false);
         misc.setAllowBrigadierCommands(true);

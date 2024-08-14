@@ -1,17 +1,18 @@
-package me.whereareiam.socialismus.common.chat;
+package me.whereareiam.socialismus.common.container;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import me.whereareiam.socialismus.api.Reloadable;
-import me.whereareiam.socialismus.api.input.chat.ChatContainerService;
+import me.whereareiam.socialismus.api.input.container.ChatContainerService;
 import me.whereareiam.socialismus.api.input.registry.Registry;
 import me.whereareiam.socialismus.api.model.chat.Chat;
 import me.whereareiam.socialismus.api.model.chat.ChatSettings;
 import me.whereareiam.socialismus.api.model.chat.InternalChat;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.type.chat.ChatType;
+import me.whereareiam.socialismus.common.chat.ChatConverter;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

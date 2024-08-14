@@ -7,9 +7,8 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.player.PlayerChatEvent;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
-import me.whereareiam.socialismus.api.model.chat.message.ChatMessage;
-import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.common.chat.ChatCoordinator;
+import me.whereareiam.socialismus.common.chat.ChatMessageFactory;
 import net.kyori.adventure.text.Component;
 
 import java.util.Collection;
@@ -19,11 +18,13 @@ import java.util.stream.Collectors;
 public class PlayerChatListener {
     private final ProxyServer proxyServer;
     private final ChatCoordinator chatCoordinator;
+    private final ChatMessageFactory chatMessageFactory;
 
     @Inject
-    public PlayerChatListener(ProxyServer proxyServer, ChatCoordinator chatCoordinator) {
+    public PlayerChatListener(ProxyServer proxyServer, ChatCoordinator chatCoordinator, ChatMessageFactory chatMessageFactory) {
         this.proxyServer = proxyServer;
         this.chatCoordinator = chatCoordinator;
+        this.chatMessageFactory = chatMessageFactory;
     }
 
     @Subscribe(order = PostOrder.FIRST)
@@ -33,30 +34,13 @@ public class PlayerChatListener {
         Component content = Component.text(event.getMessage());
 
         chatCoordinator.handleChatEvent(
-                createChatMessage(player, recipients, content)
+                chatMessageFactory.createChatMessage(
+                        player.getUniqueId(),
+                        recipients.stream().map(Player::getUniqueId).collect(Collectors.toSet()),
+                        content
+                )
         );
 
         event.setResult(PlayerChatEvent.ChatResult.denied());
-    }
-
-    private ChatMessage createChatMessage(Player player, Collection<Player> recipients, Component content) {
-        return new ChatMessage(
-                new DummyPlayer(
-                        player.getUsername(),
-                        player.getUniqueId(),
-                        player,
-                        player.getCurrentServer().isPresent()
-                                ? player.getCurrentServer().get().getServerInfo().getName()
-                                : null,
-                        player.getEffectiveLocale()
-                ),
-                recipients.stream()
-                        .map(Player::getUniqueId)
-                        .collect(Collectors.toSet()),
-                content,
-                null,
-                false,
-                false
-        );
     }
 }

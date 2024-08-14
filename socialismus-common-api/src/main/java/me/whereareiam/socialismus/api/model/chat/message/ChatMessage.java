@@ -10,7 +10,6 @@ import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import net.kyori.adventure.text.Component;
 
 import java.util.Set;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -19,7 +18,7 @@ import java.util.UUID;
 @SuperBuilder(toBuilder = true)
 public class ChatMessage {
     private final DummyPlayer sender;
-    private Set<UUID> recipients;
+    private Set<DummyPlayer> recipients;
 
     private Component content;
     private Chat chat;

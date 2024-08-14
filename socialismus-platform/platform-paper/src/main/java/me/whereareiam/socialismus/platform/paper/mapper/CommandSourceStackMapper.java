@@ -1,13 +1,12 @@
 package me.whereareiam.socialismus.platform.paper.mapper;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
+import me.whereareiam.socialismus.api.input.container.PlayerContainerService;
 import me.whereareiam.socialismus.api.model.player.DummyCommandPlayer;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
-import net.kyori.adventure.audience.Audience;
-import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.incendo.cloud.SenderMapper;
 
@@ -16,32 +15,31 @@ import javax.annotation.Nonnull;
 @SuppressWarnings("UnstableApiUsage")
 @Singleton
 public class CommandSourceStackMapper implements SenderMapper<CommandSourceStack, DummyPlayer> {
-	@Override
-	public @NonNull DummyPlayer map(@NonNull CommandSourceStack source) {
-		DummyPlayer dummyPlayer;
+    private final PlayerContainerService playerContainer;
 
-		if (source.getSender() instanceof ConsoleCommandSender || source.getSender().getClass().getName().equals("io.papermc.paper.brigadier.NullCommandSender")) {
-			dummyPlayer = DummyCommandPlayer.builder().commandSender(source).audience(source.getSender()).build();
-		} else {
-			Player player = Bukkit.getPlayer(source.getSender().getName());
-			if (player == null)
-				throw new NullPointerException("A player with the name " + source.getSender().getName() + " was not found");
+    @Inject
+    public CommandSourceStackMapper(PlayerContainerService playerContainer) {
+        this.playerContainer = playerContainer;
+    }
 
-			dummyPlayer = DummyCommandPlayer.builder()
-					.commandSender(source)
-					.username(player.getName())
-					.uniqueId(player.getUniqueId())
-					.audience((Audience) player)
-					.location(player.getWorld().getName())
-					.locale(player.locale())
-					.build();
-		}
+    @Override
+    public @NonNull DummyPlayer map(@NonNull CommandSourceStack source) {
+        if (source.getSender() instanceof ConsoleCommandSender || source.getSender().getClass().getName().equals("io.papermc.paper.brigadier.NullCommandSender")) {
+            return DummyCommandPlayer.builder().commandSender(source).audience(source.getSender()).build();
+        }
 
-		return dummyPlayer;
-	}
+        return playerContainer.getPlayer(source.getSender().getName())
+                .map(dummyPlayer -> {
+                    ((DummyCommandPlayer) dummyPlayer).setCommandSender(source);
+                    return dummyPlayer;
+                })
+                .orElseThrow(
+                        () -> new NullPointerException("A player with the name " + source.getSender().getName() + " was not found")
+                );
+    }
 
-	@Override
-	public @Nonnull CommandSourceStack reverse(@Nonnull DummyPlayer dummyPlayer) {
-		return (CommandSourceStack) ((DummyCommandPlayer) dummyPlayer).getCommandSender();
-	}
+    @Override
+    public @Nonnull CommandSourceStack reverse(final @Nonnull DummyPlayer dummyPlayer) {
+        return (CommandSourceStack) ((DummyCommandPlayer) dummyPlayer).getCommandSender();
+    }
 }

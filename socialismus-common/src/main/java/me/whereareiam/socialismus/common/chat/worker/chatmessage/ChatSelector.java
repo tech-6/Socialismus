@@ -5,7 +5,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.ComponentUtil;
 import me.whereareiam.socialismus.api.input.WorkerProcessor;
-import me.whereareiam.socialismus.api.input.chat.ChatContainerService;
+import me.whereareiam.socialismus.api.input.container.ChatContainerService;
 import me.whereareiam.socialismus.api.model.Worker;
 import me.whereareiam.socialismus.api.model.chat.ChatMessages;
 import me.whereareiam.socialismus.api.model.chat.ChatSettings;
@@ -131,7 +131,7 @@ public class ChatSelector {
     private void notifyPlayerFallbackNotSet(ChatMessage chatMessage) {
         if (!chatSettings.get().isNotifyNoChat()) return;
 
-        chatMessage.getSender().getAudience().sendMessage(
+        chatMessage.getSender().sendMessage(
                 serializer.format(chatMessage.getSender(), chatMessages.get().getNoFallbackChat())
         );
     }
@@ -139,7 +139,7 @@ public class ChatSelector {
     private void notifyAboutAbsentChat(ChatMessage chatMessage) {
         if (!chatSettings.get().isNotifyNoChat()) return;
 
-        chatMessage.getSender().getAudience().sendMessage(
+        chatMessage.getSender().sendMessage(
                 serializer.format(chatMessage.getSender(), chatMessages.get().getNoChatMatch())
         );
     }

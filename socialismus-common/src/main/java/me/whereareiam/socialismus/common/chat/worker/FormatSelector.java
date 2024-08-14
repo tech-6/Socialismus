@@ -99,7 +99,7 @@ public class FormatSelector {
     private void notifyAboutAbsentFormat(FormattedChatMessage formattedChatMessage) {
         if (!chatSettings.get().isNotifyNoFormat()) return;
 
-        formattedChatMessage.getSender().getAudience().sendMessage(
+        formattedChatMessage.getSender().sendMessage(
                 serializer.format(formattedChatMessage.getSender(), chatMessages.get().getNoChatMatch())
         );
     }

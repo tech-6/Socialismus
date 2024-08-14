@@ -8,10 +8,7 @@ import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.output.command.CommandBase;
 import me.whereareiam.socialismus.api.output.command.CommandService;
-import me.whereareiam.socialismus.command.executor.DebugCommand;
-import me.whereareiam.socialismus.command.executor.HelpCommand;
-import me.whereareiam.socialismus.command.executor.MainCommand;
-import me.whereareiam.socialismus.command.executor.ReloadCommand;
+import me.whereareiam.socialismus.command.executor.*;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.annotations.AnnotationParser;
 
@@ -44,7 +41,8 @@ public class CommandProcessor implements CommandService {
         Stream.of(injector.getInstance(MainCommand.class),
                 injector.getInstance(HelpCommand.class),
                 injector.getInstance(DebugCommand.class),
-                injector.getInstance(ReloadCommand.class)
+                injector.getInstance(ReloadCommand.class),
+                injector.getInstance(ClearCommand.class)
         ).forEach(this::registerCommand);
 
         loggingHelper.info("  Loaded " + AnsiColor.GRAY + commandManager.commands().size() + AnsiColor.RESET + " command" + (commandManager.commands().size() == 1 ? "" : "s"));

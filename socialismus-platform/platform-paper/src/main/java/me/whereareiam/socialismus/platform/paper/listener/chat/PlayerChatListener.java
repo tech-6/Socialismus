@@ -3,10 +3,9 @@ package me.whereareiam.socialismus.platform.paper.listener.chat;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.papermc.paper.event.player.AsyncChatEvent;
-import me.whereareiam.socialismus.api.model.chat.message.ChatMessage;
 import me.whereareiam.socialismus.api.model.chat.message.FormattedChatMessage;
-import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.common.chat.ChatCoordinator;
+import me.whereareiam.socialismus.common.chat.ChatMessageFactory;
 import me.whereareiam.socialismus.platform.paper.renderer.SocialismusRenderer;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
@@ -21,10 +20,12 @@ import java.util.stream.Collectors;
 @Singleton
 public class PlayerChatListener implements Listener {
     private final ChatCoordinator chatCoordinator;
+    private final ChatMessageFactory chatMessageFactory;
 
     @Inject
-    public PlayerChatListener(ChatCoordinator chatCoordinator) {
+    public PlayerChatListener(ChatCoordinator chatCoordinator, ChatMessageFactory chatMessageFactory) {
         this.chatCoordinator = chatCoordinator;
+        this.chatMessageFactory = chatMessageFactory;
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -34,7 +35,11 @@ public class PlayerChatListener implements Listener {
         Component content = event.message();
 
         FormattedChatMessage formattedChatMessage = chatCoordinator.handleChatEvent(
-                createChatMessage(player, recipients, content)
+                chatMessageFactory.createChatMessage(
+                        player.getUniqueId(),
+                        recipients.stream().map(audience -> ((Player) audience).getUniqueId()).collect(Collectors.toSet()),
+                        content
+                )
         );
 
         if (formattedChatMessage.isCancelled()) {
@@ -45,24 +50,9 @@ public class PlayerChatListener implements Listener {
         event.viewers().clear();
         event.viewers().addAll(
                 formattedChatMessage.getRecipients().stream()
-                        .map(uuid -> player.getServer().getPlayer(uuid))
+                        .map(recipient -> player.getServer().getPlayer(recipient.getUniqueId()))
                         .collect(Collectors.toSet())
         );
         event.renderer(new SocialismusRenderer(formattedChatMessage));
-    }
-
-    private ChatMessage createChatMessage(Player player, Set<Audience> recipients, Component content) {
-        return new ChatMessage(
-                new DummyPlayer(player.getName(), player.getUniqueId(), player, player.getWorld().getName(), player.locale()),
-                recipients.stream()
-                        .filter(audience -> audience instanceof Player)
-                        .map(audience -> (Player) audience)
-                        .map(Player::getUniqueId)
-                        .collect(Collectors.toSet()),
-                content,
-                null,
-                false,
-                false
-        );
     }
 }

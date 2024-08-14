@@ -31,6 +31,8 @@ public class Settings {
     @Setter
     @ToString
     public static class Miscellaneous {
+        private boolean disableJoinNotification;
+        private boolean disableQuitNotification;
         private boolean vanillaSending;
         private boolean allowLegacyParsing;
         private boolean allowBrigadierCommands;

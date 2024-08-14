@@ -46,10 +46,19 @@ public class CommandsTemplate implements DefaultConfig<Commands> {
                 .enabled(true)
                 .build();
 
+        CommandEntity clear = CommandEntity.builder()
+                .aliases(List.of("clear"))
+                .permission("socialismus.admin")
+                .description("Clear command")
+                .usage("{command} [context]")
+                .enabled(true)
+                .build();
+
         commands.getCommands().put("main", main);
         commands.getCommands().put("help", help);
         commands.getCommands().put("debug", debug);
         commands.getCommands().put("reload", reload);
+        commands.getCommands().put("clear", clear);
 
         return commands;
     }
