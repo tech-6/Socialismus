@@ -16,20 +16,18 @@ public class PaperSocialismus extends JavaPlugin {
     private final Path dataPath = getDataFolder().toPath();
     private final Logger logger = getLogger();
 
-    private PaperDependencyResolver dependencyResolver;
-
     @Override
     public void onLoad() {
-        dependencyResolver = new PaperDependencyResolver(this);
+        PaperDependencyResolver dependencyResolver = new PaperDependencyResolver(this);
         dependencyResolver.loadLibraries();
         dependencyResolver.resolveDependencies();
+
+        new PaperInjector(this, dependencyResolver, dataPath);
+        PaperLoggingHelper.setLogger(logger);
     }
 
     @Override
     public void onEnable() {
-        new PaperInjector(this, dependencyResolver, dataPath);
-        PaperLoggingHelper.setLogger(logger);
-
         commonSocialismus.onEnable();
 
         CommonInjector.getInjector().getInstance(PlaceholderAPIIntegration.class).register();

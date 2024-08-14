@@ -11,6 +11,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.incendo.cloud.SenderMapper;
 
 import javax.annotation.Nonnull;
+import java.util.Optional;
 
 @SuppressWarnings("UnstableApiUsage")
 @Singleton
@@ -28,14 +29,19 @@ public class CommandSourceStackMapper implements SenderMapper<CommandSourceStack
             return DummyCommandPlayer.builder().commandSender(source).audience(source.getSender()).build();
         }
 
-        return playerContainer.getPlayer(source.getSender().getName())
-                .map(dummyPlayer -> {
-                    ((DummyCommandPlayer) dummyPlayer).setCommandSender(source);
-                    return dummyPlayer;
-                })
-                .orElseThrow(
-                        () -> new NullPointerException("A player with the name " + source.getSender().getName() + " was not found")
-                );
+        Optional<DummyPlayer> dummyPlayer = playerContainer.getPlayer(source.getSender().getName());
+        if (dummyPlayer.isPresent()) {
+            return DummyCommandPlayer.builder()
+                    .commandSender(source)
+                    .username(dummyPlayer.get().getUsername())
+                    .uniqueId(dummyPlayer.get().getUniqueId())
+                    .audience(dummyPlayer.get().getAudience())
+                    .location(dummyPlayer.get().getLocation())
+                    .locale(dummyPlayer.get().getLocale())
+                    .build();
+        }
+
+        throw new NullPointerException("A player with the name " + source.getSender().getName() + " was not found");
     }
 
     @Override

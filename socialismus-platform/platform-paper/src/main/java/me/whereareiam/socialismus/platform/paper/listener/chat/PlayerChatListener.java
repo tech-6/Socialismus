@@ -37,12 +37,15 @@ public class PlayerChatListener implements Listener {
         FormattedChatMessage formattedChatMessage = chatCoordinator.handleChatEvent(
                 chatMessageFactory.createChatMessage(
                         player.getUniqueId(),
-                        recipients.stream().map(audience -> ((Player) audience).getUniqueId()).collect(Collectors.toSet()),
+                        recipients.stream()
+                                .filter(c -> !(c.getClass().getName().equals("com.destroystokyo.paper.console.TerminalConsoleCommandSender")))
+                                .map(audience -> ((Player) audience).getUniqueId())
+                                .collect(Collectors.toSet()),
                         content
                 )
         );
 
-        if (formattedChatMessage.isCancelled()) {
+        if (formattedChatMessage.isCancelled() || formattedChatMessage.isVanillaSending()) {
             event.setCancelled(true);
             return;
         }

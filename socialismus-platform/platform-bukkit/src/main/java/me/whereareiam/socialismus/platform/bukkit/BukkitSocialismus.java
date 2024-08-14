@@ -16,20 +16,18 @@ public class BukkitSocialismus extends JavaPlugin {
     private final Path dataPath = getDataFolder().toPath();
     private final Logger logger = getLogger();
 
-    private BukkitDependencyResolver dependencyResolver;
-
     @Override
     public void onLoad() {
-        dependencyResolver = new BukkitDependencyResolver(this);
+        BukkitDependencyResolver dependencyResolver = new BukkitDependencyResolver(this);
         dependencyResolver.loadLibraries();
         dependencyResolver.resolveDependencies();
+
+        new BukkitInjector(this, dependencyResolver, dataPath);
+        BukkitLoggingHelper.setLogger(logger);
     }
 
     @Override
     public void onEnable() {
-        new BukkitInjector(this, dependencyResolver, dataPath);
-        BukkitLoggingHelper.setLogger(logger);
-
         commonSocialismus.onEnable();
 
         CommonInjector.getInjector().getInstance(PlaceholderAPIIntegration.class).register();

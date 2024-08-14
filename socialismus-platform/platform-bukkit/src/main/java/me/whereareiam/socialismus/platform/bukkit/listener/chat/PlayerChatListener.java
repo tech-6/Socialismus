@@ -44,7 +44,7 @@ public class PlayerChatListener implements Listener {
                 )
         );
 
-        if (formattedChatMessage.isCancelled()) {
+        if (formattedChatMessage.isCancelled() || formattedChatMessage.isVanillaSending()) {
             event.setCancelled(true);
             return;
         }
