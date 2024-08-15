@@ -1,6 +1,7 @@
 package me.whereareiam.socialismus.platform.bukkit.mapper;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.input.container.PlayerContainerService;
 import me.whereareiam.socialismus.api.model.player.DummyCommandPlayer;
@@ -17,16 +18,18 @@ import java.util.Optional;
 @Singleton
 public class CommandSenderMapper implements SenderMapper<CommandSender, DummyPlayer> {
     private final PlayerContainerService playerContainer;
-    private final BukkitAudiences audiences;
+    private final Provider<BukkitAudiences> audiencesProvider;
 
     @Inject
-    public CommandSenderMapper(PlayerContainerService playerContainer, BukkitAudiences audiences) {
+    public CommandSenderMapper(PlayerContainerService playerContainer, Provider<BukkitAudiences> audiencesProvider) {
         this.playerContainer = playerContainer;
-        this.audiences = audiences;
+        this.audiencesProvider = audiencesProvider;
     }
 
     @Override
     public @NonNull DummyPlayer map(@NonNull CommandSender source) {
+        final BukkitAudiences audiences = audiencesProvider.get();
+
         if (source instanceof ConsoleCommandSender)
             return DummyCommandPlayer.builder().commandSender(source).audience(audiences.sender(source)).build();
 

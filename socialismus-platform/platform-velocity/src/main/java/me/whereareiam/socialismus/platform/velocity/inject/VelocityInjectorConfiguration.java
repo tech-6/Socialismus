@@ -41,7 +41,7 @@ public class VelocityInjectorConfiguration extends AbstractModule {
         bind(ListenerRegistrar.class).to(VelocityListenerRegistrar.class);
         bind(PlatformInteractor.class).to(VelocityPlatformInteractor.class);
         bind(PlatformClassLoader.class).to(VelocityClassLoader.class);
-        bind(new TypeLiteral<CommandManager<DummyPlayer>>() {}).toProvider(VelocityCommandManagerProvider.class).asEagerSingleton();
+        bind(new TypeLiteral<CommandManager<DummyPlayer>>() {}).toProvider(VelocityCommandManagerProvider.class);
 
         bind(org.bstats.velocity.Metrics.class).toInstance(metrics);
         bind(Metrics.class).to(VelocityMetrics.class);

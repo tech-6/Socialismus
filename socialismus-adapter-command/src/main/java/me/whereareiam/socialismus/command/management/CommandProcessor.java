@@ -2,6 +2,7 @@ package me.whereareiam.socialismus.command.management;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.AnsiColor;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
@@ -20,23 +21,26 @@ import java.util.stream.Stream;
 public class CommandProcessor implements CommandService {
     private final Injector injector;
     private final LoggingHelper loggingHelper;
-    private final CommandManager<DummyPlayer> commandManager;
-    private final AnnotationParser<DummyPlayer> annotationParser;
-
+    private final Provider<CommandManager<DummyPlayer>> commandManager;
+    private final CommandTranslator commandTranslator;
     private final Map<String, String> translations = new HashMap<>();
+    private AnnotationParser<DummyPlayer> annotationParser;
 
     @Inject
-    public CommandProcessor(Injector injector, CommandManager<DummyPlayer> commandManager, CommandTranslator commandProvider, LoggingHelper loggingHelper) {
+    public CommandProcessor(Injector injector, LoggingHelper loggingHelper, Provider<CommandManager<DummyPlayer>> commandManager, CommandTranslator commandTranslator) {
         this.injector = injector;
-        this.commandManager = commandManager;
-        this.annotationParser = new AnnotationParser<>(commandManager, DummyPlayer.class);
         this.loggingHelper = loggingHelper;
-
-        annotationParser.stringProcessor(commandProvider.getProcessor());
+        this.commandManager = commandManager;
+        this.commandTranslator = commandTranslator;
     }
 
     @Override
     public void registerCommands() {
+        final CommandManager<DummyPlayer> commandManager = this.commandManager.get();
+
+        annotationParser = new AnnotationParser<>(commandManager, DummyPlayer.class);
+        annotationParser.stringProcessor(commandTranslator.getProcessor());
+
         commandManager.rootCommands().forEach(commandManager::deleteRootCommand);
         Stream.of(injector.getInstance(MainCommand.class),
                 injector.getInstance(HelpCommand.class),
@@ -61,7 +65,7 @@ public class CommandProcessor implements CommandService {
 
     @Override
     public int getCommandCount() {
-        return commandManager.commands().size();
+        return commandManager.get().commands().size();
     }
 
     @Override

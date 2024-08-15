@@ -2,6 +2,7 @@ package me.whereareiam.socialismus.platform.bukkit;
 
 import me.whereareiam.socialismus.common.CommonInjector;
 import me.whereareiam.socialismus.common.CommonSocialismus;
+import me.whereareiam.socialismus.common.IntegrityChecker;
 import me.whereareiam.socialismus.integration.bstats.bStatsIntegration;
 import me.whereareiam.socialismus.integration.placeholderapi.PlaceholderAPIIntegration;
 import me.whereareiam.socialismus.platform.bukkit.inject.BukkitInjector;
@@ -24,6 +25,9 @@ public class BukkitSocialismus extends JavaPlugin {
 
         new BukkitInjector(this, dependencyResolver, dataPath);
         BukkitLoggingHelper.setLogger(logger);
+
+        if (CommonInjector.getInjector().getInstance(IntegrityChecker.class).checkIntegrity())
+            getPluginLoader().disablePlugin(this);
     }
 
     @Override

@@ -18,20 +18,17 @@ import org.incendo.cloud.CommandManager;
 public class BukkitInjectorConfiguration extends AbstractModule {
     private final Plugin plugin;
     private final BukkitDependencyResolver dependencyResolver;
-    private final BukkitAudiences audiences;
 
     public BukkitInjectorConfiguration(Plugin plugin, BukkitDependencyResolver dependencyResolver) {
         this.plugin = plugin;
         this.dependencyResolver = dependencyResolver;
-
-        this.audiences = BukkitAudiences.create(plugin);
     }
 
     @Override
     protected void configure() {
         bind(Plugin.class).toInstance(plugin);
         bind(PluginManager.class).toInstance(plugin.getServer().getPluginManager());
-        bind(BukkitAudiences.class).toInstance(audiences);
+        bind(BukkitAudiences.class).toProvider(BukkitAudiencesProvider.class);
         bind(DependencyResolver.class).toInstance(dependencyResolver);
 
         bind(LoggingHelper.class).to(BukkitLoggingHelper.class);
@@ -39,7 +36,7 @@ public class BukkitInjectorConfiguration extends AbstractModule {
         bind(ListenerRegistrar.class).to(BukkitListenerRegistrar.class);
         bind(PlatformInteractor.class).to(BukkitPlatformInteractor.class);
         bind(PlatformClassLoader.class).to(BukkitClassLoader.class);
-        bind(new TypeLiteral<CommandManager<DummyPlayer>>() {}).toProvider(BukkitCommandManagerProvider.class).asEagerSingleton();
+        bind(new TypeLiteral<CommandManager<DummyPlayer>>() {}).toProvider(BukkitCommandManagerProvider.class);
 
         bind(org.bstats.bukkit.Metrics.class).toInstance(new org.bstats.bukkit.Metrics((JavaPlugin) plugin, Constants.getBStatsBukkitId()));
         bind(Metrics.class).to(BukkitMetrics.class);

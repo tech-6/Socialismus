@@ -1,37 +1,41 @@
 package me.whereareiam.socialismus.api;
 
 public enum PluginType {
-	ALL, BUKKIT, PAPER, VELOCITY;
+    ALL, BUKKIT, PAPER, VELOCITY;
 
-	public static PluginType getType() {
-		if (isBukkitPlugin() && isPaperPlugin() && isVelocityPlugin()) return ALL;
-		if (isBukkitPlugin()) return BUKKIT;
-		if (isPaperPlugin()) return PAPER;
-		if (isVelocityPlugin()) return VELOCITY;
+    public static PluginType getType() {
+        if (isBukkitPlugin() && isPaperPlugin() && isVelocityPlugin()) return ALL;
+        return getExactType();
+    }
 
-		throw new IllegalStateException("Unknown plugin type");
-	}
+    public static PluginType getExactType() {
+        if (isBukkitPlugin()) return BUKKIT;
+        if (isPaperPlugin()) return PAPER;
+        if (isVelocityPlugin()) return VELOCITY;
 
-	private static boolean isBukkitPlugin() {
-		return isClassPresent("me.whereareiam.socialismus.platform.bukkit.BukkitSocialismus");
-	}
+        throw new IllegalStateException("Unknown plugin type");
+    }
 
-	private static boolean isPaperPlugin() {
-		return isClassPresent("me.whereareiam.socialismus.platform.paper.PaperSocialismus");
-	}
+    private static boolean isBukkitPlugin() {
+        return isClassPresent("me.whereareiam.socialismus.platform.bukkit.BukkitSocialismus");
+    }
 
-	private static boolean isVelocityPlugin() {
-		return isClassPresent("me.whereareiam.socialismus.platform.velocity.VelocitySocialismus");
-	}
+    private static boolean isPaperPlugin() {
+        return isClassPresent("me.whereareiam.socialismus.platform.paper.PaperSocialismus");
+    }
 
-	private static boolean isClassPresent(String className) {
-		try {
-			Class.forName(className);
-			return true;
-		} catch (ClassNotFoundException e) {
-			return false;
-		} catch (NoClassDefFoundError e) {
-			return className.equals("org.bukkit.plugin.java.JavaPlugin");
-		}
-	}
+    private static boolean isVelocityPlugin() {
+        return isClassPresent("me.whereareiam.socialismus.platform.velocity.VelocitySocialismus");
+    }
+
+    private static boolean isClassPresent(String className) {
+        try {
+            Class.forName(className);
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        } catch (NoClassDefFoundError e) {
+            return className.equals("org.bukkit.plugin.java.JavaPlugin");
+        }
+    }
 }

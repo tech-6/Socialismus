@@ -2,6 +2,7 @@ package me.whereareiam.socialismus.platform.paper;
 
 import me.whereareiam.socialismus.common.CommonInjector;
 import me.whereareiam.socialismus.common.CommonSocialismus;
+import me.whereareiam.socialismus.common.IntegrityChecker;
 import me.whereareiam.socialismus.integration.bstats.bStatsIntegration;
 import me.whereareiam.socialismus.integration.placeholderapi.PlaceholderAPIIntegration;
 import me.whereareiam.socialismus.platform.paper.inject.PaperInjector;
@@ -24,6 +25,9 @@ public class PaperSocialismus extends JavaPlugin {
 
         new PaperInjector(this, dependencyResolver, dataPath);
         PaperLoggingHelper.setLogger(logger);
+
+        if (CommonInjector.getInjector().getInstance(IntegrityChecker.class).checkIntegrity())
+            getServer().getPluginManager().disablePlugin(this);
     }
 
     @Override

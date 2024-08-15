@@ -19,17 +19,18 @@ import java.util.Locale;
 public class PlayerJoinListener implements Listener {
     private final Provider<Settings> settings;
     private final PlayerContainerService containerService;
-    private final BukkitAudiences audiences;
+    private final Provider<BukkitAudiences> audiencesProvider;
 
     @Inject
-    public PlayerJoinListener(Provider<Settings> settings, PlayerContainerService containerService, BukkitAudiences audiences) {
+    public PlayerJoinListener(Provider<Settings> settings, PlayerContainerService containerService, Provider<BukkitAudiences> audiencesProvider) {
         this.settings = settings;
         this.containerService = containerService;
-        this.audiences = audiences;
+        this.audiencesProvider = audiencesProvider;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoinEvent(PlayerJoinEvent event) {
+        final BukkitAudiences audiences = audiencesProvider.get();
         Player player = event.getPlayer();
 
         if (settings.get().getMisc().isDisableJoinNotification()) event.setJoinMessage(null);

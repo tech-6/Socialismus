@@ -12,6 +12,7 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import me.whereareiam.socialismus.common.CommonInjector;
 import me.whereareiam.socialismus.common.CommonSocialismus;
 import me.whereareiam.socialismus.common.Constants;
+import me.whereareiam.socialismus.common.IntegrityChecker;
 import me.whereareiam.socialismus.integration.bstats.bStatsIntegration;
 import me.whereareiam.socialismus.integration.papiproxybridge.PAPIProxyBridgeIntegration;
 import me.whereareiam.socialismus.integration.valiobungee.ValioBungeeIntegration;
@@ -65,6 +66,9 @@ public class VelocitySocialismus extends CommonSocialismus {
         );
 
         VelocityLoggingHelper.setLogger(logger);
+
+        if (CommonInjector.getInjector().getInstance(IntegrityChecker.class).checkIntegrity())
+            throw new RuntimeException("Integrity check failed, plugin will be disabled");
 
         super.onEnable();
 

@@ -15,11 +15,11 @@ import java.util.Map;
 
 @Singleton
 public class MainCommand implements CommandBase {
-    private final CommandManager<DummyPlayer> commandManager;
+    private final Provider<CommandManager<DummyPlayer>> commandManager;
     private final Provider<Map<String, CommandEntity>> commands;
 
     @Inject
-    public MainCommand(CommandManager<DummyPlayer> commandManager, Provider<Map<String, CommandEntity>> commands) {
+    public MainCommand(Provider<CommandManager<DummyPlayer>> commandManager, Provider<Map<String, CommandEntity>> commands) {
         this.commandManager = commandManager;
         this.commands = commands;
     }
@@ -28,7 +28,7 @@ public class MainCommand implements CommandBase {
     @CommandDescription("%description.main")
     @Permission("%permission.main")
     public void onCommand(DummyPlayer dummyPlayer) {
-        commandManager.commandExecutor().executeCommand(
+        commandManager.get().commandExecutor().executeCommand(
                 dummyPlayer,
                 commands.get().get("main").getAliases().getFirst()
                         + " "

@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 @Singleton
 @Command("%command.main")
 public class HelpCommand implements CommandBase {
-    private final CommandManager<DummyPlayer> commandManager;
+    private final Provider<CommandManager<DummyPlayer>> commandManager;
     private final SerializationService serializer;
     private final Provider<Map<String, CommandEntity>> commands;
     private final HelpBuilder helpBuilder;
 
     @Inject
-    public HelpCommand(CommandManager<DummyPlayer> commandManager, SerializationService serializer, Provider<Map<String, CommandEntity>> commands, HelpBuilder helpBuilder) {
+    public HelpCommand(Provider<CommandManager<DummyPlayer>> commandManager, SerializationService serializer, Provider<Map<String, CommandEntity>> commands, HelpBuilder helpBuilder) {
         this.commandManager = commandManager;
         this.serializer = serializer;
         this.commands = commands;
@@ -36,9 +36,9 @@ public class HelpCommand implements CommandBase {
     @CommandDescription("%description.help")
     @Permission("%permission.help")
     public void onCommand(DummyPlayer dummyPlayer, @Range(min = "1") @Default("1") @Argument(value = "page", description = "%argument.expected-number") int page) {
-        Collection<org.incendo.cloud.Command<DummyPlayer>> allowedCommands = commandManager.commands()
+        Collection<org.incendo.cloud.Command<DummyPlayer>> allowedCommands = commandManager.get().commands()
                 .stream()
-                .filter(command -> dummyPlayer.getUsername() != null || commandManager.hasPermission(dummyPlayer, command.commandPermission().permissionString()))
+                .filter(command -> dummyPlayer.getUsername() != null || commandManager.get().hasPermission(dummyPlayer, command.commandPermission().permissionString()))
                 .collect(Collectors.toList());
 
         dummyPlayer.sendMessage(serializer.format(dummyPlayer, helpBuilder.buildHelpMessage(allowedCommands, page)));
