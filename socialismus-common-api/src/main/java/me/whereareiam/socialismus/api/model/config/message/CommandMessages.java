@@ -25,6 +25,7 @@ public class CommandMessages {
     private HelpCommand helpCommand;
     private DebugCommand debugCommand;
     private ReloadCommand reloadCommand;
+    private ClearCommand clearCommand;
 
     @Getter
     @Setter
@@ -70,5 +71,15 @@ public class CommandMessages {
         private String reloading;
         private String reloaded;
         private String exception;
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    public static class ClearCommand {
+        private String noUserHistory;
+        private String noIdHistory;
+        private String noHistory;
+        private String cleared;
     }
 }

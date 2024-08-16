@@ -3,13 +3,11 @@ package me.whereareiam.socialismus.platform.paper.listener.activity;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.input.container.PlayerContainerService;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
+import me.whereareiam.socialismus.api.output.listener.DynamicListener;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 
 @Singleton
-public class PlayerWorldChangeListener implements Listener {
+public class PlayerWorldChangeListener implements DynamicListener<PlayerChangedWorldEvent> {
     private final PlayerContainerService playerContainer;
 
     @Inject
@@ -17,8 +15,7 @@ public class PlayerWorldChangeListener implements Listener {
         this.playerContainer = playerContainer;
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerJoinEvent(PlayerJoinEvent event) {
+    public void onEvent(PlayerChangedWorldEvent event) {
         playerContainer.getPlayer(event.getPlayer().getUniqueId()).ifPresent(
                 player -> player.setLocation(event.getPlayer().getWorld().getName())
         );

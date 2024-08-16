@@ -4,7 +4,10 @@ import com.google.inject.Singleton;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import me.whereareiam.socialismus.api.type.EventPriority;
 import me.whereareiam.socialismus.api.type.SerializationType;
+
+import java.util.Map;
 
 @Getter
 @Setter
@@ -16,6 +19,7 @@ public class Settings {
 
     private Updater updater;
     private Miscellaneous misc;
+    private Listeners listeners;
 
     @Getter
     @Setter
@@ -37,5 +41,12 @@ public class Settings {
         private boolean allowLegacyParsing;
         private boolean allowBrigadierCommands;
         private int commandsPerPage;
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    public static class Listeners {
+        private Map<String, EventPriority> priorities;
     }
 }

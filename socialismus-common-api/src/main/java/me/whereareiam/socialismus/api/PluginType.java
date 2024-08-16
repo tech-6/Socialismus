@@ -9,9 +9,9 @@ public enum PluginType {
     }
 
     public static PluginType getExactType() {
-        if (isBukkitPlugin()) return BUKKIT;
-        if (isPaperPlugin()) return PAPER;
         if (isVelocityPlugin()) return VELOCITY;
+        if (isPaperPlugin()) return PAPER;
+        if (isBukkitPlugin()) return BUKKIT;
 
         throw new IllegalStateException("Unknown plugin type");
     }

@@ -1,6 +1,5 @@
 package me.whereareiam.socialismus.api.model.chat.message;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,9 +13,9 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 public class ChatMessage {
+    private final int id;
     private final DummyPlayer sender;
     private Set<DummyPlayer> recipients;
 

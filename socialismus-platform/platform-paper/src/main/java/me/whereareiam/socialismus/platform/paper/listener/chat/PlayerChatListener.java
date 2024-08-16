@@ -4,21 +4,19 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.whereareiam.socialismus.api.model.chat.message.FormattedChatMessage;
+import me.whereareiam.socialismus.api.output.listener.DynamicListener;
 import me.whereareiam.socialismus.common.chat.ChatCoordinator;
 import me.whereareiam.socialismus.common.chat.ChatMessageFactory;
 import me.whereareiam.socialismus.platform.paper.renderer.SocialismusRenderer;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Singleton
-public class PlayerChatListener implements Listener {
+public class PlayerChatListener implements DynamicListener<AsyncChatEvent> {
     private final ChatCoordinator chatCoordinator;
     private final ChatMessageFactory chatMessageFactory;
 
@@ -28,8 +26,7 @@ public class PlayerChatListener implements Listener {
         this.chatMessageFactory = chatMessageFactory;
     }
 
-    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-    public void onPlayerChatEvent(AsyncChatEvent event) {
+    public void onEvent(AsyncChatEvent event) {
         Player player = event.getPlayer();
         Set<Audience> recipients = event.viewers();
         Component content = event.message();

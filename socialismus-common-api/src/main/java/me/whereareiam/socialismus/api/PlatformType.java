@@ -31,6 +31,16 @@ public enum PlatformType {
         return isBukkit() || isSpigot() || isPaper() || isFolia();
     }
 
+    public static boolean isAtLeast(PlatformType platform) {
+        return switch (platform) {
+            case BUKKIT -> isBukkit() || isSpigot() || isPaper() || isFolia();
+            case SPIGOT -> isSpigot() || isPaper() || isFolia();
+            case PAPER -> isPaper() || isFolia();
+            case FOLIA -> isFolia();
+            default -> false;
+        };
+    }
+
     private static boolean isVelocity() {
         return isClassPresent("com.velocitypowered.api.plugin.Plugin");
     }

@@ -79,6 +79,14 @@ public class MessagesTemplate implements DefaultConfig<Messages> {
 
         commandMessages.setReloadCommand(reloadCommand);
 
+        CommandMessages.ClearCommand clearCommand = new CommandMessages.ClearCommand();
+        clearCommand.setNoUserHistory("{prefix}<white>No chat history found for user <gray>{playerName}</gray></white>");
+        clearCommand.setNoIdHistory("{prefix}<white>No chat history found for ID <gray>{id}</gray></white>");
+        clearCommand.setNoHistory("{prefix}<white>No chat history found</white>");
+        clearCommand.setCleared("{prefix}<white>Successfully cleared <gray>{amount}</gray>x chat history entries</white>");
+
+        commandMessages.setClearCommand(clearCommand);
+
         messages.setCommands(commandMessages);
 
         return messages;

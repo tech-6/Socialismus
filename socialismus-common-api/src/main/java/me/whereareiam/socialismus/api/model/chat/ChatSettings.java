@@ -16,6 +16,7 @@ public class ChatSettings {
     private boolean notifyNoNearbyPlayers;
 
     private FallbackChatSettings fallback;
+    private ChatHistorySettings history;
 
     @Getter
     @Setter
@@ -23,5 +24,14 @@ public class ChatSettings {
     public static class FallbackChatSettings {
         private boolean enabled;
         private String chatId;
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    public static class ChatHistorySettings {
+        private int historySize;
+        private String permission;
+        private String bypassPermission;
     }
 }

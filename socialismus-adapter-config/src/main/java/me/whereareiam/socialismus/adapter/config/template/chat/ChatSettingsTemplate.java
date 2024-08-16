@@ -22,6 +22,13 @@ public class ChatSettingsTemplate implements DefaultConfig<ChatSettings> {
 
         chatSettings.setFallback(fallback);
 
+        ChatSettings.ChatHistorySettings history = new ChatSettings.ChatHistorySettings();
+        history.setHistorySize(1000);
+        history.setPermission("socialismus.admin");
+        history.setBypassPermission("socialismus.admin");
+
+        chatSettings.setHistory(history);
+
         return chatSettings;
     }
 }

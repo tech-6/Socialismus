@@ -5,13 +5,11 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.input.container.PlayerContainerService;
 import me.whereareiam.socialismus.api.model.config.Settings;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
+import me.whereareiam.socialismus.api.output.listener.DynamicListener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 @Singleton
-public class PlayerQuitListener implements Listener {
+public class PlayerQuitListener implements DynamicListener<PlayerQuitEvent> {
     private final Provider<Settings> settings;
     private final PlayerContainerService containerService;
 
@@ -21,8 +19,7 @@ public class PlayerQuitListener implements Listener {
         this.containerService = containerService;
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerJoinEvent(PlayerQuitEvent event) {
+    public void onEvent(PlayerQuitEvent event) {
         if (settings.get().getMisc().isDisableQuitNotification()) event.quitMessage(null);
 
         containerService.removePlayer(event.getPlayer().getUniqueId());

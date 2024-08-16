@@ -15,4 +15,13 @@ public class ChatMessages {
     private String noFormatMatch;
     private String noFallbackChat;
     private String noNearbyPlayers;
+
+    private ClearFormat clearFormat;
+
+    @Getter
+    @Setter
+    @ToString
+    public static class ClearFormat {
+        private String format;
+    }
 }

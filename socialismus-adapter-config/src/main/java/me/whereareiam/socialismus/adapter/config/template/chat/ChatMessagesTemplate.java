@@ -17,6 +17,11 @@ public class ChatMessagesTemplate implements DefaultConfig<ChatMessages> {
         chatMessages.setNoFallbackChat("{prefix}<white>No fallback chat found.");
         chatMessages.setNoNearbyPlayers("{prefix}<white>No nearby players found, within a radius of <gray>{radius}</gray> blocks.");
 
+        ChatMessages.ClearFormat clearFormat = new ChatMessages.ClearFormat();
+        clearFormat.setFormat("<gray>[<red>X</red>]</gray> ");
+
+        chatMessages.setClearFormat(clearFormat);
+
         return chatMessages;
     }
 }

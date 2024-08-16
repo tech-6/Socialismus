@@ -6,17 +6,15 @@ import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.input.container.PlayerContainerService;
 import me.whereareiam.socialismus.api.model.config.Settings;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
+import me.whereareiam.socialismus.api.output.listener.DynamicListener;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.Locale;
 
 @Singleton
-public class PlayerJoinListener implements Listener {
+public class PlayerJoinListener implements DynamicListener<PlayerJoinEvent> {
     private final Provider<Settings> settings;
     private final PlayerContainerService containerService;
     private final Provider<BukkitAudiences> audiencesProvider;
@@ -28,8 +26,8 @@ public class PlayerJoinListener implements Listener {
         this.audiencesProvider = audiencesProvider;
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerJoinEvent(PlayerJoinEvent event) {
+
+    public void onEvent(PlayerJoinEvent event) {
         final BukkitAudiences audiences = audiencesProvider.get();
         Player player = event.getPlayer();
 

@@ -8,6 +8,7 @@ import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import net.kyori.adventure.text.Component;
 
 import java.util.Objects;
+import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -22,19 +23,21 @@ public class ChatMessageFactory {
     }
 
     public ChatMessage createChatMessage(UUID sender, Set<UUID> recipients, Component component) {
+        final Random random = new Random();
+
         DummyPlayer dummyPlayer = playerContainer.getPlayer(sender).orElse(null);
         Set<DummyPlayer> dummyRecipients = recipients.stream()
                 .map(recipient -> playerContainer.getPlayer(recipient).orElse(null))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
 
-        return new ChatMessage(
-                dummyPlayer,
-                dummyRecipients,
-                component,
-                null,
-                false,
-                false
-        );
+        return ChatMessage.builder()
+                .id(random.nextInt())
+                .sender(dummyPlayer)
+                .recipients(dummyRecipients)
+                .content(component)
+                .cancelled(false)
+                .vanillaSending(false)
+                .build();
     }
 }
