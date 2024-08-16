@@ -28,7 +28,8 @@ public class PaperMetrics implements Metrics {
                 injector.getInstance(ServerVersionChart.class),
                 injector.getInstance(ChatCountChart.class),
                 injector.getInstance(ModulesChart.class),
-                injector.getInstance(IntegrationsChart.class)
+                injector.getInstance(IntegrationsChart.class),
+                injector.getInstance(ConfigTypeChart.class)
 
         ).map(Chart::getChart).forEach(metrics::addCustomChart);
     }

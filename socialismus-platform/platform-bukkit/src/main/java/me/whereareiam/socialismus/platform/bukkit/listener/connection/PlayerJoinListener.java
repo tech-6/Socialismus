@@ -26,7 +26,6 @@ public class PlayerJoinListener implements DynamicListener<PlayerJoinEvent> {
         this.audiencesProvider = audiencesProvider;
     }
 
-
     public void onEvent(PlayerJoinEvent event) {
         final BukkitAudiences audiences = audiencesProvider.get();
         Player player = event.getPlayer();

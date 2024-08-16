@@ -24,8 +24,9 @@ public class VelocityMetrics implements Metrics {
                 injector.getInstance(PluginVersionChart.class),
                 injector.getInstance(ChatCountChart.class),
                 injector.getInstance(ModulesChart.class),
-                injector.getInstance(IntegrationsChart.class)
-                // TODO
+                injector.getInstance(IntegrationsChart.class),
+                // TODO: ValioBungee yes or no?
+                injector.getInstance(ConfigTypeChart.class)
         ).map(Chart::getChart).forEach(metrics::addCustomChart);
     }
 }
