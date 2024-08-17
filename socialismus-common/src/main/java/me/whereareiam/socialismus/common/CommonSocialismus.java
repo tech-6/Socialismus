@@ -14,6 +14,7 @@ import me.whereareiam.socialismus.common.chat.worker.FormatSelector;
 import me.whereareiam.socialismus.common.chat.worker.chatmessage.ChatSelector;
 import me.whereareiam.socialismus.common.chat.worker.chatmessage.RecipientSelector;
 import me.whereareiam.socialismus.common.container.ChatContainer;
+import me.whereareiam.socialismus.common.provider.IntegrationProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,6 @@ public class CommonSocialismus {
     public void onEnable() {
         injector = CommonInjector.getInjector();
 
-        printWelcomeMessage();
-
         // Initialize all component before first event is triggered, leads to faster response time
         injector.getInstance(ChatContainer.class);
         injector.getInstance(ChatSelector.class);
@@ -35,9 +34,9 @@ public class CommonSocialismus {
         injector.getInstance(ChatSettings.class);
 
         injector.getInstance(CommandService.class).registerCommands();
-
-        injector.getInstance(LoggingHelper.class).info("");
         injector.getInstance(ListenerRegistrar.class).registerListeners();
+
+        printWelcomeMessage();
 
         injector.getInstance(Updater.class).start();
         injector.getInstance(ModuleService.class).loadModules();
@@ -59,6 +58,14 @@ public class CommonSocialismus {
                 + " [" + PluginType.getType().toString() + "]"
                 + AnsiColor.RESET
         );
+        content.add(" ");
+        int commandCount = injector.getInstance(CommandService.class).getCommandCount();
+        content.add("  Loaded " + AnsiColor.CYAN + commandCount + AnsiColor.RESET + " command" + (commandCount == 1 ? "" : "s"));
+        int chatCount = injector.getInstance(ChatContainer.class).getChats().size();
+        content.add("  Loaded " + AnsiColor.CYAN + chatCount + AnsiColor.RESET + " chat" + (chatCount == 1 ? "" : "s"));
+        content.add(" ");
+        content.add("  Integrations:");
+        injector.getInstance(IntegrationProvider.class).get().forEach(integration -> content.add("    - " + AnsiColor.GREEN + integration.getName() + AnsiColor.RESET));
         content.add(" ");
 
         content.forEach(loggingHelper::info);

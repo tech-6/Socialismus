@@ -47,7 +47,7 @@ public class CommandsTemplate implements DefaultConfig<Commands> {
                 .build();
 
         CommandEntity clear = CommandEntity.builder()
-                .aliases(List.of("clear"))
+                .aliases(List.of("clear", "clearchat"))
                 .permission("socialismus.admin")
                 .description("Clear command")
                 .usage("{command} {alias} [context]")

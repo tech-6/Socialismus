@@ -33,7 +33,6 @@ import java.nio.file.Path;
                 @Dependency(id = "redisbungee", optional = true),
         }
 )
-@SuppressWarnings("unused")
 public class VelocitySocialismus extends CommonSocialismus {
     private final ProxyServer proxyServer;
     private final PluginContainer pluginContainer;
@@ -70,16 +69,15 @@ public class VelocitySocialismus extends CommonSocialismus {
         if (CommonInjector.getInjector().getInstance(IntegrityChecker.class).checkIntegrity())
             throw new RuntimeException("Integrity check failed, plugin will be disabled");
 
-        super.onEnable();
+        CommonInjector.getInjector().getInstance(PAPIProxyBridgeIntegration.class);
+        CommonInjector.getInjector().getInstance(ValioBungeeIntegration.class);
+        CommonInjector.getInjector().getInstance(bStatsIntegration.class);
 
-        CommonInjector.getInjector().getInstance(PAPIProxyBridgeIntegration.class).register();
-        CommonInjector.getInjector().getInstance(ValioBungeeIntegration.class).register();
-        CommonInjector.getInjector().getInstance(bStatsIntegration.class).register();
+        super.onEnable();
     }
 
     @Subscribe
     public void onProxyShutdownEvent(ProxyShutdownEvent event) {
         super.onDisable();
-
     }
 }

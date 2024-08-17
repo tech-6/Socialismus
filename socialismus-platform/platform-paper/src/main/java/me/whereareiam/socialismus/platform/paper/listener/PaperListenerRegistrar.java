@@ -50,7 +50,8 @@ public class PaperListenerRegistrar extends CommonListenerRegistrar {
     @Override
     @SuppressWarnings("unchecked")
     public <T> void registerListener(Class<T> eventClass, DynamicListener<T> listener) {
-        if (!settings.get().getListeners().getEvents().get(eventClass.getName()).isRegister()) return;
+        if (settings.get().getListeners().getEvents().get(eventClass.getName()) == null
+                || !settings.get().getListeners().getEvents().get(eventClass.getName()).isRegister()) return;
         loggingHelper.debug("Registering listener for event " + eventClass.getName());
 
         pluginManager.registerEvent(

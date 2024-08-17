@@ -12,24 +12,6 @@ public abstract class CommonDependencyResolver implements DependencyResolver {
 
     @Override
     public void loadLibraries() {
-        // Common libraries
-        addDependency(Library.builder()
-                .groupId("com{}google{}inject")
-                .artifactId("guice")
-                .version(Constants.getGuiceVersion())
-                .resolveTransitiveDependencies(true)
-                .relocate(
-                        Relocation.builder()
-                                .pattern("com{}google{}inject")
-                                .relocatedPattern("me.whereareiam.socialismus.library.guice")
-                                .build()
-                ).relocate(
-                        Relocation.builder()
-                                .pattern("com{}google{}common")
-                                .relocatedPattern("me.whereareiam.socialismus.library.guava")
-                                .build()
-                ).build());
-
         // Cloud libraries
         addDependency(Library.builder()
                 .groupId("org{}incendo")

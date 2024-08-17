@@ -14,8 +14,6 @@ subprojects {
         relocate("com.alessiodp.libby", "me.whereareiam.socialismus.library.libby")
         relocate("org.bstats", "me.whereareiam.socialismus.library.bStats")
 
-        relocate("com.google.inject", "me.whereareiam.socialismus.library.guice")
-        relocate("com.google.common", "me.whereareiam.socialismus.library.guava")
         relocate("org.yaml.snakeyaml", "me.whereareiam.socialismus.library.snakeyaml")
     }
 
@@ -45,6 +43,11 @@ subprojects {
                 "implementation"(rootProject.libs.bundles.bStats.bukkit)
 
                 "compileOnly"(rootProject.libs.cloud.paper)
+            }
+
+            tasks.withType<ShadowJar> {
+                relocate("com.google.inject", "me.whereareiam.socialismus.library.guice")
+                relocate("com.google.common", "me.whereareiam.socialismus.library.guava")
             }
 
             tasks.named<Copy>("processResources") {

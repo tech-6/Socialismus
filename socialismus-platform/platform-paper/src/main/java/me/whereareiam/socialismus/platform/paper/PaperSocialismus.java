@@ -32,10 +32,10 @@ public class PaperSocialismus extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        commonSocialismus.onEnable();
+        CommonInjector.getInjector().getInstance(PlaceholderAPIIntegration.class);
+        CommonInjector.getInjector().getInstance(bStatsIntegration.class);
 
-        CommonInjector.getInjector().getInstance(PlaceholderAPIIntegration.class).register();
-        CommonInjector.getInjector().getInstance(bStatsIntegration.class).register();
+        commonSocialismus.onEnable();
     }
 
     @Override

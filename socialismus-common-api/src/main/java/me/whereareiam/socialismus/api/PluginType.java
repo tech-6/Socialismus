@@ -35,7 +35,7 @@ public enum PluginType {
         } catch (ClassNotFoundException e) {
             return false;
         } catch (NoClassDefFoundError e) {
-            return className.equals("org.bukkit.plugin.java.JavaPlugin");
+            return true;
         }
     }
 }

@@ -45,7 +45,8 @@ public class SettingsTemplate implements DefaultConfig<Settings> {
 
         if (PlatformType.isAtLeast(PlatformType.PAPER))
             listeners.setEvents(getPrioritiesForPaper());
-        else listeners.setEvents(getPrioritiesForBukkit());
+        else if (PlatformType.isAtLeast(PlatformType.BUKKIT))
+            listeners.setEvents(getPrioritiesForBukkit());
 
         settings.setListeners(listeners);
 

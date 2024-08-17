@@ -10,20 +10,21 @@ import net.william278.papiproxybridge.api.PlaceholderAPI;
 
 @Singleton
 public class PAPIProxyBridgeIntegration implements FormattingIntegration {
-    private final Registry<Integration> registry;
-
-    private PlaceholderAPI placeholderAPI;
+    private Object placeholderAPI;
 
     @Inject
     public PAPIProxyBridgeIntegration(Registry<Integration> registry) {
-        this.registry = registry;
+        if (!isAvailable()) return;
+
+        this.placeholderAPI = PlaceholderAPI.createInstance();
+        registry.register(this);
     }
 
     @Override
     public String format(DummyPlayer dummyPlayer, String content) {
         if (dummyPlayer.getUniqueId() == null) return content;
 
-        return placeholderAPI.formatPlaceholders(content, dummyPlayer.getUniqueId()).getNow(content);
+        return ((PlaceholderAPI) placeholderAPI).formatPlaceholders(content, dummyPlayer.getUniqueId()).getNow(content);
     }
 
     @Override
@@ -40,13 +41,5 @@ public class PAPIProxyBridgeIntegration implements FormattingIntegration {
         } catch (ClassNotFoundException | NoClassDefFoundError e) {
             return false;
         }
-    }
-
-    @Override
-    public void register() {
-        if (!isAvailable()) return;
-
-        placeholderAPI = PlaceholderAPI.createInstance();
-        registry.register(this);
     }
 }

@@ -44,7 +44,8 @@ public class VelocityListenerRegistrar extends CommonListenerRegistrar {
 
     @Override
     public <T> void registerListener(Class<T> eventClass, DynamicListener<T> listener) {
-        if (!settings.get().getListeners().getEvents().get(eventClass.getName()).isRegister()) return;
+        if (settings.get().getListeners().getEvents().get(eventClass.getName()) == null
+                || !settings.get().getListeners().getEvents().get(eventClass.getName()).isRegister()) return;
         loggingHelper.debug("Registering listener for event " + eventClass.getName());
 
         eventManager.register(plugin, eventClass, VelocityUtil.of(determinePriority(eventClass)), listener::onEvent);
