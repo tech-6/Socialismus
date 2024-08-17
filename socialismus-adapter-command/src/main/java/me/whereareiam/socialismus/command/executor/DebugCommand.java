@@ -19,7 +19,6 @@ import org.incendo.cloud.annotations.Permission;
 import java.util.Map;
 
 @Singleton
-@Command("%command.main")
 public class DebugCommand implements CommandBase {
     private final SerializationService serializer;
     private final Provider<Messages> messages;
@@ -59,7 +58,7 @@ public class DebugCommand implements CommandBase {
         CommandEntity commandEntity = commands.get().get("debug");
 
         return Map.of(
-                "command." + commandEntity.getAliases().getFirst() + ".name", commandEntity.getUsage().replace("{command}", String.join("|", commandEntity.getAliases())),
+                "command." + commandEntity.getAliases().getFirst() + ".name", commandEntity.getUsage().replace("{alias}", String.join("|", commandEntity.getAliases())),
                 "command." + commandEntity.getAliases().getFirst() + ".permission", commandEntity.getPermission(),
                 "command." + commandEntity.getAliases().getFirst() + ".description", commandEntity.getDescription(),
                 "command." + commandEntity.getAliases().getFirst() + ".usage", commandEntity.getUsage()

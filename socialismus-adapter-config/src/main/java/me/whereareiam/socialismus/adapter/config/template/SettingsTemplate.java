@@ -2,6 +2,7 @@ package me.whereareiam.socialismus.adapter.config.template;
 
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.PlatformType;
+import me.whereareiam.socialismus.api.model.Event;
 import me.whereareiam.socialismus.api.model.config.Settings;
 import me.whereareiam.socialismus.api.output.DefaultConfig;
 import me.whereareiam.socialismus.api.type.EventPriority;
@@ -40,46 +41,54 @@ public class SettingsTemplate implements DefaultConfig<Settings> {
 
         Settings.Listeners listeners = new Settings.Listeners();
         if (PlatformType.isProxy())
-            listeners.setPriorities(getPrioritiesForProxy());
+            listeners.setEvents(getPrioritiesForProxy());
 
         if (PlatformType.isAtLeast(PlatformType.PAPER))
-            listeners.setPriorities(getPrioritiesForPaper());
-        else listeners.setPriorities(getPrioritiesForBukkit());
+            listeners.setEvents(getPrioritiesForPaper());
+        else listeners.setEvents(getPrioritiesForBukkit());
 
         settings.setListeners(listeners);
 
         return settings;
     }
 
-    private Map<String, EventPriority> getPrioritiesForBukkit() {
-        Map<String, EventPriority> priorities = new HashMap<>();
+    private Map<String, Event> getPrioritiesForBukkit() {
+        Map<String, Event> priorities = new HashMap<>();
 
-        priorities.put("org.bukkit.event.player.PlayerJoinEvent", EventPriority.LOWEST);
-        priorities.put("org.bukkit.event.player.PlayerQuitEvent", EventPriority.LOWEST);
-        priorities.put("org.bukkit.event.player.PlayerChangedWorldEvent", EventPriority.LOWEST);
-        priorities.put("org.bukkit.event.player.AsyncPlayerChatEvent", EventPriority.LOWEST);
+        Event event = Event.builder().register(true).priority(EventPriority.LOWEST).build();
 
-        return priorities;
-    }
-
-    private Map<String, EventPriority> getPrioritiesForPaper() {
-        Map<String, EventPriority> priorities = new HashMap<>();
-
-        priorities.put("org.bukkit.event.player.PlayerJoinEvent", EventPriority.LOWEST);
-        priorities.put("org.bukkit.event.player.PlayerQuitEvent", EventPriority.LOWEST);
-        priorities.put("org.bukkit.event.player.PlayerChangedWorldEvent", EventPriority.LOWEST);
-        priorities.put("io.papermc.paper.event.player.AsyncChatEvent", EventPriority.LOWEST);
+        priorities.put("org.bukkit.event.player.PlayerLoginEvent", event);
+        priorities.put("org.bukkit.event.player.PlayerJoinEvent", event);
+        priorities.put("org.bukkit.event.player.PlayerQuitEvent", event);
+        priorities.put("org.bukkit.event.player.PlayerChangedWorldEvent", event);
+        priorities.put("org.bukkit.event.player.AsyncPlayerChatEvent", event);
 
         return priorities;
     }
 
-    private Map<String, EventPriority> getPrioritiesForProxy() {
-        Map<String, EventPriority> priorities = new HashMap<>();
+    private Map<String, Event> getPrioritiesForPaper() {
+        Map<String, Event> priorities = new HashMap<>();
 
-        priorities.put("com.velocitypowered.api.event.player.ServerConnectedEvent", EventPriority.LOWEST);
-        priorities.put("com.velocitypowered.api.event.connection.LoginEvent", EventPriority.LOWEST);
-        priorities.put("com.velocitypowered.api.event.connection.DisconnectEvent", EventPriority.LOWEST);
-        priorities.put("com.velocitypowered.api.event.player.PlayerChatEvent", EventPriority.LOWEST);
+        Event event = Event.builder().register(true).priority(EventPriority.LOWEST).build();
+
+        priorities.put("org.bukkit.event.player.PlayerLoginEvent", event);
+        priorities.put("org.bukkit.event.player.PlayerJoinEvent", event);
+        priorities.put("org.bukkit.event.player.PlayerQuitEvent", event);
+        priorities.put("org.bukkit.event.player.PlayerChangedWorldEvent", event);
+        priorities.put("io.papermc.paper.event.player.AsyncChatEvent", event);
+
+        return priorities;
+    }
+
+    private Map<String, Event> getPrioritiesForProxy() {
+        Map<String, Event> priorities = new HashMap<>();
+
+        Event event = Event.builder().register(true).priority(EventPriority.LOWEST).build();
+
+        priorities.put("com.velocitypowered.api.event.player.ServerConnectedEvent", event);
+        priorities.put("com.velocitypowered.api.event.connection.LoginEvent", event);
+        priorities.put("com.velocitypowered.api.event.connection.DisconnectEvent", event);
+        priorities.put("com.velocitypowered.api.event.player.PlayerChatEvent", event);
 
         return priorities;
     }

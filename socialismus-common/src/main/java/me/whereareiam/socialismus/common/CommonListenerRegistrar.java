@@ -7,8 +7,8 @@ import me.whereareiam.socialismus.api.output.listener.ListenerRegistrar;
 import me.whereareiam.socialismus.api.type.EventPriority;
 
 public abstract class CommonListenerRegistrar implements ListenerRegistrar {
-    private final Provider<Settings> settings;
-    private final LoggingHelper loggingHelper;
+    protected final Provider<Settings> settings;
+    protected final LoggingHelper loggingHelper;
 
     protected CommonListenerRegistrar(Provider<Settings> settings, LoggingHelper loggingHelper) {
         this.settings = settings;
@@ -18,10 +18,10 @@ public abstract class CommonListenerRegistrar implements ListenerRegistrar {
     protected EventPriority determinePriority(Class<?> event) {
         Settings.Listeners listeners = settings.get().getListeners();
 
-        if (listeners == null || listeners.getPriorities() == null || listeners.getPriorities().isEmpty())
+        if (listeners == null || listeners.getEvents() == null || listeners.getEvents().isEmpty())
             return EventPriority.NORMAL;
 
-        EventPriority priority = listeners.getPriorities().get(event.getName());
+        EventPriority priority = listeners.getEvents().get(event.getName()).getPriority();
         if (priority == null) {
             loggingHelper.warn("No priority found for event " + event.getName() + ", using default NORMAL.");
             return EventPriority.NORMAL;

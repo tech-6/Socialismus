@@ -30,6 +30,7 @@ public class ChatSettings {
     @Setter
     @ToString
     public static class ChatHistorySettings {
+        private int fillerSize;
         private int historySize;
         private String permission;
         private String bypassPermission;

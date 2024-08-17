@@ -89,6 +89,8 @@ public class ChatSelector {
 
     private boolean checkRequirements(InternalChat chat, ChatMessage chatMessage) {
         if (chat.getRequirements().isEmpty()) return true;
+        if (chat.getRequirements().get(Participants.SENDER) == null) return true;
+
         for (Map.Entry<RequirementType, ? extends Requirement> entry : chat.getRequirements().get(Participants.SENDER).getGroups().entrySet())
             if (!requirementEvaluator.isRequirementMet(entry, chatMessage.getSender())) {
                 chat = getAlternativeChat(chat, chatMessage);

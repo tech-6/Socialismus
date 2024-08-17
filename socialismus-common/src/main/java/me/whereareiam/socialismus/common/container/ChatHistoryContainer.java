@@ -29,19 +29,18 @@ public class ChatHistoryContainer implements ChatHistoryContainerService {
     }
 
     @Override
-    public void removeMessage(int id) {
-        chatHistory.remove(id);
+    public boolean removeMessage(int id) {
+        return chatHistory.remove(id) != null;
     }
 
     @Override
-    public int removeMessages(List<Integer> ids) {
+    public int removeMessages(int amount) {
         int removed = 0;
-        for (int id : ids)
-            if (chatHistory.containsKey(id)) {
-                chatHistory.remove(id);
+        for (int i = 0; i < amount; i++) {
+            if (chatHistory.remove(i) != null) {
                 removed++;
             }
-
+        }
         return removed;
     }
 

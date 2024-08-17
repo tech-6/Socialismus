@@ -26,6 +26,7 @@ public class FormattedChatMessageProcessor implements WorkerProcessor<FormattedC
 
     public FormattedChatMessage process(ChatMessage chatMessage) {
         FormattedChatMessage formattedChatMessage = FormattedChatMessage.builder()
+                .id(chatMessage.getId())
                 .sender(chatMessage.getSender())
                 .recipients(chatMessage.getRecipients())
                 .content(chatMessage.getContent())

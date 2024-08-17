@@ -75,6 +75,8 @@ public class FormatSelector {
 
     private boolean checkRequirements(ChatFormat chatFormat, FormattedChatMessage formattedChatMessage) {
         if (chatFormat.getRequirements().isEmpty()) return true;
+        if (chatFormat.getRequirements().get(Participants.SENDER) == null) return true;
+
         for (Map.Entry<RequirementType, ? extends Requirement> entry : chatFormat.getRequirements().get(Participants.SENDER).getGroups().entrySet())
             if (!requirementEvaluator.isRequirementMet(entry, formattedChatMessage.getSender())) {
                 chatFormat = getAlternativeChatFormat(chatFormat, formattedChatMessage);

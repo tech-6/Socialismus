@@ -4,7 +4,7 @@ import com.google.inject.Singleton;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import me.whereareiam.socialismus.api.type.EventPriority;
+import me.whereareiam.socialismus.api.model.Event;
 import me.whereareiam.socialismus.api.type.SerializationType;
 
 import java.util.Map;
@@ -47,6 +47,6 @@ public class Settings {
     @Setter
     @ToString
     public static class Listeners {
-        private Map<String, EventPriority> priorities;
+        private Map<String, Event> events;
     }
 }

@@ -18,7 +18,7 @@ public class CommandsTemplate implements DefaultConfig<Commands> {
                 .aliases(List.of("socialismus", "social"))
                 .permission("")
                 .description("Main command")
-                .usage("{command}")
+                .usage("{alias}")
                 .enabled(true)
                 .build();
 
@@ -26,7 +26,7 @@ public class CommandsTemplate implements DefaultConfig<Commands> {
                 .aliases(List.of("help"))
                 .permission("")
                 .description("Help command")
-                .usage("{command} [page]")
+                .usage("{command} {alias} [page]")
                 .enabled(true)
                 .build();
 
@@ -34,7 +34,7 @@ public class CommandsTemplate implements DefaultConfig<Commands> {
                 .aliases(List.of("debug"))
                 .permission("socialismus.admin")
                 .description("Debug command")
-                .usage("{command}")
+                .usage("{command} {alias}")
                 .enabled(true)
                 .build();
 
@@ -42,7 +42,7 @@ public class CommandsTemplate implements DefaultConfig<Commands> {
                 .aliases(List.of("reload"))
                 .permission("socialismus.admin")
                 .description("Reload command")
-                .usage("{command}")
+                .usage("{command} {alias}")
                 .enabled(true)
                 .build();
 
@@ -50,7 +50,7 @@ public class CommandsTemplate implements DefaultConfig<Commands> {
                 .aliases(List.of("clear"))
                 .permission("socialismus.admin")
                 .description("Clear command")
-                .usage("{command} [context]")
+                .usage("{command} {alias} [context]")
                 .enabled(true)
                 .build();
 

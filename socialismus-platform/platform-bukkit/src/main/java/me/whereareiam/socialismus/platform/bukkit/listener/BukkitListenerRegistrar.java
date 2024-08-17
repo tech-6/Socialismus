@@ -11,14 +11,12 @@ import me.whereareiam.socialismus.common.CommonListenerRegistrar;
 import me.whereareiam.socialismus.platform.bukkit.listener.activity.PlayerWorldChangeListener;
 import me.whereareiam.socialismus.platform.bukkit.listener.chat.PlayerChatListener;
 import me.whereareiam.socialismus.platform.bukkit.listener.connection.PlayerJoinListener;
+import me.whereareiam.socialismus.platform.bukkit.listener.connection.PlayerLoginListener;
 import me.whereareiam.socialismus.platform.bukkit.listener.connection.PlayerQuitListener;
 import me.whereareiam.socialismus.platform.bukkit.util.BukkitUtil;
 import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
@@ -42,11 +40,15 @@ public class BukkitListenerRegistrar extends CommonListenerRegistrar {
         registerListener(PlayerChangedWorldEvent.class, injector.getInstance(PlayerWorldChangeListener.class));
         registerListener(PlayerQuitEvent.class, injector.getInstance(PlayerQuitListener.class));
         registerListener(PlayerJoinEvent.class, injector.getInstance(PlayerJoinListener.class));
+        registerListener(PlayerLoginEvent.class, injector.getInstance(PlayerLoginListener.class));
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T> void registerListener(Class<T> eventClass, DynamicListener<T> listener) {
+        if (!settings.get().getListeners().getEvents().get(eventClass.getName()).isRegister()) return;
+        loggingHelper.debug("Registering listener for event " + eventClass.getName());
+
         pluginManager.registerEvent(
                 (Class<? extends Event>) eventClass,
                 new Listener() {},

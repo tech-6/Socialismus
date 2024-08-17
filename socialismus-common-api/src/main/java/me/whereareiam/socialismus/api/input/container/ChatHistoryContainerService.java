@@ -9,9 +9,9 @@ import java.util.UUID;
 public interface ChatHistoryContainerService {
     void addMessage(int id, FormattedChatMessage message);
 
-    void removeMessage(int id);
+    boolean removeMessage(int id);
 
-    int removeMessages(List<Integer> ids);
+    int removeMessages(int amount);
 
     Optional<FormattedChatMessage> getMessage(int id);
 

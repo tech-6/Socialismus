@@ -6,6 +6,7 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.output.PlatformInteractor;
 import me.whereareiam.socialismus.api.type.Version;
+import net.kyori.adventure.text.Component;
 
 import java.util.UUID;
 
@@ -19,6 +20,11 @@ public class VelocityPlatformInteractor implements PlatformInteractor {
     }
 
     @Override
+    public void broadcast(Component component) {
+        proxyServer.sendMessage(component);
+    }
+
+    @Override
     public boolean areWithinRange(UUID player1, UUID player2, double range) {
         return proxyServer.getPlayer(player1)
                 .flatMap(p1 -> proxyServer.getPlayer(player2)
@@ -28,6 +34,14 @@ public class VelocityPlatformInteractor implements PlatformInteractor {
                                 )
                         )
                 ).orElse(false);
+    }
+
+    @Override
+    public boolean hasPermission(String username, String permission) {
+        return proxyServer
+                .getPlayer(username)
+                .map(value -> value.hasPermission(permission))
+                .orElse(false);
     }
 
     @Override

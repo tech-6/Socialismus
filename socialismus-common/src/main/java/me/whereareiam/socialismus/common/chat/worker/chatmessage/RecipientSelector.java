@@ -81,6 +81,8 @@ public class RecipientSelector {
 
     private boolean checkRequirements(Chat chat, DummyPlayer dummyPlayer) {
         if (chat.getRequirements().isEmpty()) return true;
+        if (chat.getRequirements().get(Participants.RECIPIENT) == null) return true;
+
         for (Map.Entry<RequirementType, ? extends Requirement> entry : chat.getRequirements().get(Participants.RECIPIENT).getGroups().entrySet())
             return requirementEvaluator.isRequirementMet(entry, dummyPlayer);
 

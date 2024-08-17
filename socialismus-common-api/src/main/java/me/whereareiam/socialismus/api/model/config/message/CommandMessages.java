@@ -77,9 +77,11 @@ public class CommandMessages {
     @Setter
     @ToString
     public static class ClearCommand {
+        private String bypassUser;
         private String noUserHistory;
         private String noIdHistory;
         private String noHistory;
         private String cleared;
+        private String clearedAmount;
     }
 }

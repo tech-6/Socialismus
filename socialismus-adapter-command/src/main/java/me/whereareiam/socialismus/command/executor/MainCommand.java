@@ -42,7 +42,7 @@ public class MainCommand implements CommandBase {
         CommandEntity commandEntity = commands.get().get("main");
 
         return Map.of(
-                "command." + commandEntity.getAliases().getFirst() + ".name", commandEntity.getUsage().replace("{command}", String.join("|", commandEntity.getAliases())),
+                "command." + commandEntity.getAliases().getFirst() + ".name", commandEntity.getUsage().replace("{alias}", String.join("|", commandEntity.getAliases())),
                 "command." + commandEntity.getAliases().getFirst() + ".permission", commandEntity.getPermission(),
                 "command." + commandEntity.getAliases().getFirst() + ".description", commandEntity.getDescription(),
                 "command." + commandEntity.getAliases().getFirst() + ".usage", commandEntity.getUsage()

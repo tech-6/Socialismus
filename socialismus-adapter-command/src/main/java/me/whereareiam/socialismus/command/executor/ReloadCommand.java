@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.Set;
 
 @Singleton
-@Command("%command.main")
 public class ReloadCommand implements CommandBase {
     private final Set<Reloadable> reloadables;
     private final Provider<Messages> messages;
@@ -56,7 +55,7 @@ public class ReloadCommand implements CommandBase {
         CommandEntity commandEntity = commands.get().get("reload");
 
         return Map.of(
-                "command." + commandEntity.getAliases().getFirst() + ".name", commandEntity.getUsage().replace("{command}", String.join("|", commandEntity.getAliases())),
+                "command." + commandEntity.getAliases().getFirst() + ".name", commandEntity.getUsage().replace("{alias}", String.join("|", commandEntity.getAliases())),
                 "command." + commandEntity.getAliases().getFirst() + ".permission", commandEntity.getPermission(),
                 "command." + commandEntity.getAliases().getFirst() + ".description", commandEntity.getDescription(),
                 "command." + commandEntity.getAliases().getFirst() + ".usage", commandEntity.getUsage()

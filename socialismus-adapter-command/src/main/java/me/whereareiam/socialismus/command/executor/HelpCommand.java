@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Singleton
-@Command("%command.main")
 public class HelpCommand implements CommandBase {
     private final Provider<CommandManager<DummyPlayer>> commandManager;
     private final SerializationService serializer;
@@ -49,7 +48,7 @@ public class HelpCommand implements CommandBase {
         CommandEntity commandEntity = commands.get().get("help");
 
         return Map.of(
-                "command." + commandEntity.getAliases().getFirst() + ".name", commandEntity.getUsage().replace("{command}", String.join("|", commandEntity.getAliases())),
+                "command." + commandEntity.getAliases().getFirst() + ".name", commandEntity.getUsage().replace("{alias}", String.join("|", commandEntity.getAliases())),
                 "command." + commandEntity.getAliases().getFirst() + ".permission", commandEntity.getPermission(),
                 "command." + commandEntity.getAliases().getFirst() + ".description", commandEntity.getDescription(),
                 "command." + commandEntity.getAliases().getFirst() + ".usage", commandEntity.getUsage()

@@ -49,7 +49,9 @@ public class CommandTranslator {
 
                     if (commandEntity != null) {
                         String result = entry.getValue().apply(commandEntity);
-                        return result != null && !result.isEmpty() ? result : "";
+                        if (result == null || result.isEmpty()) return "";
+
+                        return result.replace("{command}", String.join("|", commands.get().get("main").getAliases()));
                     }
                 }
             }

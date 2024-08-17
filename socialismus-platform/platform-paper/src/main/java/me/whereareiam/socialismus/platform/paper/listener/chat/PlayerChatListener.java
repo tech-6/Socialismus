@@ -1,10 +1,14 @@
 package me.whereareiam.socialismus.platform.paper.listener.chat;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import io.papermc.paper.event.player.AsyncChatEvent;
+import me.whereareiam.socialismus.api.model.chat.ChatMessages;
+import me.whereareiam.socialismus.api.model.chat.ChatSettings;
 import me.whereareiam.socialismus.api.model.chat.message.FormattedChatMessage;
 import me.whereareiam.socialismus.api.output.listener.DynamicListener;
+import me.whereareiam.socialismus.common.chat.ChatBroadcaster;
 import me.whereareiam.socialismus.common.chat.ChatCoordinator;
 import me.whereareiam.socialismus.common.chat.ChatMessageFactory;
 import me.whereareiam.socialismus.platform.paper.renderer.SocialismusRenderer;
@@ -19,11 +23,14 @@ import java.util.stream.Collectors;
 public class PlayerChatListener implements DynamicListener<AsyncChatEvent> {
     private final ChatCoordinator chatCoordinator;
     private final ChatMessageFactory chatMessageFactory;
+    private final ChatBroadcaster chatBroadcaster;
 
     @Inject
-    public PlayerChatListener(ChatCoordinator chatCoordinator, ChatMessageFactory chatMessageFactory) {
+    public PlayerChatListener(ChatCoordinator chatCoordinator, ChatMessageFactory chatMessageFactory,
+                              Provider<ChatSettings> chatSettings, Provider<ChatMessages> chatMessages, ChatBroadcaster chatBroadcaster) {
         this.chatCoordinator = chatCoordinator;
         this.chatMessageFactory = chatMessageFactory;
+        this.chatBroadcaster = chatBroadcaster;
     }
 
     public void onEvent(AsyncChatEvent event) {
@@ -53,6 +60,7 @@ public class PlayerChatListener implements DynamicListener<AsyncChatEvent> {
                         .map(recipient -> player.getServer().getPlayer(recipient.getUniqueId()))
                         .collect(Collectors.toSet())
         );
-        event.renderer(new SocialismusRenderer(formattedChatMessage));
+
+        event.renderer(new SocialismusRenderer(formattedChatMessage, chatBroadcaster));
     }
 }

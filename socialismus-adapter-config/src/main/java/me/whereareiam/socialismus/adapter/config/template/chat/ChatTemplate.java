@@ -36,7 +36,7 @@ public class ChatTemplate implements DefaultConfig<ChatsConfig> {
                 ),
                 List.of(
                         new ChatFormat(
-                                "{clear} <gray>[F] {playerName}: <white>{message}",
+                                "{clear}<gray>[F] {playerName}: <white>{message}",
                                 new HashMap<>()
                         )
                 ),
@@ -54,11 +54,11 @@ public class ChatTemplate implements DefaultConfig<ChatsConfig> {
                 ),
                 List.of(
                         new ChatFormat(
-                                "{clear} <gray>[L] {playerName}: <white>{message}",
+                                "{clear}<gray>[L] {playerName}: <white>{message}",
                                 new HashMap<>()
                         ),
                         new ChatFormat(
-                                "{clear} <gray>[L] {playerName}: <gold>{message}",
+                                "{clear}<gray>[L] {playerName}: <gold>{message}",
                                 Map.of(
                                         Participants.SENDER,
                                         RequirementGroup.builder()
@@ -106,11 +106,11 @@ public class ChatTemplate implements DefaultConfig<ChatsConfig> {
                 ),
                 List.of(
                         new ChatFormat(
-                                "{clear} <gray>[G] {playerName}: <white>{message}",
+                                "{clear}<gray>[G] {playerName}: <white>{message}",
                                 new HashMap<>()
                         ),
                         new ChatFormat(
-                                "{clear} <gray>[G] {playerName}: <gold>{message}",
+                                "{clear}<gray>[G] {playerName}: <gold>{message}",
                                 Map.of(
                                         Participants.SENDER,
                                         RequirementGroup.builder()
