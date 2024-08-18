@@ -8,6 +8,8 @@ import lombok.experimental.SuperBuilder;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -15,10 +17,13 @@ import java.util.UUID;
 @ToString
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class DummyPlayer {
+public class DummyPlayer implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private final String username;
     private final UUID uniqueId;
-    private final Audience audience;
+    private final transient Audience audience;
 
     @Setter
     private String location; // can be worldName, serverName or null

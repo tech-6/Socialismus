@@ -18,7 +18,8 @@ public abstract class CommonListenerRegistrar implements ListenerRegistrar {
     protected EventPriority determinePriority(Class<?> event) {
         Settings.Listeners listeners = settings.get().getListeners();
 
-        if (listeners == null || listeners.getEvents() == null || listeners.getEvents().isEmpty())
+        if (listeners == null || listeners.getEvents() == null
+                || listeners.getEvents().isEmpty() || listeners.getEvents().get(event.getName()) == null)
             return EventPriority.NORMAL;
 
         EventPriority priority = listeners.getEvents().get(event.getName()).getPriority();

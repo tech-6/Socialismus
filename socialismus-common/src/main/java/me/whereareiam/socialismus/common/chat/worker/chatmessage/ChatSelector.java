@@ -48,7 +48,7 @@ public class ChatSelector {
         this.chatSettings = chatSettings;
         this.serializer = serializer;
 
-        workerProcessor.addWorker(new Worker<>(this::selectChat, 0, true, false));
+        workerProcessor.addWorker(new Worker<>(this::selectChat, 50, true, false));
     }
 
     public ChatMessage selectChat(ChatMessage chatMessage) {

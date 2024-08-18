@@ -48,15 +48,14 @@ public class ChatBroadcaster {
     public void broadcast(FormattedChatMessage chatMessage, boolean simple) {
         loggingHelper.info("[%s] %s: %s", chatMessage.getChat().getId().toUpperCase(), chatMessage.getSender().getUsername(), ComponentUtil.toString(chatMessage.getContent(), true));
 
-        if (!simple && (!PlatformType.isProxy() || chatMessage.isVanillaSending())) return;
-
-        chatMessage.getRecipients().forEach(recipient ->
-                recipient.sendMessage(
-                        chatMessage.getFormat()
-                                .replaceText(createMessageReplacement(chatMessage.getContent()))
-                                .replaceText(createClearReplacement(chatMessage, recipient.getUniqueId()))
-                )
-        );
+        if (simple || PlatformType.isProxy() || !chatMessage.isVanillaSending())
+            chatMessage.getRecipients().forEach(recipient ->
+                    recipient.sendMessage(
+                            chatMessage.getFormat()
+                                    .replaceText(createMessageReplacement(chatMessage.getContent()))
+                                    .replaceText(createClearReplacement(chatMessage, recipient.getUniqueId()))
+                    )
+            );
     }
 
     public void broadcast(FormattedChatMessage chatMessage) {

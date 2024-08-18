@@ -12,6 +12,7 @@ import me.whereareiam.socialismus.api.output.listener.ListenerRegistrar;
 import me.whereareiam.socialismus.api.output.module.ModuleService;
 import me.whereareiam.socialismus.common.chat.worker.FormatSelector;
 import me.whereareiam.socialismus.common.chat.worker.chatmessage.ChatSelector;
+import me.whereareiam.socialismus.common.chat.worker.chatmessage.RecipientResolver;
 import me.whereareiam.socialismus.common.chat.worker.chatmessage.RecipientSelector;
 import me.whereareiam.socialismus.common.container.ChatContainer;
 import me.whereareiam.socialismus.common.provider.IntegrationProvider;
@@ -27,6 +28,7 @@ public class CommonSocialismus {
 
         // Initialize all component before first event is triggered, leads to faster response time
         injector.getInstance(ChatContainer.class);
+        injector.getInstance(RecipientResolver.class);
         injector.getInstance(ChatSelector.class);
         injector.getInstance(RecipientSelector.class);
         injector.getInstance(FormatSelector.class);

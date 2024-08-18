@@ -86,10 +86,10 @@ public class SettingsTemplate implements DefaultConfig<Settings> {
 
         Event event = Event.builder().register(true).priority(EventPriority.LOWEST).build();
 
-        priorities.put("com.velocitypowered.api.event.player.ServerConnectedEvent", event);
-        priorities.put("com.velocitypowered.api.event.connection.LoginEvent", event);
-        priorities.put("com.velocitypowered.api.event.connection.DisconnectEvent", event);
+        priorities.put("com.velocitypowered.api.event.player.ServerPostConnectEvent", event);
+        priorities.put("com.velocitypowered.api.event.player.PlayerChooseInitialServerEvent", event);
         priorities.put("com.velocitypowered.api.event.player.PlayerChatEvent", event);
+        priorities.put("com.velocitypowered.api.event.connection.DisconnectEvent", event);
 
         return priorities;
     }

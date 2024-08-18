@@ -6,9 +6,9 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.velocitypowered.api.event.EventManager;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
-import com.velocitypowered.api.event.connection.LoginEvent;
 import com.velocitypowered.api.event.player.PlayerChatEvent;
-import com.velocitypowered.api.event.player.ServerConnectedEvent;
+import com.velocitypowered.api.event.player.PlayerChooseInitialServerEvent;
+import com.velocitypowered.api.event.player.ServerPostConnectEvent;
 import me.whereareiam.socialismus.api.model.config.Settings;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.output.listener.DynamicListener;
@@ -35,17 +35,18 @@ public class VelocityListenerRegistrar extends CommonListenerRegistrar {
     }
 
     @Override
+    @SuppressWarnings("UnstableApiUsage")
     public void registerListeners() {
         registerListener(PlayerChatEvent.class, injector.getInstance(PlayerChatListener.class));
-        registerListener(ServerConnectedEvent.class, injector.getInstance(ServerChangeListener.class));
+        registerListener(ServerPostConnectEvent.class, injector.getInstance(ServerChangeListener.class));
         registerListener(DisconnectEvent.class, injector.getInstance(PlayerQuitListener.class));
-        registerListener(LoginEvent.class, injector.getInstance(PlayerJoinListener.class));
+        registerListener(PlayerChooseInitialServerEvent.class, injector.getInstance(PlayerJoinListener.class));
     }
 
     @Override
     public <T> void registerListener(Class<T> eventClass, DynamicListener<T> listener) {
-        if (settings.get().getListeners().getEvents().get(eventClass.getName()) == null
-                || !settings.get().getListeners().getEvents().get(eventClass.getName()).isRegister()) return;
+        if (settings.get().getListeners().getEvents().get(eventClass.getName()) != null
+                && !settings.get().getListeners().getEvents().get(eventClass.getName()).isRegister()) return;
         loggingHelper.debug("Registering listener for event " + eventClass.getName());
 
         eventManager.register(plugin, eventClass, VelocityUtil.of(determinePriority(eventClass)), listener::onEvent);

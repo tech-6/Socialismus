@@ -41,7 +41,7 @@ public class RecipientSelector {
         this.loggingHelper = loggingHelper;
         this.serializer = serializer;
 
-        workerProcessor.addWorker(new Worker<>(this::selectRecipients, 50, true, false));
+        workerProcessor.addWorker(new Worker<>(this::selectRecipients, 100, true, false));
     }
 
     private ChatMessage selectRecipients(ChatMessage chatMessage) {
