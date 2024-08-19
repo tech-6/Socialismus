@@ -32,6 +32,7 @@ subprojects {
         "implementation"(project(":socialismus-platform"))
         "implementation"(project(":socialismus-common-api"))
         "implementation"(project(":socialismus-common"))
+        "implementation"(project(":socialismus-shared"))
 
         "compileOnly"(rootProject.libs.bundles.cloud)
     }

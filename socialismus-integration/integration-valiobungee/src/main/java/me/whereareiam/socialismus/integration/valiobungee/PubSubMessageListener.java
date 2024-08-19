@@ -6,8 +6,8 @@ import com.imaginarycode.minecraft.redisbungee.events.PubSubMessageEvent;
 import me.whereareiam.socialismus.api.model.chat.message.ChatMessage;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.output.listener.DynamicListener;
-import me.whereareiam.socialismus.common.Constants;
 import me.whereareiam.socialismus.common.chat.ChatCoordinator;
+import me.whereareiam.socialismus.shared.Constants;
 
 import java.io.IOException;
 

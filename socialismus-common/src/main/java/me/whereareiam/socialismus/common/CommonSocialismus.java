@@ -16,6 +16,7 @@ import me.whereareiam.socialismus.common.chat.worker.chatmessage.RecipientResolv
 import me.whereareiam.socialismus.common.chat.worker.chatmessage.RecipientSelector;
 import me.whereareiam.socialismus.common.container.ChatContainer;
 import me.whereareiam.socialismus.common.provider.IntegrationProvider;
+import me.whereareiam.socialismus.shared.Constants;
 
 import java.util.ArrayList;
 import java.util.List;

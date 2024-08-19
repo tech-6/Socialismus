@@ -5,13 +5,13 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.PlatformType;
 import me.whereareiam.socialismus.api.PluginType;
-import me.whereareiam.socialismus.api.input.PluginInteractor;
 import me.whereareiam.socialismus.api.input.serializer.SerializationService;
 import me.whereareiam.socialismus.api.model.CommandEntity;
 import me.whereareiam.socialismus.api.model.config.message.Messages;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.output.PlatformInteractor;
 import me.whereareiam.socialismus.api.output.command.CommandBase;
+import me.whereareiam.socialismus.shared.Constants;
 import org.incendo.cloud.annotations.Command;
 import org.incendo.cloud.annotations.CommandDescription;
 import org.incendo.cloud.annotations.Permission;
@@ -25,15 +25,13 @@ public class DebugCommand implements CommandBase {
     private final Provider<Map<String, CommandEntity>> commands;
 
     // Data provider
-    private final PluginInteractor pluginInteractor;
     private final PlatformInteractor platformInteractor;
 
     @Inject
-    public DebugCommand(SerializationService serializer, Provider<Messages> messages, Provider<Map<String, CommandEntity>> commands, PluginInteractor pluginInteractor, PlatformInteractor platformInteractor) {
+    public DebugCommand(SerializationService serializer, Provider<Messages> messages, Provider<Map<String, CommandEntity>> commands, PlatformInteractor platformInteractor) {
         this.serializer = serializer;
         this.messages = messages;
         this.commands = commands;
-        this.pluginInteractor = pluginInteractor;
         this.platformInteractor = platformInteractor;
     }
 
@@ -44,7 +42,7 @@ public class DebugCommand implements CommandBase {
         String message = String.join("\n", messages.get().getCommands().getDebugCommand().getFormat());
 
         message = message.replace("{serverVersion}", platformInteractor.getServerVersion().name())
-                .replace("{pluginVersion}", pluginInteractor.getPluginVersion())
+                .replace("{pluginVersion}", Constants.VERSION)
                 .replace("{serverPlatform}", PlatformType.getType().name())
                 .replace("{pluginPlatform}", PluginType.getType().name())
                 .replace("{javaVersion}", System.getProperty("java.version"))

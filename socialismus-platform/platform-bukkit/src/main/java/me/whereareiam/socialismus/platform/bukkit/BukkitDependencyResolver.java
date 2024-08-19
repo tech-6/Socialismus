@@ -4,7 +4,7 @@ import com.alessiodp.libby.BukkitLibraryManager;
 import com.alessiodp.libby.Library;
 import com.alessiodp.libby.relocation.Relocation;
 import me.whereareiam.socialismus.common.CommonDependencyResolver;
-import me.whereareiam.socialismus.common.Constants;
+import me.whereareiam.socialismus.shared.Constants;
 import org.bukkit.plugin.Plugin;
 
 public class BukkitDependencyResolver extends CommonDependencyResolver {

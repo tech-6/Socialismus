@@ -1,4 +1,4 @@
-package me.whereareiam.socialismus.common;
+package me.whereareiam.socialismus.shared;
 
 public final class Constants {
     public static final String NAME = "@name@";

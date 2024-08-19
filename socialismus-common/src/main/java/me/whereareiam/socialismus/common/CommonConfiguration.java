@@ -4,7 +4,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import me.whereareiam.socialismus.api.Reloadable;
-import me.whereareiam.socialismus.api.input.PluginInteractor;
 import me.whereareiam.socialismus.api.input.WorkerProcessor;
 import me.whereareiam.socialismus.api.input.chat.ChatHistoryService;
 import me.whereareiam.socialismus.api.input.chat.RequirementValidation;
@@ -38,8 +37,6 @@ import java.util.Set;
 public class CommonConfiguration extends AbstractModule {
     @Override
     protected void configure() {
-        bind(PluginInteractor.class).to(CommonPluginInteractor.class);
-
         bind(ChatContainerService.class).to(ChatContainer.class);
         bind(PlayerContainerService.class).to(PlayerContainer.class);
         bind(ChatHistoryContainerService.class).to(ChatHistoryContainer.class);

@@ -4,6 +4,7 @@ repositories {
 
 dependencies {
     "implementation"(project(":socialismus-common-api"))
+    "implementation"(project(":socialismus-shared"))
 
     "compileOnly"(libs.bundles.cloud)
     "compileOnly"(libs.cloud.paper)

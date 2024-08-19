@@ -1,6 +1,7 @@
 package me.whereareiam.socialismus.integration.bstats.chart;
 
 import com.google.inject.Singleton;
+import me.whereareiam.socialismus.shared.Constants;
 import org.bstats.charts.CustomChart;
 import org.bstats.charts.DrilldownPie;
 
@@ -16,7 +17,7 @@ public class PluginVersionChart implements Chart {
 
     private Map<String, Map<String, Integer>> getData() {
         Map<String, Map<String, Integer>> map = new HashMap<>();
-        String version = "@version@";
+        String version = Constants.VERSION;
 
         Map<String, Integer> entry = new HashMap<>();
 

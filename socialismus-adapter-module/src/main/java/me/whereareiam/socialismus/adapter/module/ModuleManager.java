@@ -7,9 +7,11 @@ import lombok.Getter;
 import lombok.Setter;
 import me.whereareiam.socialismus.api.model.module.InternalModule;
 import me.whereareiam.socialismus.api.model.module.Module;
+import me.whereareiam.socialismus.api.model.module.ModuleDependency;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.output.config.ConfigurationLoader;
 import me.whereareiam.socialismus.api.output.module.ModuleService;
+import me.whereareiam.socialismus.api.type.DependencyType;
 import me.whereareiam.socialismus.api.type.ModuleState;
 
 import java.io.File;
@@ -17,11 +19,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Getter
@@ -111,10 +112,57 @@ public class ModuleManager implements ModuleService {
                 } catch (IOException e) {
                     loggingHelper.warn("Failed to load module from file: " + file.getName());
                 }
+
+                List<InternalModule> sortedModules = sortModulesByDependencies(modules);
+                modules.clear();
+                modules.addAll(sortedModules);
             });
         } catch (IOException e) {
             loggingHelper.warn("Failed to load modules from directory: " + modulesPath);
         }
+    }
+
+    private List<InternalModule> sortModulesByDependencies(List<InternalModule> modules) {
+        Map<String, InternalModule> moduleMap = modules.stream()
+                .collect(Collectors.toMap(InternalModule::getName, module -> module));
+
+        Map<String, List<String>> dependencyGraph = new HashMap<>();
+        for (InternalModule module : modules) {
+            List<String> dependencies = module.getDependencies().stream()
+                    .filter(dep -> dep.getType() == DependencyType.MODULE)
+                    .map(ModuleDependency::getName)
+                    .collect(Collectors.toList());
+            dependencyGraph.put(module.getName(), dependencies);
+        }
+
+        List<InternalModule> sortedModules = new ArrayList<>();
+        Set<String> visited = new HashSet<>();
+        Set<String> visiting = new HashSet<>();
+
+        for (InternalModule module : modules)
+            if (!visited.contains(module.getName()))
+                if (topologicalSort(module.getName(), dependencyGraph, visited, visiting, sortedModules, moduleMap)) {
+                    loggingHelper.warn("Cyclic dependency detected in modules");
+                    return modules;
+                }
+
+        return sortedModules;
+    }
+
+    private boolean topologicalSort(String moduleName, Map<String, List<String>> dependencyGraph, Set<String> visited, Set<String> visiting, List<InternalModule> sortedModules, Map<String, InternalModule> moduleMap) {
+        if (visiting.contains(moduleName)) return true;
+        if (visited.contains(moduleName)) return false;
+
+        visiting.add(moduleName);
+        for (String dependency : dependencyGraph.getOrDefault(moduleName, Collections.emptyList()))
+            if (topologicalSort(dependency, dependencyGraph, visited, visiting, sortedModules, moduleMap))
+                return true;
+
+        visiting.remove(moduleName);
+        visited.add(moduleName);
+        sortedModules.add(moduleMap.get(moduleName));
+
+        return false;
     }
 
     private boolean validateModule(Module module, File moduleJson) {

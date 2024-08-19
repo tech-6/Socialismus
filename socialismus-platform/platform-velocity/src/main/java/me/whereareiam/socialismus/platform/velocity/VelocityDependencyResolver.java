@@ -4,7 +4,7 @@ import com.alessiodp.libby.Library;
 import com.alessiodp.libby.VelocityLibraryManager;
 import com.velocitypowered.api.plugin.PluginManager;
 import me.whereareiam.socialismus.common.CommonDependencyResolver;
-import me.whereareiam.socialismus.common.Constants;
+import me.whereareiam.socialismus.shared.Constants;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;

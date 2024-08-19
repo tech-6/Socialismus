@@ -11,12 +11,12 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.whereareiam.socialismus.common.CommonInjector;
 import me.whereareiam.socialismus.common.CommonSocialismus;
-import me.whereareiam.socialismus.common.Constants;
 import me.whereareiam.socialismus.common.IntegrityChecker;
 import me.whereareiam.socialismus.integration.bstats.bStatsIntegration;
 import me.whereareiam.socialismus.integration.papiproxybridge.PAPIProxyBridgeIntegration;
 import me.whereareiam.socialismus.integration.valiobungee.ValioBungeeIntegration;
 import me.whereareiam.socialismus.platform.velocity.inject.VelocityInjector;
+import me.whereareiam.socialismus.shared.Constants;
 import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
 
