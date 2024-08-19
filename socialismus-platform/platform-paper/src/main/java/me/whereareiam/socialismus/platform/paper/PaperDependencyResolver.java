@@ -30,7 +30,7 @@ public class PaperDependencyResolver extends CommonDependencyResolver {
         addDependency(Library.builder()
                 .groupId("com{}google{}inject")
                 .artifactId("guice")
-                .version(Constants.getGuiceVersion())
+                .version(Constants.Dependency.GUICE)
                 .resolveTransitiveDependencies(true)
                 .relocate(
                         Relocation.builder()
@@ -47,7 +47,7 @@ public class PaperDependencyResolver extends CommonDependencyResolver {
         addDependency(Library.builder()
                 .groupId("org{}incendo")
                 .artifactId("cloud-paper")
-                .version(Constants.getCloudPaperVersion())
+                .version(Constants.Dependency.CLOUD_PAPER)
                 .resolveTransitiveDependencies(true)
                 .build());
     }

@@ -24,8 +24,8 @@ import java.nio.file.Path;
 
 @Plugin(
         id = "socialismus",
-        name = "@projectName@",
-        version = "@projectVersion@",
+        name = Constants.NAME,
+        version = Constants.VERSION,
         authors = "whereareiam",
         dependencies = {
                 @Dependency(id = "packetevents", optional = true),
@@ -60,7 +60,7 @@ public class VelocitySocialismus extends CommonSocialismus {
                 pluginContainer,
                 proxyServer,
                 dependencyResolver,
-                metricsFactory.make(this, Constants.getBStatsVelocityId()),
+                metricsFactory.make(this, Constants.BStats.VELOCITY_ID),
                 dataPath
         );
 

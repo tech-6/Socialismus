@@ -65,21 +65,6 @@ subprojects {
                 "implementation"(project(":socialismus-integration:integration-valiobungee"))
                 "implementation"(rootProject.libs.bundles.bStats.velocity)
             }
-
-            tasks.register<Copy>("processSources") {
-                from("src/main/java")
-                into(layout.buildDirectory.dir("processed-src"))
-                include("**/*.java")
-                filter { line ->
-                    line.replace("@projectName@", rootProject.name)
-                        .replace("@projectVersion@", project.version.toString())
-                }
-            }
-
-            tasks.named<JavaCompile>("compileJava") {
-                dependsOn("processSources")
-                source = fileTree(layout.buildDirectory.dir("processed-src"))
-            }
         }
     }
 }

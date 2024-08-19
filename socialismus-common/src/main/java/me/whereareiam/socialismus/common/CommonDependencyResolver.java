@@ -16,21 +16,21 @@ public abstract class CommonDependencyResolver implements DependencyResolver {
         addDependency(Library.builder()
                 .groupId("org{}incendo")
                 .artifactId("cloud-core")
-                .version(Constants.getCloudVersion())
+                .version(Constants.Dependency.CLOUD)
                 .resolveTransitiveDependencies(false)
                 .build());
 
         addDependency(Library.builder()
                 .groupId("org{}incendo")
                 .artifactId("cloud-annotations")
-                .version(Constants.getCloudVersion())
+                .version(Constants.Dependency.CLOUD)
                 .resolveTransitiveDependencies(false)
                 .build());
 
         addDependency(Library.builder()
                 .groupId("org{}incendo")
                 .artifactId("cloud-minecraft-extras")
-                .version(Constants.getCloudMinecraftExtrasVersion())
+                .version(Constants.Dependency.CLOUD_MINECRAFT_EXTRAS)
                 .resolveTransitiveDependencies(false)
                 .build());
 
@@ -38,14 +38,14 @@ public abstract class CommonDependencyResolver implements DependencyResolver {
         addDependency(Library.builder()
                 .groupId("com{}fasterxml{}jackson{}core")
                 .artifactId("jackson-databind")
-                .version(Constants.getJacksonVersion())
+                .version(Constants.Dependency.JACKSON)
                 .resolveTransitiveDependencies(true)
                 .build());
 
         addDependency(Library.builder()
                 .groupId("com{}fasterxml{}jackson{}dataformat")
                 .artifactId("jackson-dataformat-yaml")
-                .version(Constants.getJacksonVersion())
+                .version(Constants.Dependency.JACKSON)
                 .resolveTransitiveDependencies(true)
                 .relocate(
                         Relocation.builder()

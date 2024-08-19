@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.AnsiColor;
+import me.whereareiam.socialismus.api.input.PluginInteractor;
 import me.whereareiam.socialismus.api.model.config.Settings;
 import me.whereareiam.socialismus.api.model.scheduler.PeriodicalRunnableTask;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
@@ -22,14 +23,16 @@ import java.net.URL;
 public class Updater {
     private final Settings.Updater updater;
     private final LoggingHelper loggingHelper;
+    private final PluginInteractor interactor;
     private final Scheduler scheduler;
 
     private final Gson gson = new Gson();
 
     @Inject
-    public Updater(Settings settings, LoggingHelper loggingHelper, Scheduler scheduler) {
+    public Updater(Settings settings, LoggingHelper loggingHelper, PluginInteractor interactor, Scheduler scheduler) {
         this.updater = settings.getUpdater();
         this.loggingHelper = loggingHelper;
+        this.interactor = interactor;
         this.scheduler = scheduler;
     }
 
@@ -49,7 +52,7 @@ public class Updater {
     }
 
     private void checkForUpdate() {
-        String version = Constants.getVersion();
+        String version = interactor.getPluginVersion();
         if (updater.isWarnAboutDevBuilds() && version.equals("DEV")) {
             loggingHelper.info("You are using a " + AnsiColor.ORANGE + "local build" + AnsiColor.RESET + " of Socialismus.");
             return;

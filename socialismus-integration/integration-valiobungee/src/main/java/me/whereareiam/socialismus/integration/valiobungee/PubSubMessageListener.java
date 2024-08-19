@@ -23,7 +23,7 @@ public class PubSubMessageListener implements DynamicListener<PubSubMessageEvent
     }
 
     public void onEvent(PubSubMessageEvent event) {
-        if (!event.getChannel().equals(Constants.getChannel())) return;
+        if (!event.getChannel().equals(Constants.CHANNEL)) return;
 
         try {
             ChatMessage chatMessage = ChatMessage.deserialize(event.getMessage());

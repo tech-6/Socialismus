@@ -83,7 +83,7 @@ public class PlayerChatListener implements DynamicListener<AsyncChatEvent> {
                     .filter(i -> i instanceof SynchronizationIntegration)
                     .findFirst()
                     .map(i -> (SynchronizationIntegration) i)
-                    .ifPresent(i -> i.sync(Constants.getChannel(), data));
+                    .ifPresent(i -> i.sync(Constants.CHANNEL, data));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -1,33 +1,24 @@
 package me.whereareiam.socialismus.common;
 
-import lombok.Getter;
+public final class Constants {
+    public static final String NAME = "@name@";
+    public static final String VERSION = "@version@";
+    public static final String CHANNEL = "socialismus";
 
-public class Constants {
-    @Getter
-    private static final String channel = "socialismus";
-    @Getter
-    private static final int bStatsBukkitId = 19855;
-    @Getter
-    private static final int bStatsVelocityId = 22720;
+    public static final class BStats {
+        public static final int BUKKIT_ID = 19855;
+        public static final int VELOCITY_ID = 22720;
+    }
 
-    @Getter
-    private static final String version = "@version@".toUpperCase();
+    public static final class Dependency {
+        public static final String GUICE = "@guiceVersion@";
+        public static final String JACKSON = "@jacksonVersion@";
+        public static final String ADVENTURE = "@adventureVersion@";
+        public static final String ADVENTURE_BUKKIT = "@adventureBukkitVersion@";
 
-    @Getter
-    private static final String guiceVersion = "@guiceVersion@";
-    @Getter
-    private static final String jacksonVersion = "@jacksonVersion@";
-    @Getter
-    private static final String adventureVersion = "@adventureVersion@";
-    @Getter
-    private static final String adventureBukkitVersion = "@adventureBukkitVersion@";
-
-    @Getter
-    private static final String cloudVersion = "@cloudVersion@";
-    @Getter
-    private static final String cloudPaperVersion = "@cloudPaperVersion@";
-    @Getter
-    private static final String cloudVelocityVersion = "@cloudVelocityVersion@";
-    @Getter
-    private static final String cloudMinecraftExtrasVersion = "@cloudMinecraftExtrasVersion@";
+        public static final String CLOUD = "@cloudVersion@";
+        public static final String CLOUD_PAPER = "@cloudPaperVersion@";
+        public static final String CLOUD_VELOCITY = "@cloudVelocityVersion@";
+        public static final String CLOUD_MINECRAFT_EXTRAS = "@cloudMinecraftExtrasVersion@";
+    }
 }

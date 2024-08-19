@@ -13,7 +13,8 @@ tasks.register<Copy>("processSources") {
     into(layout.buildDirectory.dir("processed-src").get().asFile)
     include("**/*.java")
     filter { line ->
-        line.replace("@version@", rootProject.version.toString())
+        line.replace("@name@", rootProject.name)
+            .replace("@version@", rootProject.version.toString().uppercase())
             .replace("@guiceVersion@", rootProject.libs.versions.guice.get())
             .replace("@jacksonVersion@", rootProject.libs.versions.jackson.get())
             .replace("@adventureVersion@", rootProject.libs.versions.adventure.minimessage.get())
