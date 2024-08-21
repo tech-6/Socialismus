@@ -15,6 +15,8 @@ subprojects {
         relocate("org.bstats", "me.whereareiam.socialismus.library.bStats")
 
         relocate("org.yaml.snakeyaml", "me.whereareiam.socialismus.library.snakeyaml")
+        relocate("com.google.common", "me.whereareiam.socialismus.library.guava")
+        relocate("com.google.inject", "me.whereareiam.socialismus.library.guice")
     }
 
     repositories {
@@ -24,7 +26,7 @@ subprojects {
     }
 
     dependencies {
-        "implementation"(project(":socialismus-integration:integration-papiproxybridge"))
+        "implementation"(project(":socialismus-integration:integration-packetevents"))
         "implementation"(project(":socialismus-integration:integration-bstats"))
         "implementation"(project(":socialismus-adapter-command"))
         "implementation"(project(":socialismus-adapter-config"))
@@ -46,11 +48,6 @@ subprojects {
                 "compileOnly"(rootProject.libs.cloud.paper)
             }
 
-            tasks.withType<ShadowJar> {
-                relocate("com.google.inject", "me.whereareiam.socialismus.library.guice")
-                relocate("com.google.common", "me.whereareiam.socialismus.library.guava")
-            }
-
             tasks.named<Copy>("processResources") {
                 filter<ReplaceTokens>(
                     "tokens" to mapOf(
@@ -63,6 +60,7 @@ subprojects {
 
         "platform-velocity" -> {
             dependencies {
+                "implementation"(project(":socialismus-integration:integration-papiproxybridge"))
                 "implementation"(project(":socialismus-integration:integration-valiobungee"))
                 "implementation"(rootProject.libs.bundles.bStats.velocity)
             }

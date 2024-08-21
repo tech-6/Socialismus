@@ -2,6 +2,7 @@ rootProject.name = "Socialismus"
 
 include("socialismus-integration:integration-papiproxybridge")
 include("socialismus-integration:integration-placeholderapi")
+include("socialismus-integration:integration-packetevents")
 include("socialismus-integration:integration-valiobungee")
 include("socialismus-integration:integration-bstats")
 include("socialismus-platform:platform-velocity")

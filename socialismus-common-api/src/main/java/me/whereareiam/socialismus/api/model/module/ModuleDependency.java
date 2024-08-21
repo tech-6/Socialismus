@@ -14,5 +14,4 @@ public class ModuleDependency {
     private String name;
     private String version;
     private DependencyType type;
-    private boolean optional;
 }

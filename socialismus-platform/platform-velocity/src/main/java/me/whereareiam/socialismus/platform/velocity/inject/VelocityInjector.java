@@ -12,15 +12,14 @@ import me.whereareiam.socialismus.common.CommonConfiguration;
 import me.whereareiam.socialismus.common.CommonInjector;
 import me.whereareiam.socialismus.platform.velocity.VelocityDependencyResolver;
 import me.whereareiam.socialismus.platform.velocity.VelocitySocialismus;
-import org.bstats.velocity.Metrics;
 
 import java.nio.file.Path;
 
 @Getter
 public class VelocityInjector {
-    public VelocityInjector(VelocitySocialismus socialismus, PluginContainer plugin, ProxyServer proxyServer, VelocityDependencyResolver dependencyResolver, Metrics metrics, Path dataPath) {
+    public VelocityInjector(VelocitySocialismus socialismus, PluginContainer plugin, ProxyServer proxyServer, VelocityDependencyResolver dependencyResolver, Path dataPath) {
         Injector injector = Guice.createInjector(
-                new VelocityInjectorConfiguration(socialismus, plugin, proxyServer, dependencyResolver, metrics),
+                new VelocityInjectorConfiguration(socialismus, plugin, proxyServer, dependencyResolver),
                 new ConfigBinder(dataPath),
                 new CommonConfiguration(),
                 new CommandConfiguration(),

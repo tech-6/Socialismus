@@ -4,6 +4,7 @@ import me.whereareiam.socialismus.common.CommonInjector;
 import me.whereareiam.socialismus.common.CommonSocialismus;
 import me.whereareiam.socialismus.common.IntegrityChecker;
 import me.whereareiam.socialismus.integration.bstats.bStatsIntegration;
+import me.whereareiam.socialismus.integration.packetevents.PacketEventsIntegration;
 import me.whereareiam.socialismus.integration.placeholderapi.PlaceholderAPIIntegration;
 import me.whereareiam.socialismus.platform.bukkit.inject.BukkitInjector;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,6 +34,7 @@ public class BukkitSocialismus extends JavaPlugin {
     @Override
     public void onEnable() {
         CommonInjector.getInjector().getInstance(PlaceholderAPIIntegration.class);
+        CommonInjector.getInjector().getInstance(PacketEventsIntegration.class);
         CommonInjector.getInjector().getInstance(bStatsIntegration.class);
 
         commonSocialismus.onEnable();

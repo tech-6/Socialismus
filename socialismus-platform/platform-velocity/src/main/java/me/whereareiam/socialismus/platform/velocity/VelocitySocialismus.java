@@ -1,6 +1,5 @@
 package me.whereareiam.socialismus.platform.velocity;
 
-import com.google.inject.Inject;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
@@ -9,15 +8,17 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
+import jakarta.inject.Inject;
+import lombok.Getter;
 import me.whereareiam.socialismus.common.CommonInjector;
 import me.whereareiam.socialismus.common.CommonSocialismus;
 import me.whereareiam.socialismus.common.IntegrityChecker;
 import me.whereareiam.socialismus.integration.bstats.bStatsIntegration;
+import me.whereareiam.socialismus.integration.packetevents.PacketEventsIntegration;
 import me.whereareiam.socialismus.integration.papiproxybridge.PAPIProxyBridgeIntegration;
 import me.whereareiam.socialismus.integration.valiobungee.ValioBungeeIntegration;
 import me.whereareiam.socialismus.platform.velocity.inject.VelocityInjector;
 import me.whereareiam.socialismus.shared.Constants;
-import org.bstats.velocity.Metrics;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;
@@ -33,19 +34,20 @@ import java.nio.file.Path;
                 @Dependency(id = "redisbungee", optional = true),
         }
 )
-public class VelocitySocialismus extends CommonSocialismus {
+public class VelocitySocialismus {
+    private final CommonSocialismus commonSocialismus = new CommonSocialismus();
+
     private final ProxyServer proxyServer;
     private final PluginContainer pluginContainer;
+    @Getter
     private final Logger logger;
-    private final Metrics.Factory metricsFactory;
     private final Path dataPath;
 
     @Inject
-    public VelocitySocialismus(ProxyServer proxyServer, PluginContainer pluginContainer, Logger logger, Metrics.Factory metricsFactory, @DataDirectory Path dataPath) {
+    public VelocitySocialismus(ProxyServer proxyServer, PluginContainer pluginContainer, Logger logger, @DataDirectory Path dataPath) {
         this.proxyServer = proxyServer;
         this.pluginContainer = pluginContainer;
         this.logger = logger;
-        this.metricsFactory = metricsFactory;
         this.dataPath = dataPath;
     }
 
@@ -60,7 +62,6 @@ public class VelocitySocialismus extends CommonSocialismus {
                 pluginContainer,
                 proxyServer,
                 dependencyResolver,
-                metricsFactory.make(this, Constants.BStats.VELOCITY_ID),
                 dataPath
         );
 
@@ -70,14 +71,15 @@ public class VelocitySocialismus extends CommonSocialismus {
             throw new RuntimeException("Integrity check failed, plugin will be disabled");
 
         CommonInjector.getInjector().getInstance(PAPIProxyBridgeIntegration.class);
+        CommonInjector.getInjector().getInstance(PacketEventsIntegration.class);
         CommonInjector.getInjector().getInstance(ValioBungeeIntegration.class);
         CommonInjector.getInjector().getInstance(bStatsIntegration.class);
 
-        super.onEnable();
+        commonSocialismus.onEnable();
     }
 
     @Subscribe
     public void onProxyShutdownEvent(ProxyShutdownEvent event) {
-        super.onDisable();
+        commonSocialismus.onDisable();
     }
 }

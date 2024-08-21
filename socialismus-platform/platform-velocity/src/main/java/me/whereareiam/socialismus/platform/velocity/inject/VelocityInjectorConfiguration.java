@@ -16,20 +16,19 @@ import me.whereareiam.socialismus.integration.bstats.Metrics;
 import me.whereareiam.socialismus.platform.velocity.*;
 import me.whereareiam.socialismus.platform.velocity.listener.VelocityListenerRegistrar;
 import org.incendo.cloud.CommandManager;
+import org.slf4j.Logger;
 
 public class VelocityInjectorConfiguration extends AbstractModule {
     private final VelocitySocialismus socialismus;
     private final PluginContainer plugin;
     private final ProxyServer proxyServer;
     private final VelocityDependencyResolver dependencyResolver;
-    private final org.bstats.velocity.Metrics metrics;
 
-    public VelocityInjectorConfiguration(VelocitySocialismus socialismus, PluginContainer plugin, ProxyServer proxyServer, VelocityDependencyResolver dependencyResolver, org.bstats.velocity.Metrics metrics) {
+    public VelocityInjectorConfiguration(VelocitySocialismus socialismus, PluginContainer plugin, ProxyServer proxyServer, VelocityDependencyResolver dependencyResolver) {
         this.socialismus = socialismus;
         this.plugin = plugin;
         this.proxyServer = proxyServer;
         this.dependencyResolver = dependencyResolver;
-        this.metrics = metrics;
     }
 
     @Override
@@ -38,6 +37,7 @@ public class VelocityInjectorConfiguration extends AbstractModule {
         bind(PluginContainer.class).toInstance(plugin);
         bind(ProxyServer.class).toInstance(proxyServer);
         bind(EventManager.class).toInstance(proxyServer.getEventManager());
+        bind(Logger.class).toInstance(socialismus.getLogger());
         bind(DependencyResolver.class).toInstance(dependencyResolver);
 
         bind(LoggingHelper.class).to(VelocityLoggingHelper.class);
@@ -47,7 +47,6 @@ public class VelocityInjectorConfiguration extends AbstractModule {
         bind(PlatformClassLoader.class).to(VelocityClassLoader.class);
         bind(new TypeLiteral<CommandManager<DummyPlayer>>() {}).toProvider(VelocityCommandManagerProvider.class);
 
-        bind(org.bstats.velocity.Metrics.class).toInstance(metrics);
         bind(Metrics.class).to(VelocityMetrics.class);
     }
 }

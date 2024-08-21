@@ -5,22 +5,25 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.integration.bstats.Metrics;
 import me.whereareiam.socialismus.integration.bstats.chart.*;
+import me.whereareiam.socialismus.shared.Constants;
 
 import java.util.stream.Stream;
 
 @Singleton
 public class VelocityMetrics implements Metrics {
-    private final org.bstats.velocity.Metrics metrics;
     private final Injector injector;
 
     @Inject
-    public VelocityMetrics(org.bstats.velocity.Metrics metrics, Injector injector) {
-        this.metrics = metrics;
+    public VelocityMetrics(Injector injector) {
         this.injector = injector;
     }
 
     @Override
     public void register() {
+        org.bstats.velocity.Metrics metrics = injector.getInstance(org.bstats.velocity.Metrics.Factory.class).make(
+                injector.getInstance(VelocitySocialismus.class), Constants.BStats.VELOCITY_ID
+        );
+
         Stream.of(
                 injector.getInstance(PluginTypeChart.class),
                 injector.getInstance(PluginVersionChart.class),

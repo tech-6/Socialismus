@@ -55,6 +55,7 @@ public class ConfigBinder extends AbstractModule {
 
     @Override
     protected void configure() {
+        bind(Path.class).toInstance(dataPath);
         bind(Path.class).annotatedWith(Names.named("dataPath")).toInstance(dataPath);
         bind(Path.class).annotatedWith(Names.named("modulesPath")).toInstance(modulesPath);
         bind(Path.class).annotatedWith(Names.named("chatPath")).toInstance(chatPath);
