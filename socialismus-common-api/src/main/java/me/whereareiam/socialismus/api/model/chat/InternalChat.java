@@ -12,6 +12,18 @@ import java.util.Objects;
 public class InternalChat extends Chat {
     private boolean vanillaSending;
 
+    public static InternalChat from(Chat chat) {
+        return InternalChat.builder()
+                .id(chat.getId())
+                .priority(chat.getPriority())
+                .enabled(chat.isEnabled())
+                .parameters(chat.getParameters())
+                .formats(chat.getFormats())
+                .requirements(chat.getRequirements())
+                .vanillaSending(true)
+                .build();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof InternalChat chat) {

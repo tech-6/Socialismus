@@ -34,16 +34,8 @@ public class CommandSenderMapper implements SenderMapper<CommandSender, DummyPla
             return DummyCommandPlayer.builder().commandSender(source).audience(audiences.sender(source)).build();
 
         Optional<DummyPlayer> dummyPlayer = playerContainer.getPlayer(source.getName());
-        if (dummyPlayer.isPresent()) {
-            return DummyCommandPlayer.builder()
-                    .commandSender(source)
-                    .username(dummyPlayer.get().getUsername())
-                    .uniqueId(dummyPlayer.get().getUniqueId())
-                    .audience(dummyPlayer.get().getAudience())
-                    .location(dummyPlayer.get().getLocation())
-                    .locale(dummyPlayer.get().getLocale())
-                    .build();
-        }
+        if (dummyPlayer.isPresent())
+            return DummyCommandPlayer.from(dummyPlayer.get(), source);
 
         throw new NullPointerException("A player with the name " + source.getName() + " was not found");
     }

@@ -30,16 +30,8 @@ public class CommandSourceStackMapper implements SenderMapper<CommandSourceStack
         }
 
         Optional<DummyPlayer> dummyPlayer = playerContainer.getPlayer(source.getSender().getName());
-        if (dummyPlayer.isPresent()) {
-            return DummyCommandPlayer.builder()
-                    .commandSender(source)
-                    .username(dummyPlayer.get().getUsername())
-                    .uniqueId(dummyPlayer.get().getUniqueId())
-                    .audience(dummyPlayer.get().getAudience())
-                    .location(dummyPlayer.get().getLocation())
-                    .locale(dummyPlayer.get().getLocale())
-                    .build();
-        }
+        if (dummyPlayer.isPresent())
+            return DummyCommandPlayer.from(dummyPlayer.get(), source);
 
         throw new NullPointerException("A player with the name " + source.getSender().getName() + " was not found");
     }

@@ -12,7 +12,6 @@ import me.whereareiam.socialismus.api.model.chat.ChatSettings;
 import me.whereareiam.socialismus.api.model.chat.InternalChat;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.type.chat.ChatType;
-import me.whereareiam.socialismus.common.chat.ChatConverter;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -52,7 +51,7 @@ public class ChatContainer implements ChatContainerService, Reloadable {
 
     @Override
     public void addChat(Chat chat) {
-        addChat(ChatConverter.convert(chat));
+        addChat(InternalChat.from(chat));
     }
 
     @Override

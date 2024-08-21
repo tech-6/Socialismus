@@ -17,7 +17,7 @@ public class PluginVersionChart implements Chart {
 
     private Map<String, Map<String, Integer>> getData() {
         Map<String, Map<String, Integer>> map = new HashMap<>();
-        String version = Constants.VERSION;
+        String version = Constants.VERSION.toLowerCase();
 
         Map<String, Integer> entry = new HashMap<>();
 
