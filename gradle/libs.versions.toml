@@ -1,7 +1,7 @@
 [versions]
 
 # plugins
-shadow = "8.1.8"
+shadow = "8.3.0"
 
 # compile time processing
 lombok = "1.18.34"
@@ -97,4 +97,4 @@ bStats-velocity = ["bStats", "bStats-velocity"]
 
 [plugins]
 
-shadow = { id = "io.github.goooler.shadow", version.ref = "shadow" }
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }

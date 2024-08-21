@@ -6,7 +6,7 @@ plugins {
 }
 
 subprojects {
-    apply(plugin = "io.github.goooler.shadow")
+    apply(plugin = "com.gradleup.shadow")
 
     tasks.withType<ShadowJar> {
         archiveBaseName.set(rootProject.name)
