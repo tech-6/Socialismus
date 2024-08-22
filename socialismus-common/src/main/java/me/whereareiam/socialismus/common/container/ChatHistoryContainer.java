@@ -36,11 +36,10 @@ public class ChatHistoryContainer implements ChatHistoryContainerService {
     @Override
     public int removeMessages(int amount) {
         int removed = 0;
-        for (int i = 0; i < amount; i++) {
-            if (chatHistory.remove(i) != null) {
+        for (int i = 0; i < amount; i++)
+            if (chatHistory.remove(i) != null)
                 removed++;
-            }
-        }
+
         return removed;
     }
 

@@ -12,6 +12,8 @@ public interface ChatContainerService {
 
     void addChat(Chat chat);
 
+    void updateChat(String id, Chat chat);
+
     boolean hasChat(String id);
 
     boolean hasChatBySymbol(String symbol);

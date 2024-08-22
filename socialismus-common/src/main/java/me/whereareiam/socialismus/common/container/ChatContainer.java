@@ -55,6 +55,11 @@ public class ChatContainer implements ChatContainerService, Reloadable {
     }
 
     @Override
+    public void updateChat(String id, Chat chat) {
+        chats.put(id, InternalChat.from(chat));
+    }
+
+    @Override
     public boolean hasChat(String id) {
         return chats.containsKey(id);
     }

@@ -1,4 +1,4 @@
-package me.whereareiam.socialismus.api.input.chat;
+package me.whereareiam.socialismus.api.input;
 
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.model.requirement.Requirement;
