@@ -2,8 +2,10 @@ package me.whereareiam.socialismus.common;
 
 import com.google.inject.Injector;
 import me.whereareiam.socialismus.api.AnsiColor;
+import me.whereareiam.socialismus.api.EventUtil;
 import me.whereareiam.socialismus.api.PlatformType;
 import me.whereareiam.socialismus.api.PluginType;
+import me.whereareiam.socialismus.api.input.event.plugin.PluginInitializedEvent;
 import me.whereareiam.socialismus.api.model.chat.ChatMessages;
 import me.whereareiam.socialismus.api.model.chat.ChatSettings;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
@@ -43,6 +45,8 @@ public class CommonSocialismus {
 
         injector.getInstance(Updater.class).start();
         injector.getInstance(ModuleService.class).loadModules();
+
+        EventUtil.callEvent(new PluginInitializedEvent(), () -> {});
     }
 
     public void onDisable() {

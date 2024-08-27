@@ -3,7 +3,9 @@ package me.whereareiam.socialismus.common.chat.worker.chatmessage;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import me.whereareiam.socialismus.api.EventUtil;
 import me.whereareiam.socialismus.api.input.WorkerProcessor;
+import me.whereareiam.socialismus.api.input.event.chat.recipient.RecipientsSelectedEvent;
 import me.whereareiam.socialismus.api.model.Worker;
 import me.whereareiam.socialismus.api.model.chat.Chat;
 import me.whereareiam.socialismus.api.model.chat.ChatMessages;
@@ -52,6 +54,8 @@ public class RecipientSelector {
 
         Chat chat = chatMessage.getChat();
         DummyPlayer sender = chatMessage.getSender();
+
+        int oldRecipients = chatMessage.getRecipients().size();
         Set<DummyPlayer> recipients = chatMessage.getRecipients();
 
         if (chat.getParameters().getType().isLocal()) {
@@ -69,9 +73,10 @@ public class RecipientSelector {
                     .collect(Collectors.toSet());
         }
 
-        loggingHelper.debug("Recipients before: " + chatMessage.getRecipients().size() + ", after: " + recipients.size());
+        RecipientsSelectedEvent event = new RecipientsSelectedEvent(chatMessage, recipients, chatMessage.isCancelled());
+        EventUtil.callEvent(event, () -> chatMessage.setRecipients(event.getNewRecipients()));
+        loggingHelper.debug("Recipients before: " + oldRecipients + ", after: " + event.getNewRecipients().size());
 
-        chatMessage.setRecipients(recipients);
         if (recipients.isEmpty()) chatMessage.setCancelled(true);
         if (recipients.isEmpty() && settings.get().isNotifyNoPlayers() && chat.getParameters().getType().isGlobal())
             sender.sendMessage(serializer.format(sender, messages.get().getNoPlayers()));

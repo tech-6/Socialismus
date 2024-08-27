@@ -4,8 +4,10 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.ComponentUtil;
+import me.whereareiam.socialismus.api.EventUtil;
 import me.whereareiam.socialismus.api.input.WorkerProcessor;
 import me.whereareiam.socialismus.api.input.container.ChatContainerService;
+import me.whereareiam.socialismus.api.input.event.chat.ChatResolvedEvent;
 import me.whereareiam.socialismus.api.model.Worker;
 import me.whereareiam.socialismus.api.model.chat.ChatMessages;
 import me.whereareiam.socialismus.api.model.chat.ChatSettings;
@@ -63,8 +65,9 @@ public class ChatSelector {
             return chatMessage;
         }
 
+        ChatResolvedEvent event = new ChatResolvedEvent(chatMessage, chat, chatMessage.isCancelled());
+        EventUtil.callEvent(event, () -> chatMessage.setChat(event.getChat()));
         loggingHelper.debug("Selected chat: " + chat);
-        chatMessage.setChat(chat);
 
         return chatMessage;
     }

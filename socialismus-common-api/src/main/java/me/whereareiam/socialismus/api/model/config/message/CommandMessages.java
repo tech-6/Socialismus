@@ -11,10 +11,11 @@ import java.util.Map;
 @Setter
 @ToString
 public class CommandMessages {
+    private String cancelled;
     private String noPermission;
     private String executionError;
-    private String invalidSyntax;
 
+    private String invalidSyntax;
     private String invalidSyntaxBoolean;
     private String invalidSyntaxNumber;
     private String invalidSyntaxString;

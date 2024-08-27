@@ -33,7 +33,7 @@ public class EventController implements EventManager {
             if (method.isAnnotationPresent(SocialisticEvent.class)) {
                 Class<?> eventType = method.getParameterTypes()[0];
                 EventOrder order = method.getAnnotation(SocialisticEvent.class).value();
-                
+
                 listeners.computeIfAbsent(eventType, k -> new ArrayList<>())
                         .add(new RegisteredListener(listener, method, order));
                 listeners.get(eventType).sort(Comparator.comparing(RegisteredListener::getOrder));
@@ -59,7 +59,9 @@ public class EventController implements EventManager {
                     loggingHelper.severe("Failed to call event " + event.getClass().getSimpleName() + " for listener " + listener.getListener().getClass().getSimpleName());
                 }
             });
+
             if (event instanceof CancellableEvent && ((CancellableEvent) event).isCancelled()) {
+                loggingHelper.debug("Event " + event.getClass().getSimpleName() + " was cancelled");
                 break;
             }
         }

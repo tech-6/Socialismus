@@ -4,8 +4,11 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import me.whereareiam.socialismus.api.EventUtil;
 import me.whereareiam.socialismus.api.Reloadable;
 import me.whereareiam.socialismus.api.input.container.ChatContainerService;
+import me.whereareiam.socialismus.api.input.event.chat.ChatAddedEvent;
+import me.whereareiam.socialismus.api.input.event.chat.ChatUpdatedEvent;
 import me.whereareiam.socialismus.api.input.registry.Registry;
 import me.whereareiam.socialismus.api.model.chat.Chat;
 import me.whereareiam.socialismus.api.model.chat.ChatSettings;
@@ -46,7 +49,7 @@ public class ChatContainer implements ChatContainerService, Reloadable {
             return;
         }
 
-        chats.put(chat.getId(), chat);
+        EventUtil.callEvent(new ChatAddedEvent(chat, false), () -> chats.put(chat.getId(), chat));
     }
 
     @Override
@@ -56,7 +59,7 @@ public class ChatContainer implements ChatContainerService, Reloadable {
 
     @Override
     public void updateChat(String id, Chat chat) {
-        chats.put(id, InternalChat.from(chat));
+        EventUtil.callEvent(new ChatUpdatedEvent(chats.get(id), chat, false), () -> chats.put(chat.getId(), InternalChat.from(chat)));
     }
 
     @Override

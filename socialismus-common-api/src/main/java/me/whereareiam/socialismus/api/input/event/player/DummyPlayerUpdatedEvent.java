@@ -14,5 +14,6 @@ import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 @AllArgsConstructor
 public class DummyPlayerUpdatedEvent implements Event, CancellableEvent {
     private final DummyPlayer dummyPlayer;
+    private final DummyPlayer oldDummyPlayer;
     private boolean cancelled;
 }

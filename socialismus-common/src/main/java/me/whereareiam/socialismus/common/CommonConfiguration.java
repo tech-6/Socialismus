@@ -3,6 +3,7 @@ package me.whereareiam.socialismus.common;
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
+import me.whereareiam.socialismus.api.EventUtil;
 import me.whereareiam.socialismus.api.Reloadable;
 import me.whereareiam.socialismus.api.input.RequirementValidation;
 import me.whereareiam.socialismus.api.input.WorkerProcessor;
@@ -40,6 +41,8 @@ public class CommonConfiguration extends AbstractModule {
     @Override
     protected void configure() {
         bind(EventManager.class).to(EventController.class);
+        bind(EventUtil.class).asEagerSingleton();
+
         bind(ChatContainerService.class).to(ChatContainer.class);
         bind(PlayerContainerService.class).to(PlayerContainer.class);
         bind(ChatHistoryContainerService.class).to(ChatHistoryContainer.class);

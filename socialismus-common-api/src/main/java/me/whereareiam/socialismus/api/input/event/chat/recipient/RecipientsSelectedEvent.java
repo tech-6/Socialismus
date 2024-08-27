@@ -9,7 +9,7 @@ import me.whereareiam.socialismus.api.input.event.base.Event;
 import me.whereareiam.socialismus.api.model.chat.message.ChatMessage;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 
-import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -17,6 +17,6 @@ import java.util.List;
 @AllArgsConstructor
 public class RecipientsSelectedEvent implements Event, CancellableEvent {
     private final ChatMessage chatMessage;
-    private final List<DummyPlayer> oldRecipients;
+    private final Set<DummyPlayer> newRecipients;
     private boolean cancelled;
 }

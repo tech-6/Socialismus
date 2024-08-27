@@ -17,10 +17,11 @@ public class MessagesTemplate implements DefaultConfig<Messages> {
         // Default values
         messages.setPrefix("<gold>ꜱᴏᴄɪᴀʟɪꜱᴍᴜꜱ <dark_gray>| ");
         CommandMessages commandMessages = new CommandMessages();
+        commandMessages.setCancelled("{prefix}<white>Command execution has been <red>cancelled</red></white>");
         commandMessages.setNoPermission("{prefix}<white>You don't have \"<gray>{content}</gray>\" permission to use this command.</white>");
-        commandMessages.setInvalidSyntax("{prefix}<white>Invalid syntax, please use:</white> <yellow>{content}</yellow>");
         commandMessages.setExecutionError("{prefix}<white>An error occurred while executing the command:</white> <gray>{content}</gray>");
 
+        commandMessages.setInvalidSyntax("{prefix}<white>Invalid syntax, please use:</white> <yellow>{content}</yellow>");
         commandMessages.setInvalidSyntaxBoolean("{prefix}<white>You tried to use <gray>{content}</gray> as a boolean, but it's not a valid value, please use <green>true</green> or <red>false</red>.</white>");
         commandMessages.setInvalidSyntaxNumber("{prefix}<white>You tried to use <gray>{content}</gray> as a number, but it's not a valid value, please use a valid number.</white>");
         commandMessages.setInvalidSyntaxString("{prefix}<white>You tried to use <gray>{content}</gray> as a string, but it's not a valid value, please use a valid string.</white>");

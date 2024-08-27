@@ -4,7 +4,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import me.whereareiam.socialismus.api.EventUtil;
 import me.whereareiam.socialismus.api.Reloadable;
+import me.whereareiam.socialismus.api.input.event.plugin.PluginReloadedEvent;
 import me.whereareiam.socialismus.api.input.serializer.SerializationService;
 import me.whereareiam.socialismus.api.model.CommandEntity;
 import me.whereareiam.socialismus.api.model.config.message.CommandMessages;
@@ -39,12 +41,15 @@ public class ReloadCommand implements CommandBase {
     @Permission("%permission.reload")
     public void onCommand(DummyPlayer dummyPlayer) {
         Audience audience = dummyPlayer.getAudience();
-        CommandMessages.ReloadCommand commandMessages = messages.get().getCommands().getReloadCommand();
+        Messages messages = this.messages.get();
+        CommandMessages.ReloadCommand commandMessages = messages.getCommands().getReloadCommand();
+
         audience.sendMessage(serializer.format(dummyPlayer, commandMessages.getReloading()));
 
         try {
-            reloadables.forEach(Reloadable::reload);
-            audience.sendMessage(serializer.format(dummyPlayer, commandMessages.getReloaded()));
+            if (EventUtil.callEvent(new PluginReloadedEvent(false), () -> reloadables.forEach(Reloadable::reload)))
+                audience.sendMessage(serializer.format(dummyPlayer, commandMessages.getReloaded()));
+            else audience.sendMessage(serializer.format(dummyPlayer, messages.getCommands().getCancelled()));
         } catch (Exception e) {
             audience.sendMessage(serializer.format(dummyPlayer, commandMessages.getException().replace("{exception}", e.getMessage())));
         }

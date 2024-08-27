@@ -14,5 +14,6 @@ import me.whereareiam.socialismus.api.model.chat.Chat;
 @AllArgsConstructor
 public class ChatUpdatedEvent implements Event, CancellableEvent {
     private final Chat chat;
+    private final Chat oldChat;
     private boolean cancelled;
 }

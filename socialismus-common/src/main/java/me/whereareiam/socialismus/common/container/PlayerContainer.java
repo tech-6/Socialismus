@@ -1,7 +1,11 @@
 package me.whereareiam.socialismus.common.container;
 
 import com.google.inject.Singleton;
+import me.whereareiam.socialismus.api.EventUtil;
 import me.whereareiam.socialismus.api.input.container.PlayerContainerService;
+import me.whereareiam.socialismus.api.input.event.player.DummyPlayerAddedEvent;
+import me.whereareiam.socialismus.api.input.event.player.DummyPlayerRemovedEvent;
+import me.whereareiam.socialismus.api.input.event.player.DummyPlayerUpdatedEvent;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 
 import java.util.HashSet;
@@ -16,17 +20,17 @@ public class PlayerContainer implements PlayerContainerService {
 
     @Override
     public void addPlayer(DummyPlayer dummyPlayer) {
-        players.put(dummyPlayer.getUniqueId(), dummyPlayer);
+        EventUtil.callEvent(new DummyPlayerAddedEvent(dummyPlayer, false), () -> players.put(dummyPlayer.getUniqueId(), dummyPlayer));
     }
 
     @Override
     public void removePlayer(UUID uniqueId) {
-        players.remove(uniqueId);
+        EventUtil.callEvent(new DummyPlayerRemovedEvent(players.get(uniqueId), false), () -> players.remove(uniqueId));
     }
 
     @Override
     public void updatePlayer(UUID uniqueId, DummyPlayer dummyPlayer) {
-        players.put(uniqueId, dummyPlayer);
+        EventUtil.callEvent(new DummyPlayerUpdatedEvent(dummyPlayer, players.get(uniqueId), false), () -> players.put(uniqueId, dummyPlayer));
     }
 
     @Override
