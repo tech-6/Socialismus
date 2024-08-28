@@ -61,7 +61,7 @@ public class ChatHistoryController implements ChatHistoryService {
         Component finalFiller = filler;
         chatHistoryContainer.getMessages().forEach(m -> {
             m.getSender().sendMessage(finalFiller);
-            chatBroadcaster.broadcast(m, true);
+            chatBroadcaster.broadcast(m);
         });
     }
 }

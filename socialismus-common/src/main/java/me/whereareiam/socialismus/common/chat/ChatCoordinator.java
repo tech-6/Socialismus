@@ -2,7 +2,10 @@ package me.whereareiam.socialismus.common.chat;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import me.whereareiam.socialismus.api.EventUtil;
+import me.whereareiam.socialismus.api.PlatformType;
 import me.whereareiam.socialismus.api.input.container.ChatHistoryContainerService;
+import me.whereareiam.socialismus.api.input.event.chat.ChatBroadcastEvent;
 import me.whereareiam.socialismus.api.model.chat.message.ChatMessage;
 import me.whereareiam.socialismus.api.model.chat.message.FormattedChatMessage;
 import me.whereareiam.socialismus.common.chat.processor.ChatMessageProcessor;
@@ -29,10 +32,13 @@ public class ChatCoordinator {
         if (chatMessage.isCancelled()) return FormattedChatMessage.builder().cancelled(true).build();
 
         FormattedChatMessage formattedChatMessage = formattedChatMessageProcessor.process(chatMessage);
-        if (formattedChatMessage.isCancelled()) return formattedChatMessage;
 
-        chatBroadcaster.broadcast(formattedChatMessage);
-        chatHistoryContainer.addMessage(formattedChatMessage.getId(), formattedChatMessage);
+        EventUtil.callEvent(new ChatBroadcastEvent(formattedChatMessage, formattedChatMessage.isCancelled()), () -> {
+            if (!formattedChatMessage.isVanillaSending() || PlatformType.isProxy())
+                chatBroadcaster.broadcast(formattedChatMessage);
+
+            chatHistoryContainer.addMessage(formattedChatMessage.getId(), formattedChatMessage);
+        });
 
         return formattedChatMessage;
     }

@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.ComponentUtil;
-import me.whereareiam.socialismus.api.PlatformType;
 import me.whereareiam.socialismus.api.input.container.PlayerContainerService;
 import me.whereareiam.socialismus.api.input.serializer.SerializationService;
 import me.whereareiam.socialismus.api.model.CommandEntity;
@@ -45,21 +44,16 @@ public class ChatBroadcaster {
         this.serializer = serializer;
     }
 
-    public void broadcast(FormattedChatMessage chatMessage, boolean simple) {
+    public void broadcast(FormattedChatMessage chatMessage) {
         loggingHelper.info("[%s] %s: %s", chatMessage.getChat().getId().toUpperCase(), chatMessage.getSender().getUsername(), ComponentUtil.toString(chatMessage.getContent(), true));
 
-        if (simple || PlatformType.isProxy() || !chatMessage.isVanillaSending())
-            chatMessage.getRecipients().forEach(recipient ->
-                    recipient.sendMessage(
-                            chatMessage.getFormat()
-                                    .replaceText(createMessageReplacement(chatMessage.getContent()))
-                                    .replaceText(createClearReplacement(chatMessage, recipient.getUniqueId()))
-                    )
-            );
-    }
-
-    public void broadcast(FormattedChatMessage chatMessage) {
-        broadcast(chatMessage, false);
+        chatMessage.getRecipients().forEach(recipient ->
+                recipient.sendMessage(
+                        chatMessage.getFormat()
+                                .replaceText(createMessageReplacement(chatMessage.getContent()))
+                                .replaceText(createClearReplacement(chatMessage, recipient.getUniqueId()))
+                )
+        );
     }
 
     public TextReplacementConfig createMessageReplacement(Component component) {
