@@ -2,6 +2,11 @@
 
 # Official modules
 
+![build](https://img.shields.io/github/actions/workflow/status/whereareiam/Socialismus/development.yml) ![Downloads](https://pluginbadges.glitch.me/api/v1/dl/downloads-limegreen.svg?spigot=113119&github=whereareiam%2FSocialismus&style=flat) ![release](https://img.shields.io/github/v/release/whereareiam/Socialismus)
+
+> If you have made a module for Socialismus and want it to be published on the Unofficial Modules list, please open an
+> issue and I will review it.
+
 ## Free modules
 
 - [Chirper](https://github.com/whereareiam/Chirper) - The loudmouth of the server! Make sure your announcements are
@@ -36,4 +41,3 @@
 # Statistics
 
 ![bStats](https://bstats.org/signatures/bukkit/socialismus.svg)
-![build](https://img.shields.io/github/actions/workflow/status/whereareiam/Socialismus/development.yml) ![SpigotMC downloads](https://pluginbadges.glitch.me/api/v1/dl/downloads-limegreen.svg?spigot=113119&github=whereareiam%2FSocialismus&style=flat) ![GitHub release](https://img.shields.io/github/v/release/whereareiam/Socialismus)
