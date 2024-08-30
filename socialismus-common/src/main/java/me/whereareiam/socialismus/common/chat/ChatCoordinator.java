@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.EventUtil;
 import me.whereareiam.socialismus.api.PlatformType;
+import me.whereareiam.socialismus.api.input.chat.ChatCoordinationService;
 import me.whereareiam.socialismus.api.input.container.ChatHistoryContainerService;
 import me.whereareiam.socialismus.api.input.event.chat.ChatBroadcastEvent;
 import me.whereareiam.socialismus.api.model.chat.message.ChatMessage;
@@ -12,7 +13,7 @@ import me.whereareiam.socialismus.common.chat.processor.ChatMessageProcessor;
 import me.whereareiam.socialismus.common.chat.processor.FormattedChatMessageProcessor;
 
 @Singleton
-public class ChatCoordinator {
+public class ChatCoordinator implements ChatCoordinationService {
     private final ChatMessageProcessor chatMessageProcessor;
     private final FormattedChatMessageProcessor formattedChatMessageProcessor;
     private final ChatBroadcaster chatBroadcaster;
@@ -27,7 +28,7 @@ public class ChatCoordinator {
         this.chatHistoryContainer = chatHistoryContainer;
     }
 
-    public FormattedChatMessage handleChatEvent(ChatMessage chatMessage) {
+    public FormattedChatMessage coordinate(ChatMessage chatMessage) {
         chatMessage = chatMessageProcessor.process(chatMessage);
         if (chatMessage.isCancelled()) return FormattedChatMessage.builder().cancelled(true).build();
 

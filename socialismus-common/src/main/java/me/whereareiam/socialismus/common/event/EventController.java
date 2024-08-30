@@ -42,6 +42,13 @@ public class EventController implements EventManager {
     }
 
     @Override
+    public <T extends Event> void registerListener(Class<T> event, Object listener, Method method, EventOrder order) {
+        listeners.computeIfAbsent(event, k -> new ArrayList<>())
+                .add(new RegisteredListener((EventListener) listener, method, order));
+        listeners.get(event).sort(Comparator.comparing(RegisteredListener::getOrder));
+    }
+
+    @Override
     public void unregister(EventListener eventListener) {
         listeners.values().forEach(list -> list.removeIf(listener -> listener.getListener().equals(eventListener)));
     }

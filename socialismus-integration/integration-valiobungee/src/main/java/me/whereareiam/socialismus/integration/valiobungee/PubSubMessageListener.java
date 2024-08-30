@@ -28,7 +28,7 @@ public class PubSubMessageListener implements DynamicListener<PubSubMessageEvent
         try {
             ChatMessage chatMessage = ChatMessage.deserialize(event.getMessage());
 
-            chatCoordinator.handleChatEvent(chatMessage);
+            chatCoordinator.coordinate(chatMessage);
         } catch (IOException | ClassNotFoundException e) {
             loggingHelper.severe("Failed to deserialize chat message %s", e);
         }

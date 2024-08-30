@@ -58,7 +58,7 @@ public class PlayerChatListener implements DynamicListener<AsyncChatEvent> {
         if (integrations.get().stream().anyMatch(i -> i instanceof SynchronizationIntegration))
             synchronizeChatMessage(chatMessage);
         else
-            formattedChatMessage = chatCoordinator.handleChatEvent(chatMessage);
+            formattedChatMessage = chatCoordinator.coordinate(chatMessage);
 
         if (formattedChatMessage == null || formattedChatMessage.isCancelled() || !formattedChatMessage.isVanillaSending()) {
             event.setCancelled(true);

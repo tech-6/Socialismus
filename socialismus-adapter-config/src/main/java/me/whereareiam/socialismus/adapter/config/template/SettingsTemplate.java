@@ -24,9 +24,9 @@ public class SettingsTemplate implements DefaultConfig<Settings> {
         Settings.Miscellaneous misc = new Settings.Miscellaneous();
         misc.setDisableJoinNotification(true);
         misc.setDisableQuitNotification(true);
-        misc.setVanillaSending(true);
         misc.setAllowLegacyParsing(false);
-        misc.setAllowBrigadierCommands(true);
+        misc.setAllowBrigadierCommands(false);
+        misc.setVanillaSending(true);
         misc.setCommandsPerPage(7);
 
         settings.setMisc(misc);

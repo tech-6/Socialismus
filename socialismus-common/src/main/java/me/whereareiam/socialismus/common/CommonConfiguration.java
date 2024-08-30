@@ -7,6 +7,7 @@ import me.whereareiam.socialismus.api.EventUtil;
 import me.whereareiam.socialismus.api.Reloadable;
 import me.whereareiam.socialismus.api.input.RequirementValidation;
 import me.whereareiam.socialismus.api.input.WorkerProcessor;
+import me.whereareiam.socialismus.api.input.chat.ChatCoordinationService;
 import me.whereareiam.socialismus.api.input.chat.ChatHistoryService;
 import me.whereareiam.socialismus.api.input.container.ChatContainerService;
 import me.whereareiam.socialismus.api.input.container.ChatHistoryContainerService;
@@ -20,6 +21,7 @@ import me.whereareiam.socialismus.api.model.chat.message.FormattedChatMessage;
 import me.whereareiam.socialismus.api.model.serializer.SerializerContent;
 import me.whereareiam.socialismus.api.output.integration.Integration;
 import me.whereareiam.socialismus.api.type.requirement.RequirementType;
+import me.whereareiam.socialismus.common.chat.ChatCoordinator;
 import me.whereareiam.socialismus.common.chat.ChatHistoryController;
 import me.whereareiam.socialismus.common.chat.processor.ChatMessageProcessor;
 import me.whereareiam.socialismus.common.chat.processor.FormattedChatMessageProcessor;
@@ -43,6 +45,7 @@ public class CommonConfiguration extends AbstractModule {
         bind(EventManager.class).to(EventController.class);
         bind(EventUtil.class).asEagerSingleton();
 
+        bind(ChatCoordinationService.class).to(ChatCoordinator.class);
         bind(ChatContainerService.class).to(ChatContainer.class);
         bind(PlayerContainerService.class).to(PlayerContainer.class);
         bind(ChatHistoryContainerService.class).to(ChatHistoryContainer.class);

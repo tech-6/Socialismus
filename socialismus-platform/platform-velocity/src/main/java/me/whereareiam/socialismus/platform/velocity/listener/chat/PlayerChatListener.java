@@ -49,7 +49,7 @@ public class PlayerChatListener implements DynamicListener<PlayerChatEvent> {
         if (integrations.get().stream().anyMatch(i -> i instanceof SynchronizationIntegration))
             synchronizeChatMessage(chatMessage);
         else
-            chatCoordinator.handleChatEvent(chatMessage);
+            chatCoordinator.coordinate(chatMessage);
 
         event.setResult(PlayerChatEvent.ChatResult.denied());
     }
