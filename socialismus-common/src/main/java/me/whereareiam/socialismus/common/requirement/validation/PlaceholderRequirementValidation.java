@@ -9,8 +9,10 @@ import me.whereareiam.socialismus.api.model.requirement.PlaceholderRequirement;
 import me.whereareiam.socialismus.api.model.requirement.Requirement;
 import me.whereareiam.socialismus.api.output.integration.FormattingIntegration;
 import me.whereareiam.socialismus.api.output.integration.Integration;
+import me.whereareiam.socialismus.api.output.integration.PlaceholderResolverIntegration;
 import me.whereareiam.socialismus.api.type.requirement.RequirementType;
 
+import java.util.List;
 import java.util.Set;
 
 @Singleton
@@ -34,35 +36,42 @@ public class PlaceholderRequirementValidation implements RequirementValidation {
 
     private FormattingIntegration findFormatterIntegration() {
         return integrations.stream()
-                .filter(integration -> integration instanceof FormattingIntegration)
-                .map(integration -> (FormattingIntegration) integration)
-                .filter(integration -> integration.getName().equalsIgnoreCase("PlaceholderAPI")
-                        || integration.getName().equalsIgnoreCase("PAPIProxyBridge"))
+                .filter(integration -> integration instanceof PlaceholderResolverIntegration)
+                .map(integration -> (PlaceholderResolverIntegration) integration)
                 .findFirst()
                 .orElse(null);
     }
 
     private boolean checkCondition(PlaceholderRequirement pr, FormattingIntegration formatter, DummyPlayer dummyPlayer) {
-        String formattedValue = formatter.format(dummyPlayer, pr.getPlaceholder());
+        List<String> placeholders = pr.getPlaceholders();
+        String[] expectedValues = pr.getExpected().split("\\|");
 
-        return switch (pr.getCondition()) {
-            case EQUALS -> formattedValue.equals(pr.getExpected());
-            case GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUALS, LESS_THAN_OR_EQUALS ->
-                    String.valueOf(compareNumericValues(pr, formattedValue)).equals(pr.getExpected());
-            default -> false;
-        };
+        for (String placeholder : placeholders) {
+            String formattedValue = formatter.format(dummyPlayer, placeholder);
+            for (String expected : expectedValues) {
+                if (switch (pr.getCondition()) {
+                    case EQUALS -> formattedValue.equals(expected);
+                    case GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUALS, LESS_THAN_OR_EQUALS ->
+                            String.valueOf(compareNumericValues(pr, formattedValue, expected)).equals(expected);
+                    default -> false;
+                }) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
-    private boolean compareNumericValues(PlaceholderRequirement pr, String formattedValue) {
+    private boolean compareNumericValues(PlaceholderRequirement pr, String formattedValue, String expected) {
         try {
             double value = Double.parseDouble(formattedValue);
-            double expected = Double.parseDouble(pr.getExpected());
+            double expectedValue = Double.parseDouble(expected);
 
             return switch (pr.getCondition()) {
-                case GREATER_THAN -> value > expected;
-                case LESS_THAN -> value < expected;
-                case GREATER_THAN_OR_EQUALS -> value >= expected;
-                case LESS_THAN_OR_EQUALS -> value <= expected;
+                case GREATER_THAN -> value > expectedValue;
+                case LESS_THAN -> value < expectedValue;
+                case GREATER_THAN_OR_EQUALS -> value >= expectedValue;
+                case LESS_THAN_OR_EQUALS -> value <= expectedValue;
                 default -> false;
             };
         } catch (NumberFormatException ignored) {

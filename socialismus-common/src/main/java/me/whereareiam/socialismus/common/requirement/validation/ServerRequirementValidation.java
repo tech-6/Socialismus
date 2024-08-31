@@ -29,6 +29,11 @@ public class ServerRequirementValidation implements RequirementValidation {
             case CONTAINS -> checkResult = sr.getServers().contains(dummyPlayer.getLocation());
         }
 
-        return String.valueOf(checkResult).equals(sr.getExpected());
+        String[] expectedValues = sr.getExpected().split("\\|");
+        for (String expectedValue : expectedValues)
+            if (String.valueOf(checkResult).equals(expectedValue))
+                return true;
+
+        return false;
     }
 }

@@ -29,6 +29,11 @@ public class WorldRequirementValidation implements RequirementValidation {
             case CONTAINS -> checkResult = wr.getWorlds().contains(dummyPlayer.getLocation());
         }
 
-        return String.valueOf(checkResult).equals(wr.getExpected());
+        String[] expectedValues = wr.getExpected().split("\\|");
+        for (String expectedValue : expectedValues)
+            if (String.valueOf(checkResult).equals(expectedValue))
+                return true;
+
+        return false;
     }
 }
