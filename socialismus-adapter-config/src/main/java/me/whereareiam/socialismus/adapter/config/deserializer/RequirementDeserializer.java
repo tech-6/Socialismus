@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.model.requirement.Requirement;
+import me.whereareiam.socialismus.api.model.requirement.type.ChatRequirement;
 import me.whereareiam.socialismus.api.model.requirement.type.PermissionRequirement;
 import me.whereareiam.socialismus.api.model.requirement.type.WorldRequirement;
 import me.whereareiam.socialismus.api.type.requirement.RequirementConditionType;
@@ -34,17 +35,17 @@ public class RequirementDeserializer extends JsonDeserializer<Requirement> {
         ObjectCodec codec = parser.getCodec();
         JsonNode root = codec.readTree(parser);
 
-        if (root.has("worlds")) {
+        if (root.has("worlds"))
             return codec.treeToValue(root, WorldRequirement.class);
-        }
 
-        if (root.has("placeholder")) {
+        if (root.has("chatIdentifiers"))
+            return codec.treeToValue(root, ChatRequirement.class);
+
+        if (root.has("placeholders"))
             return handlePermissionRequirement(codec, root, PLACEHOLDER_CONDITIONS, RequirementConditionType.EQUALS);
-        }
 
-        if (root.has("permissions")) {
+        if (root.has("permissions"))
             return handlePermissionRequirement(codec, root, PERMISSION_CONDITIONS, RequirementConditionType.HAS);
-        }
 
         return null;
     }
