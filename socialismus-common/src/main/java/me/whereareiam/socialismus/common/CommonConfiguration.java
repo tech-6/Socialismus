@@ -32,8 +32,7 @@ import me.whereareiam.socialismus.common.event.EventController;
 import me.whereareiam.socialismus.common.provider.IntegrationProvider;
 import me.whereareiam.socialismus.common.provider.ReloadableProvider;
 import me.whereareiam.socialismus.common.requirement.RequirementRegistry;
-import me.whereareiam.socialismus.common.requirement.validation.PermissionRequirementValidation;
-import me.whereareiam.socialismus.common.requirement.validation.WorldRequirementValidation;
+import me.whereareiam.socialismus.common.requirement.validation.*;
 import me.whereareiam.socialismus.common.serializer.Serializer;
 
 import java.util.Set;
@@ -65,6 +64,9 @@ public class CommonConfiguration extends AbstractModule {
 
         bind(PermissionRequirementValidation.class).asEagerSingleton();
         bind(WorldRequirementValidation.class).asEagerSingleton();
+        bind(ServerRequirementValidation.class).asEagerSingleton();
+        bind(PlaceholderRequirementValidation.class).asEagerSingleton();
+        bind(ChatRequirementValidation.class).asEagerSingleton();
         bind(new TypeLiteral<ExtendedRegistry<RequirementType, RequirementValidation>>() {}).to(RequirementRegistry.class);
     }
 }

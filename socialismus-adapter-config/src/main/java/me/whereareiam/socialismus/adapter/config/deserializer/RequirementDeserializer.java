@@ -6,9 +6,9 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Singleton;
-import me.whereareiam.socialismus.api.model.requirement.PermissionRequirement;
 import me.whereareiam.socialismus.api.model.requirement.Requirement;
-import me.whereareiam.socialismus.api.model.requirement.WorldRequirement;
+import me.whereareiam.socialismus.api.model.requirement.type.PermissionRequirement;
+import me.whereareiam.socialismus.api.model.requirement.type.WorldRequirement;
 import me.whereareiam.socialismus.api.type.requirement.RequirementConditionType;
 
 import java.io.IOException;

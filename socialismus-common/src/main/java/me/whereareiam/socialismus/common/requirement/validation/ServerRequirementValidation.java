@@ -7,7 +7,7 @@ import me.whereareiam.socialismus.api.input.RequirementValidation;
 import me.whereareiam.socialismus.api.input.registry.ExtendedRegistry;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.model.requirement.Requirement;
-import me.whereareiam.socialismus.api.model.requirement.ServerRequirement;
+import me.whereareiam.socialismus.api.model.requirement.type.ServerRequirement;
 import me.whereareiam.socialismus.api.type.requirement.RequirementType;
 
 @Singleton

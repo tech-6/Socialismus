@@ -5,8 +5,8 @@ import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.input.RequirementValidation;
 import me.whereareiam.socialismus.api.input.registry.ExtendedRegistry;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
-import me.whereareiam.socialismus.api.model.requirement.PermissionRequirement;
 import me.whereareiam.socialismus.api.model.requirement.Requirement;
+import me.whereareiam.socialismus.api.model.requirement.type.PermissionRequirement;
 import me.whereareiam.socialismus.api.output.PlatformInteractor;
 import me.whereareiam.socialismus.api.type.requirement.RequirementType;
 

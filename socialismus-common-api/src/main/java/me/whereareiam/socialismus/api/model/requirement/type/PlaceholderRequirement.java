@@ -1,9 +1,10 @@
-package me.whereareiam.socialismus.api.model.requirement;
+package me.whereareiam.socialismus.api.model.requirement.type;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import me.whereareiam.socialismus.api.model.requirement.Requirement;
 
 import java.util.List;
 
