@@ -2,12 +2,11 @@ package me.whereareiam.socialismus.common.requirement.validation;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import me.whereareiam.socialismus.api.input.RequirementValidation;
 import me.whereareiam.socialismus.api.input.registry.ExtendedRegistry;
+import me.whereareiam.socialismus.api.input.requirement.RequirementValidation;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.model.requirement.Requirement;
 import me.whereareiam.socialismus.api.model.requirement.type.PlaceholderRequirement;
-import me.whereareiam.socialismus.api.output.integration.FormattingIntegration;
 import me.whereareiam.socialismus.api.output.integration.Integration;
 import me.whereareiam.socialismus.api.output.integration.PlaceholderResolverIntegration;
 import me.whereareiam.socialismus.api.type.requirement.RequirementType;
@@ -27,14 +26,14 @@ public class PlaceholderRequirementValidation implements RequirementValidation {
 
     @Override
     public boolean check(Requirement requirement, DummyPlayer dummyPlayer) {
-        FormattingIntegration formatter = findFormatterIntegration();
-        if (formatter == null || !(requirement instanceof PlaceholderRequirement pr))
+        PlaceholderResolverIntegration resolver = findPlaceholderResolverIntegration();
+        if (resolver == null || !(requirement instanceof PlaceholderRequirement pr))
             return false;
 
-        return checkCondition(pr, formatter, dummyPlayer);
+        return checkCondition(pr, resolver, dummyPlayer);
     }
 
-    private FormattingIntegration findFormatterIntegration() {
+    private PlaceholderResolverIntegration findPlaceholderResolverIntegration() {
         return integrations.stream()
                 .filter(integration -> integration instanceof PlaceholderResolverIntegration)
                 .map(integration -> (PlaceholderResolverIntegration) integration)
@@ -42,17 +41,20 @@ public class PlaceholderRequirementValidation implements RequirementValidation {
                 .orElse(null);
     }
 
-    private boolean checkCondition(PlaceholderRequirement pr, FormattingIntegration formatter, DummyPlayer dummyPlayer) {
+    private boolean checkCondition(PlaceholderRequirement pr, PlaceholderResolverIntegration resolver, DummyPlayer dummyPlayer) {
         List<String> placeholders = pr.getPlaceholders();
         String[] expectedValues = pr.getExpected().split("\\|");
 
         for (String placeholder : placeholders) {
-            String formattedValue = formatter.format(dummyPlayer, placeholder);
+            String resolvedPlaceholder = resolver.format(dummyPlayer, placeholder);
+            System.out.println("resolvedPlaceholder: " + resolvedPlaceholder);
             for (String expected : expectedValues) {
+                System.out.println("expected: " + expected);
+                System.out.println("pr.getCondition(): " + pr.getCondition());
                 if (switch (pr.getCondition()) {
-                    case EQUALS -> formattedValue.equals(expected);
+                    case EQUALS -> resolvedPlaceholder.equals(expected);
                     case GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUALS, LESS_THAN_OR_EQUALS ->
-                            String.valueOf(compareNumericValues(pr, formattedValue, expected)).equals(expected);
+                            String.valueOf(compareNumericValues(pr, resolvedPlaceholder, expected)).equals(expected);
                     default -> false;
                 }) {
                     return true;

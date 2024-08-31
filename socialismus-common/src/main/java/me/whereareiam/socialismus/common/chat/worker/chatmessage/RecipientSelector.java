@@ -12,15 +12,12 @@ import me.whereareiam.socialismus.api.model.chat.ChatMessages;
 import me.whereareiam.socialismus.api.model.chat.ChatSettings;
 import me.whereareiam.socialismus.api.model.chat.message.ChatMessage;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
-import me.whereareiam.socialismus.api.model.requirement.Requirement;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.output.PlatformInteractor;
 import me.whereareiam.socialismus.api.type.Participants;
-import me.whereareiam.socialismus.api.type.requirement.RequirementType;
 import me.whereareiam.socialismus.common.requirement.RequirementEvaluator;
 import me.whereareiam.socialismus.common.serializer.Serializer;
 
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -85,13 +82,7 @@ public class RecipientSelector {
     }
 
     private boolean checkRequirements(Chat chat, DummyPlayer dummyPlayer) {
-        if (chat.getRequirements().isEmpty()) return true;
-        if (chat.getRequirements().get(Participants.RECIPIENT) == null) return true;
-
-        for (Map.Entry<RequirementType, ? extends Requirement> entry : chat.getRequirements().get(Participants.RECIPIENT).getGroups().entrySet())
-            return requirementEvaluator.isRequirementMet(entry, dummyPlayer);
-
-        return true;
+        return requirementEvaluator.check(chat.getRequirements().get(Participants.RECIPIENT), dummyPlayer);
     }
 
     private boolean isInSameRealm(DummyPlayer sender, DummyPlayer recipient) {

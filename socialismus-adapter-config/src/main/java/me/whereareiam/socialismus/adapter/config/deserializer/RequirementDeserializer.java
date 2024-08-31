@@ -7,9 +7,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.model.requirement.Requirement;
-import me.whereareiam.socialismus.api.model.requirement.type.ChatRequirement;
-import me.whereareiam.socialismus.api.model.requirement.type.PermissionRequirement;
-import me.whereareiam.socialismus.api.model.requirement.type.WorldRequirement;
+import me.whereareiam.socialismus.api.model.requirement.type.*;
 import me.whereareiam.socialismus.api.type.requirement.RequirementConditionType;
 
 import java.io.IOException;
@@ -17,6 +15,11 @@ import java.util.List;
 
 @Singleton
 public class RequirementDeserializer extends JsonDeserializer<Requirement> {
+    private static final List<RequirementConditionType> SIMPLE_CONDITIONS = List.of(
+            RequirementConditionType.EQUALS,
+            RequirementConditionType.CONTAINS
+    );
+
     private static final List<RequirementConditionType> PLACEHOLDER_CONDITIONS = List.of(
             RequirementConditionType.EQUALS,
             RequirementConditionType.GREATER_THAN,
@@ -35,26 +38,29 @@ public class RequirementDeserializer extends JsonDeserializer<Requirement> {
         ObjectCodec codec = parser.getCodec();
         JsonNode root = codec.readTree(parser);
 
+        if (root.has("servers"))
+            return handleRequirement(codec, root, ServerRequirement.class, SIMPLE_CONDITIONS, RequirementConditionType.CONTAINS);
+
         if (root.has("worlds"))
-            return codec.treeToValue(root, WorldRequirement.class);
+            return handleRequirement(codec, root, WorldRequirement.class, SIMPLE_CONDITIONS, RequirementConditionType.CONTAINS);
 
         if (root.has("chatIdentifiers"))
-            return codec.treeToValue(root, ChatRequirement.class);
+            return handleRequirement(codec, root, ChatRequirement.class, SIMPLE_CONDITIONS, RequirementConditionType.CONTAINS);
 
         if (root.has("placeholders"))
-            return handlePermissionRequirement(codec, root, PLACEHOLDER_CONDITIONS, RequirementConditionType.EQUALS);
+            return handleRequirement(codec, root, PlaceholderRequirement.class, PLACEHOLDER_CONDITIONS, RequirementConditionType.EQUALS);
 
         if (root.has("permissions"))
-            return handlePermissionRequirement(codec, root, PERMISSION_CONDITIONS, RequirementConditionType.HAS);
+            return handleRequirement(codec, root, PermissionRequirement.class, PERMISSION_CONDITIONS, RequirementConditionType.HAS);
 
         return null;
     }
 
-    private PermissionRequirement handlePermissionRequirement(ObjectCodec codec, JsonNode root, List<RequirementConditionType> validConditions, RequirementConditionType defaultCondition) throws IOException {
-        PermissionRequirement pr = codec.treeToValue(root, PermissionRequirement.class);
-        if (!validConditions.contains(pr.getCondition()))
-            pr.setCondition(defaultCondition);
-
-        return pr;
+    private <T extends Requirement> T handleRequirement(ObjectCodec codec, JsonNode root, Class<T> requirementClass, List<RequirementConditionType> validConditions, RequirementConditionType defaultCondition) throws IOException {
+        T requirement = codec.treeToValue(root, requirementClass);
+        if (!validConditions.contains(requirement.getCondition())) {
+            requirement.setCondition(defaultCondition);
+        }
+        return requirement;
     }
 }

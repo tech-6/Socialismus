@@ -5,13 +5,13 @@ import com.google.inject.Singleton;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.whereareiam.socialismus.api.input.registry.Registry;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
-import me.whereareiam.socialismus.api.output.integration.FormattingIntegration;
 import me.whereareiam.socialismus.api.output.integration.Integration;
+import me.whereareiam.socialismus.api.output.integration.PlaceholderResolverIntegration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 @Singleton
-public class PlaceholderAPIIntegration implements FormattingIntegration {
+public class PlaceholderAPIIntegration implements PlaceholderResolverIntegration {
     @Inject
     public PlaceholderAPIIntegration(Registry<Integration> registry) {
         if (!isAvailable()) return;

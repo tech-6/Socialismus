@@ -13,17 +13,14 @@ import me.whereareiam.socialismus.api.model.chat.ChatMessages;
 import me.whereareiam.socialismus.api.model.chat.ChatSettings;
 import me.whereareiam.socialismus.api.model.chat.InternalChat;
 import me.whereareiam.socialismus.api.model.chat.message.ChatMessage;
-import me.whereareiam.socialismus.api.model.requirement.Requirement;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.type.Participants;
-import me.whereareiam.socialismus.api.type.requirement.RequirementType;
 import me.whereareiam.socialismus.common.requirement.RequirementEvaluator;
 import me.whereareiam.socialismus.common.serializer.Serializer;
 import net.kyori.adventure.text.TextReplacementConfig;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Singleton
@@ -91,16 +88,11 @@ public class ChatSelector {
     }
 
     private boolean checkRequirements(InternalChat chat, ChatMessage chatMessage) {
-        if (chat.getRequirements().isEmpty()) return true;
         if (chat.getRequirements().get(Participants.SENDER) == null) return true;
+        if (!requirementEvaluator.check(chat.getRequirements().get(Participants.SENDER), chatMessage.getSender()))
+            chat = getAlternativeChat(chat, chatMessage);
 
-        for (Map.Entry<RequirementType, ? extends Requirement> entry : chat.getRequirements().get(Participants.SENDER).getGroups().entrySet())
-            if (!requirementEvaluator.isRequirementMet(entry, chatMessage.getSender())) {
-                chat = getAlternativeChat(chat, chatMessage);
-                if (chat == null) return false;
-            }
-
-        return true;
+        return chat != null;
     }
 
     private InternalChat getAlternativeChat(InternalChat chat, ChatMessage chatMessage) {

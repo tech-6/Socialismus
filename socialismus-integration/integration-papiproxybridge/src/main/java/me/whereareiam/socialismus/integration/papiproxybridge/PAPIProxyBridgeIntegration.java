@@ -4,12 +4,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.input.registry.Registry;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
-import me.whereareiam.socialismus.api.output.integration.FormattingIntegration;
 import me.whereareiam.socialismus.api.output.integration.Integration;
+import me.whereareiam.socialismus.api.output.integration.PlaceholderResolverIntegration;
 import net.william278.papiproxybridge.api.PlaceholderAPI;
 
 @Singleton
-public class PAPIProxyBridgeIntegration implements FormattingIntegration {
+public class PAPIProxyBridgeIntegration implements PlaceholderResolverIntegration {
     private Object placeholderAPI;
 
     @Inject

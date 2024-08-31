@@ -9,19 +9,16 @@ import me.whereareiam.socialismus.api.model.chat.ChatFormat;
 import me.whereareiam.socialismus.api.model.chat.ChatMessages;
 import me.whereareiam.socialismus.api.model.chat.ChatSettings;
 import me.whereareiam.socialismus.api.model.chat.message.FormattedChatMessage;
-import me.whereareiam.socialismus.api.model.requirement.Requirement;
 import me.whereareiam.socialismus.api.model.serializer.SerializerContent;
 import me.whereareiam.socialismus.api.model.serializer.SerializerPlaceholder;
 import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.type.Participants;
-import me.whereareiam.socialismus.api.type.requirement.RequirementType;
 import me.whereareiam.socialismus.common.requirement.RequirementEvaluator;
 import me.whereareiam.socialismus.common.serializer.Serializer;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 @Singleton
 public class FormatSelector {
@@ -74,16 +71,11 @@ public class FormatSelector {
     }
 
     private boolean checkRequirements(ChatFormat chatFormat, FormattedChatMessage formattedChatMessage) {
-        if (chatFormat.getRequirements().isEmpty()) return true;
         if (chatFormat.getRequirements().get(Participants.SENDER) == null) return true;
+        if (!requirementEvaluator.check(chatFormat.getRequirements().get(Participants.SENDER), formattedChatMessage.getSender()))
+            chatFormat = getAlternativeChatFormat(chatFormat, formattedChatMessage);
 
-        for (Map.Entry<RequirementType, ? extends Requirement> entry : chatFormat.getRequirements().get(Participants.SENDER).getGroups().entrySet())
-            if (!requirementEvaluator.isRequirementMet(entry, formattedChatMessage.getSender())) {
-                chatFormat = getAlternativeChatFormat(chatFormat, formattedChatMessage);
-                if (chatFormat == null) return false;
-            }
-
-        return true;
+        return chatFormat != null;
     }
 
     private ChatFormat getAlternativeChatFormat(ChatFormat chatFormat, FormattedChatMessage formattedChatMessage) {
