@@ -36,7 +36,7 @@ public class CommandCooldownListener implements CooldownActiveListener<DummyPlay
 
         dummyPlayer.sendMessage(serializer.format(new SerializerContent(
                 dummyPlayer,
-                List.of(new SerializerPlaceholder("{time}", String.valueOf(remainingTime.getSeconds()))),
+                List.of(new SerializerPlaceholder("{time}", remainingTime.getSeconds() + "." + String.valueOf(remainingTime.getNano()).substring(0, 2))),
                 messages.get().getCommands().getCooldown()
         )));
     }

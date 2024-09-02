@@ -16,34 +16,29 @@ import org.incendo.cloud.annotations.AnnotationParser;
 import org.incendo.cloud.execution.postprocessor.CommandPostprocessor;
 import org.incendo.cloud.processors.cooldown.*;
 import org.incendo.cloud.processors.cooldown.annotation.CooldownBuilderModifier;
+import org.incendo.cloud.processors.cooldown.listener.ScheduledCleanupCreationListener;
 
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.stream.Stream;
 
 @Singleton
 public class CommandProcessor implements CommandService {
     private final Injector injector;
     private final Provider<CommandManager<DummyPlayer>> commandManager;
-    private final Provider<Map<String, CommandEntity>> commands;
+    private final AnnotationParser<DummyPlayer> annotationParser;
 
     private final Map<String, String> translations = new HashMap<>();
-
-    private AnnotationParser<DummyPlayer> annotationParser;
 
     @Inject
     public CommandProcessor(Injector injector, Provider<CommandManager<DummyPlayer>> commandManager, Provider<Map<String, CommandEntity>> commands) {
         this.injector = injector;
         this.commandManager = commandManager;
-        this.commands = commands;
-    }
+        this.annotationParser = new AnnotationParser<>(commandManager.get(), DummyPlayer.class);
 
-    @Override
-    public void registerCommands() {
-        final CommandManager<DummyPlayer> commandManager = this.commandManager.get();
-
-        annotationParser = new AnnotationParser<>(commandManager, DummyPlayer.class);
         annotationParser.stringProcessor(injector.getInstance(CommandTranslator.class).getProcessor());
         annotationParser.registerBuilderModifier(
                 CommandCooldown.class,
@@ -60,10 +55,14 @@ public class CommandProcessor implements CommandService {
                 })
         );
 
-
         CooldownBuilderModifier.install(annotationParser);
 
-        commandManager.registerCommandPostProcessor(createCooldownManager());
+        commandManager.get().registerCommandPostProcessor(createCooldownManager());
+    }
+
+    @Override
+    public void registerCommands() {
+        CommandManager<DummyPlayer> commandManager = this.commandManager.get();
 
         commandManager.rootCommands().forEach(commandManager::deleteRootCommand);
         Stream.of(injector.getInstance(MainCommand.class),
@@ -79,9 +78,12 @@ public class CommandProcessor implements CommandService {
                 DummyPlayer::getUniqueId,
                 CooldownRepository.forMap(new HashMap<>())
         );
+
+        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor(); // Will cause a leak if shutdown is executed by PlugMan or similar tools
         CooldownConfiguration<DummyPlayer> configuration = CooldownConfiguration.<DummyPlayer>builder()
                 .repository(repository)
                 .addActiveCooldownListener(injector.getInstance(CommandCooldownListener.class))
+                .addCreationListener(new ScheduledCleanupCreationListener<>(executorService, repository))
                 .build();
 
         CooldownManager<DummyPlayer> cooldownManager = CooldownManager.cooldownManager(
