@@ -40,8 +40,10 @@ public class ChatHistoryContainer implements ChatHistoryContainerService {
     @Override
     public int removeMessages(int amount) {
         int removed = 0;
-        for (int i = 0; i < amount; i++)
-            if (removeMessage(chatHistory.keySet().iterator().next()))
+        
+        Iterator<Integer> iterator = chatHistory.keySet().iterator();
+        while (iterator.hasNext() && removed < amount)
+            if (removeMessage(iterator.next()))
                 removed++;
 
         return removed;
