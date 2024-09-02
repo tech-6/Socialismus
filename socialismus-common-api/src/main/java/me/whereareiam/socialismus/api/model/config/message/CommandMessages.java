@@ -11,6 +11,7 @@ import java.util.Map;
 @Setter
 @ToString
 public class CommandMessages {
+    private String cooldown;
     private String cancelled;
     private String noPermission;
     private String executionError;

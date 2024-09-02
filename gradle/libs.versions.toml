@@ -32,6 +32,7 @@ adventure-platform-bukkit = "4.3.4"
 
 # cloud
 cloud-core = "2.0.0"
+cloud-cooldown = "1.0.0-rc.1"
 cloud-paper = "2.0.0-beta.9"
 cloud-velocity = "2.0.0-beta.9"
 cloud-minecraft-extras = "2.0.0-beta.9"
@@ -78,6 +79,7 @@ jackson-YAML = { group = "com.fasterxml.jackson.dataformat", name = "jackson-dat
 # cloud
 cloud-core = { group = "org.incendo", name = "cloud-core", version.ref = "cloud-core" }
 cloud-annotations = { group = "org.incendo", name = "cloud-annotations", version.ref = "cloud-core" }
+cloud-cooldowns = { group = "org.incendo", name = "cloud-processors-cooldown", version.ref = "cloud-cooldown" }
 cloud-paper = { group = "org.incendo", name = "cloud-paper", version.ref = "cloud-paper" }
 cloud-velocity = { group = "org.incendo", name = "cloud-velocity", version.ref = "cloud-velocity" }
 cloud-minecraft-extras = { group = "org.incendo", name = "cloud-minecraft-extras", version.ref = "cloud-minecraft-extras" }
@@ -89,7 +91,7 @@ bukkit = ["spigot", "adventure-platform-bukkit"]
 paper = ["paper"]
 velocity = ["velocity"]
 config = ["jackson", "jackson-YAML"]
-cloud = ["cloud-core", "cloud-annotations", "cloud-minecraft-extras"]
+cloud = ["cloud-core", "cloud-annotations", "cloud-cooldowns", "cloud-minecraft-extras"]
 
 bStats = ["bStats", "bStats-bukkit", "bStats-velocity"]
 bStats-bukkit = ["bStats", "bStats-bukkit"]

@@ -6,6 +6,7 @@ import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.model.CommandEntity;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.output.command.CommandBase;
+import me.whereareiam.socialismus.api.output.command.CommandCooldown;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.annotations.Command;
 import org.incendo.cloud.annotations.CommandDescription;
@@ -14,23 +15,28 @@ import org.incendo.cloud.annotations.Permission;
 import java.util.Map;
 
 @Singleton
-public class MainCommand implements CommandBase {
-    private final Provider<CommandManager<DummyPlayer>> commandManager;
+public class MainCommand extends CommandBase {
+    private static final String COMMAND_NAME = "main";
     private final Provider<Map<String, CommandEntity>> commands;
 
+    private final Provider<CommandManager<DummyPlayer>> commandManager;
+
     @Inject
-    public MainCommand(Provider<CommandManager<DummyPlayer>> commandManager, Provider<Map<String, CommandEntity>> commands) {
-        this.commandManager = commandManager;
+    public MainCommand(Provider<Map<String, CommandEntity>> commands, Provider<CommandManager<DummyPlayer>> commandManager) {
+        super(COMMAND_NAME);
         this.commands = commands;
+
+        this.commandManager = commandManager;
     }
 
-    @Command("%command.main")
-    @CommandDescription("%description.main")
-    @Permission("%permission.main")
+    @Command("%command." + COMMAND_NAME)
+    @CommandDescription("%description." + COMMAND_NAME)
+    @CommandCooldown("%cooldown." + COMMAND_NAME)
+    @Permission("%permission." + COMMAND_NAME)
     public void onCommand(DummyPlayer dummyPlayer) {
         commandManager.get().commandExecutor().executeCommand(
                 dummyPlayer,
-                commands.get().get("main").getAliases().getFirst()
+                getCommandEntity().getAliases().getFirst()
                         + " "
                         + commands.get().get("help").getAliases().getFirst()
                         + " 1"
@@ -38,14 +44,7 @@ public class MainCommand implements CommandBase {
     }
 
     @Override
-    public Map<String, String> getTranslations() {
-        CommandEntity commandEntity = commands.get().get("main");
-
-        return Map.of(
-                "command." + commandEntity.getAliases().getFirst() + ".name", commandEntity.getUsage().replace("{alias}", String.join("|", commandEntity.getAliases())),
-                "command." + commandEntity.getAliases().getFirst() + ".permission", commandEntity.getPermission(),
-                "command." + commandEntity.getAliases().getFirst() + ".description", commandEntity.getDescription(),
-                "command." + commandEntity.getAliases().getFirst() + ".usage", commandEntity.getUsage()
-        );
+    public CommandEntity getCommandEntity() {
+        return commands.get().get(COMMAND_NAME);
     }
 }

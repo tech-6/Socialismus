@@ -9,6 +9,7 @@ import me.whereareiam.socialismus.api.model.config.message.Messages;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.model.serializer.SerializerContent;
 import me.whereareiam.socialismus.api.model.serializer.SerializerPlaceholder;
+import me.whereareiam.socialismus.api.output.LoggingHelper;
 import net.kyori.adventure.text.Component;
 import org.incendo.cloud.exception.*;
 import org.incendo.cloud.exception.handling.ExceptionContext;
@@ -21,11 +22,13 @@ import java.util.List;
 
 @Singleton
 public class CommandExceptionHandler {
+    private final LoggingHelper loggingHelper;
     private final SerializationService serializer;
     private final Provider<Messages> messages;
 
     @Inject
-    public CommandExceptionHandler(SerializationService serializer, Provider<Messages> messages) {
+    public CommandExceptionHandler(LoggingHelper loggingHelper, SerializationService serializer, Provider<Messages> messages) {
+        this.loggingHelper = loggingHelper;
         this.serializer = serializer;
         this.messages = messages;
     }
@@ -59,6 +62,7 @@ public class CommandExceptionHandler {
     }
 
     public Component handleCommandExecutionException(ComponentCaptionFormatter<DummyPlayer> formatter, ExceptionContext<DummyPlayer, CommandExecutionException> exception) {
+        exception.exception().printStackTrace();
         return getFormattedMessage(exception.context().sender(), messages.get().getCommands().getExecutionError(), exception.exception().getMessage());
     }
 

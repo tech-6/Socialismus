@@ -4,14 +4,20 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import me.whereareiam.socialismus.api.model.CommandEntity;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
-import me.whereareiam.socialismus.api.output.LoggingHelper;
 import me.whereareiam.socialismus.api.output.command.CommandBase;
+import me.whereareiam.socialismus.api.output.command.CommandCooldown;
 import me.whereareiam.socialismus.api.output.command.CommandService;
 import me.whereareiam.socialismus.command.executor.*;
+import me.whereareiam.socialismus.command.listener.CommandCooldownListener;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.annotations.AnnotationParser;
+import org.incendo.cloud.execution.postprocessor.CommandPostprocessor;
+import org.incendo.cloud.processors.cooldown.*;
+import org.incendo.cloud.processors.cooldown.annotation.CooldownBuilderModifier;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -19,18 +25,18 @@ import java.util.stream.Stream;
 @Singleton
 public class CommandProcessor implements CommandService {
     private final Injector injector;
-    private final LoggingHelper loggingHelper;
     private final Provider<CommandManager<DummyPlayer>> commandManager;
-    private final CommandTranslator commandTranslator;
+    private final Provider<Map<String, CommandEntity>> commands;
+
     private final Map<String, String> translations = new HashMap<>();
+
     private AnnotationParser<DummyPlayer> annotationParser;
 
     @Inject
-    public CommandProcessor(Injector injector, LoggingHelper loggingHelper, Provider<CommandManager<DummyPlayer>> commandManager, CommandTranslator commandTranslator) {
+    public CommandProcessor(Injector injector, Provider<CommandManager<DummyPlayer>> commandManager, Provider<Map<String, CommandEntity>> commands) {
         this.injector = injector;
-        this.loggingHelper = loggingHelper;
         this.commandManager = commandManager;
-        this.commandTranslator = commandTranslator;
+        this.commands = commands;
     }
 
     @Override
@@ -38,7 +44,26 @@ public class CommandProcessor implements CommandService {
         final CommandManager<DummyPlayer> commandManager = this.commandManager.get();
 
         annotationParser = new AnnotationParser<>(commandManager, DummyPlayer.class);
-        annotationParser.stringProcessor(commandTranslator.getProcessor());
+        annotationParser.stringProcessor(injector.getInstance(CommandTranslator.class).getProcessor());
+        annotationParser.registerBuilderModifier(
+                CommandCooldown.class,
+                ((annotation, builder) -> {
+                    CommandEntity entity = commands.get().get(annotation.value().split("\\.")[1]);
+                    if (entity == null || !entity.getCooldown().isEnabled()) return builder;
+
+                    Cooldown<DummyPlayer> cooldown = Cooldown.of(
+                            DurationFunction.constant(Duration.ofSeconds(entity.getCooldown().getDuration())),
+                            CooldownGroup.named(entity.getCooldown().getGroup())
+                    );
+
+                    return builder.apply(cooldown);
+                })
+        );
+
+
+        CooldownBuilderModifier.install(annotationParser);
+
+        commandManager.registerCommandPostProcessor(createCooldownManager());
 
         commandManager.rootCommands().forEach(commandManager::deleteRootCommand);
         Stream.of(injector.getInstance(MainCommand.class),
@@ -49,15 +74,32 @@ public class CommandProcessor implements CommandService {
         ).forEach(this::registerCommand);
     }
 
-    @Override
-    public void registerTranslation(String key, String value) {
-        translations.put(key, value);
+    private CommandPostprocessor<DummyPlayer> createCooldownManager() {
+        CooldownRepository<DummyPlayer> repository = CooldownRepository.mapping(
+                DummyPlayer::getUniqueId,
+                CooldownRepository.forMap(new HashMap<>())
+        );
+        CooldownConfiguration<DummyPlayer> configuration = CooldownConfiguration.<DummyPlayer>builder()
+                .repository(repository)
+                .addActiveCooldownListener(injector.getInstance(CommandCooldownListener.class))
+                .build();
+
+        CooldownManager<DummyPlayer> cooldownManager = CooldownManager.cooldownManager(
+                configuration
+        );
+
+        return cooldownManager.createPostprocessor();
     }
 
     @Override
     public void registerCommand(CommandBase command) {
         translations.putAll(command.getTranslations());
         annotationParser.parse(command);
+    }
+
+    @Override
+    public void registerTranslation(String key, String value) {
+        translations.put(key, value);
     }
 
     @Override

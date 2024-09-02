@@ -13,6 +13,7 @@ import me.whereareiam.socialismus.api.model.config.message.CommandMessages;
 import me.whereareiam.socialismus.api.model.config.message.Messages;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.output.command.CommandBase;
+import me.whereareiam.socialismus.api.output.command.CommandCooldown;
 import net.kyori.adventure.audience.Audience;
 import org.incendo.cloud.annotations.Command;
 import org.incendo.cloud.annotations.CommandDescription;
@@ -22,23 +23,29 @@ import java.util.Map;
 import java.util.Set;
 
 @Singleton
-public class ReloadCommand implements CommandBase {
+public class ReloadCommand extends CommandBase {
+    private static final String COMMAND_NAME = "reload";
+    private final Provider<Map<String, CommandEntity>> commands;
+
     private final Set<Reloadable> reloadables;
     private final Provider<Messages> messages;
-    private final Provider<Map<String, CommandEntity>> commands;
     private final SerializationService serializer;
 
     @Inject
-    public ReloadCommand(@Named("reloadables") Set<Reloadable> reloadables, Provider<Messages> messages, Provider<Map<String, CommandEntity>> commands, SerializationService serializer) {
+    public ReloadCommand(Provider<Map<String, CommandEntity>> commands, @Named("reloadables") Set<Reloadable> reloadables,
+                         Provider<Messages> messages, SerializationService serializer) {
+        super(COMMAND_NAME);
+        this.commands = commands;
+
         this.reloadables = reloadables;
         this.messages = messages;
-        this.commands = commands;
         this.serializer = serializer;
     }
 
-    @Command("%command.reload")
-    @CommandDescription("%description.reload")
-    @Permission("%permission.reload")
+    @Command("%command." + COMMAND_NAME)
+    @CommandDescription("%description." + COMMAND_NAME)
+    @CommandCooldown("%cooldown." + COMMAND_NAME)
+    @Permission("%permission." + COMMAND_NAME)
     public void onCommand(DummyPlayer dummyPlayer) {
         Audience audience = dummyPlayer.getAudience();
         Messages messages = this.messages.get();
@@ -56,14 +63,7 @@ public class ReloadCommand implements CommandBase {
     }
 
     @Override
-    public Map<String, String> getTranslations() {
-        CommandEntity commandEntity = commands.get().get("reload");
-
-        return Map.of(
-                "command." + commandEntity.getAliases().getFirst() + ".name", commandEntity.getUsage().replace("{alias}", String.join("|", commandEntity.getAliases())),
-                "command." + commandEntity.getAliases().getFirst() + ".permission", commandEntity.getPermission(),
-                "command." + commandEntity.getAliases().getFirst() + ".description", commandEntity.getDescription(),
-                "command." + commandEntity.getAliases().getFirst() + ".usage", commandEntity.getUsage()
-        );
+    public CommandEntity getCommandEntity() {
+        return commands.get().get(COMMAND_NAME);
     }
 }

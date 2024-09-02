@@ -41,6 +41,13 @@ public abstract class CommonDependencyResolver implements DependencyResolver {
 
         addDependency(Library.builder()
                 .groupId("org{}incendo")
+                .artifactId("cloud-processors-cooldown")
+                .version(Constants.Dependency.CLOUD_COOLDOWN)
+                .resolveTransitiveDependencies(false)
+                .build());
+
+        addDependency(Library.builder()
+                .groupId("org{}incendo")
                 .artifactId("cloud-annotations")
                 .version(Constants.Dependency.CLOUD)
                 .resolveTransitiveDependencies(false)

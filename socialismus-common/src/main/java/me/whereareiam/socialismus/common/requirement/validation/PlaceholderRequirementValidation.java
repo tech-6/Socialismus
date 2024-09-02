@@ -47,10 +47,7 @@ public class PlaceholderRequirementValidation implements RequirementValidation {
 
         for (String placeholder : placeholders) {
             String resolvedPlaceholder = resolver.format(dummyPlayer, placeholder);
-            System.out.println("resolvedPlaceholder: " + resolvedPlaceholder);
             for (String expected : expectedValues) {
-                System.out.println("expected: " + expected);
-                System.out.println("pr.getCondition(): " + pr.getCondition());
                 if (switch (pr.getCondition()) {
                     case EQUALS -> resolvedPlaceholder.equals(expected);
                     case GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUALS, LESS_THAN_OR_EQUALS ->

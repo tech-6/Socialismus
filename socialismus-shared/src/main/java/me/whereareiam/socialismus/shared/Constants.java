@@ -17,6 +17,7 @@ public final class Constants {
         public static final String ADVENTURE_BUKKIT = "@adventureBukkitVersion@";
 
         public static final String CLOUD = "@cloudVersion@";
+        public static final String CLOUD_COOLDOWN = "@cloudCooldownVersion@";
         public static final String CLOUD_PAPER = "@cloudPaperVersion@";
         public static final String CLOUD_VELOCITY = "@cloudVelocityVersion@";
         public static final String CLOUD_MINECRAFT_EXTRAS = "@cloudMinecraftExtrasVersion@";

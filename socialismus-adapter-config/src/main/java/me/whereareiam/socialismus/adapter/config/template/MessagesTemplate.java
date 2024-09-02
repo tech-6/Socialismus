@@ -17,6 +17,7 @@ public class MessagesTemplate implements DefaultConfig<Messages> {
         // Default values
         messages.setPrefix("<gold>ꜱᴏᴄɪᴀʟɪꜱᴍᴜꜱ <dark_gray>| ");
         CommandMessages commandMessages = new CommandMessages();
+        commandMessages.setCooldown("{prefix}<white>You must wait <gray>{time} seconds</gray> before using this command again</white>");
         commandMessages.setCancelled("{prefix}<white>Command execution has been <red>cancelled</red></white>");
         commandMessages.setNoPermission("{prefix}<white>You don't have \"<gray>{content}</gray>\" permission to use this command.</white>");
         commandMessages.setExecutionError("{prefix}<white>An error occurred while executing the command:</white> <gray>{content}</gray>");

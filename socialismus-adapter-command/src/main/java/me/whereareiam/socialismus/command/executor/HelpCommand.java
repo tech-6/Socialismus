@@ -7,6 +7,7 @@ import me.whereareiam.socialismus.api.input.serializer.SerializationService;
 import me.whereareiam.socialismus.api.model.CommandEntity;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.output.command.CommandBase;
+import me.whereareiam.socialismus.api.output.command.CommandCooldown;
 import me.whereareiam.socialismus.command.builder.HelpBuilder;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.annotation.specifier.Range;
@@ -17,24 +18,30 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Singleton
-public class HelpCommand implements CommandBase {
+public class HelpCommand extends CommandBase {
+    private static final String COMMAND_NAME = "help";
+    private final Provider<Map<String, CommandEntity>> commands;
+
     private final Provider<CommandManager<DummyPlayer>> commandManager;
     private final SerializationService serializer;
-    private final Provider<Map<String, CommandEntity>> commands;
     private final HelpBuilder helpBuilder;
 
     @Inject
-    public HelpCommand(Provider<CommandManager<DummyPlayer>> commandManager, SerializationService serializer, Provider<Map<String, CommandEntity>> commands, HelpBuilder helpBuilder) {
+    public HelpCommand(Provider<Map<String, CommandEntity>> commands, Provider<CommandManager<DummyPlayer>> commandManager,
+                       SerializationService serializer, HelpBuilder helpBuilder) {
+        super(COMMAND_NAME);
+        this.commands = commands;
+
         this.commandManager = commandManager;
         this.serializer = serializer;
-        this.commands = commands;
         this.helpBuilder = helpBuilder;
     }
 
-    @Command("%command.help")
-    @CommandDescription("%description.help")
-    @Permission("%permission.help")
-    public void onCommand(DummyPlayer dummyPlayer, @Range(min = "1") @Default("1") @Argument(value = "page", description = "%argument.expected-number") int page) {
+    @Command("%command." + COMMAND_NAME)
+    @CommandDescription("%description." + COMMAND_NAME)
+    @CommandCooldown("%cooldown." + COMMAND_NAME)
+    @Permission("%permission." + COMMAND_NAME)
+    public void onCommand(DummyPlayer dummyPlayer, @Range(min = "1") @Default("1") @Argument(value = "page") int page) {
         Collection<org.incendo.cloud.Command<DummyPlayer>> allowedCommands = commandManager.get().commands()
                 .stream()
                 .filter(command -> dummyPlayer.getUsername() != null || commandManager.get().hasPermission(dummyPlayer, command.commandPermission().permissionString()))
@@ -44,14 +51,7 @@ public class HelpCommand implements CommandBase {
     }
 
     @Override
-    public Map<String, String> getTranslations() {
-        CommandEntity commandEntity = commands.get().get("help");
-
-        return Map.of(
-                "command." + commandEntity.getAliases().getFirst() + ".name", commandEntity.getUsage().replace("{alias}", String.join("|", commandEntity.getAliases())),
-                "command." + commandEntity.getAliases().getFirst() + ".permission", commandEntity.getPermission(),
-                "command." + commandEntity.getAliases().getFirst() + ".description", commandEntity.getDescription(),
-                "command." + commandEntity.getAliases().getFirst() + ".usage", commandEntity.getUsage()
-        );
+    public CommandEntity getCommandEntity() {
+        return commands.get().get(COMMAND_NAME);
     }
 }

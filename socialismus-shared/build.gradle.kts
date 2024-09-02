@@ -10,6 +10,7 @@ tasks.register<Copy>("processSources") {
             .replace("@adventureVersion@", rootProject.libs.versions.adventure.minimessage.get())
             .replace("@adventureBukkitVersion@", rootProject.libs.versions.adventure.platform.bukkit.get())
             .replace("@cloudVersion@", rootProject.libs.versions.cloud.core.get())
+            .replace("@cloudCooldownVersion@", rootProject.libs.versions.cloud.cooldown.get())
             .replace("@cloudPaperVersion@", rootProject.libs.versions.cloud.paper.get())
             .replace("@cloudVelocityVersion@", rootProject.libs.versions.cloud.velocity.get())
             .replace("@cloudMinecraftExtrasVersion@", rootProject.libs.versions.cloud.minecraft.extras.get())

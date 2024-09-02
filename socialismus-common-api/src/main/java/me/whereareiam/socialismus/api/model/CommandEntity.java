@@ -14,9 +14,22 @@ import java.util.List;
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
 public class CommandEntity {
+    private boolean enabled;
     private List<String> aliases;
     private String permission;
     private String description;
     private String usage;
-    private boolean enabled;
+
+    private Cooldown cooldown;
+
+    @Getter
+    @Setter
+    @ToString
+    @NoArgsConstructor
+    @SuperBuilder(toBuilder = true)
+    public static class Cooldown {
+        private boolean enabled;
+        private int duration;
+        private String group;
+    }
 }
