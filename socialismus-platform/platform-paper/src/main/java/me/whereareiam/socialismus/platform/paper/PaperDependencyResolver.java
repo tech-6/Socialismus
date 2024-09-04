@@ -32,5 +32,11 @@ public class PaperDependencyResolver extends CommonDependencyResolver {
                 .version(Constants.Dependency.CLOUD_PAPER)
                 .resolveTransitiveDependencies(true)
                 .build());
+
+        addDependency(Library.builder()
+                .groupId("org{}incendo")
+                .artifactId("cloud-minecraft-extras")
+                .version(Constants.Dependency.CLOUD_MINECRAFT_EXTRAS)
+                .build());
     }
 }

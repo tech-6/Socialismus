@@ -1,5 +1,6 @@
 package me.whereareiam.socialismus.platform.bukkit;
 
+import me.whereareiam.socialismus.api.PluginType;
 import me.whereareiam.socialismus.common.CommonInjector;
 import me.whereareiam.socialismus.common.CommonSocialismus;
 import me.whereareiam.socialismus.common.IntegrityChecker;
@@ -20,6 +21,8 @@ public class BukkitSocialismus extends JavaPlugin {
 
     @Override
     public void onLoad() {
+        PluginType.setPluginType(PluginType.BUKKIT);
+
         BukkitDependencyResolver dependencyResolver = new BukkitDependencyResolver(this);
         dependencyResolver.loadLibraries();
         dependencyResolver.resolveDependencies();

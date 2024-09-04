@@ -22,7 +22,7 @@ public class MessagesTemplate implements DefaultConfig<Messages> {
         commandMessages.setNoPermission("{prefix}<white>You don't have \"<gray>{content}</gray>\" permission to use this command.</white>");
         commandMessages.setExecutionError("{prefix}<white>An error occurred while executing the command:</white> <gray>{content}</gray>");
 
-        commandMessages.setInvalidSyntax("{prefix}<white>Invalid syntax, please use:</white> <yellow>{content}</yellow>");
+        commandMessages.setInvalidSyntax("{prefix}<white>Invalid syntax, please use:</white> <yellow>/{content}</yellow>");
         commandMessages.setInvalidSyntaxBoolean("{prefix}<white>You tried to use <gray>{content}</gray> as a boolean, but it's not a valid value, please use <green>true</green> or <red>false</red>.</white>");
         commandMessages.setInvalidSyntaxNumber("{prefix}<white>You tried to use <gray>{content}</gray> as a number, but it's not a valid value, please use a valid number.</white>");
         commandMessages.setInvalidSyntaxString("{prefix}<white>You tried to use <gray>{content}</gray> as a string, but it's not a valid value, please use a valid string.</white>");
@@ -45,9 +45,9 @@ public class MessagesTemplate implements DefaultConfig<Messages> {
         pagination.setShowPaginationIfOnePage(false);
         pagination.setFormat("\n {previous}<white>Pagination</white> <gray>[{current}/{max}]</gray>{next} \n");
         pagination.setShowPreviousEvenIfFirst(false);
-        pagination.setPreviousTagFormat("<red><click:run_command:social help {previousPage}>«</red> ");
+        pagination.setPreviousTagFormat("<red><click:run_command:/social help {previousPage}>«</red> ");
         pagination.setShowNextEvenIfLast(false);
-        pagination.setNextTagFormat(" <green><click:run_command:social help {nextPage}>»</green>");
+        pagination.setNextTagFormat(" <green><click:run_command:/social help {nextPage}>»</green>");
 
         commandMessages.setPagination(pagination);
 

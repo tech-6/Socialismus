@@ -30,8 +30,8 @@ public class BukkitDependencyResolver extends CommonDependencyResolver {
         // Bukkit specific libraries
         addDependency(Library.builder()
                 .groupId("net{}kyori")
-                .artifactId("adventure-platform-bukkit")
-                .version(Constants.Dependency.ADVENTURE_BUKKIT)
+                .artifactId("adventure-api")
+                .version(Constants.Dependency.ADVENTURE)
                 .resolveTransitiveDependencies(true)
                 .relocate(Relocation.builder()
                         .pattern("net{}kyori")
@@ -43,6 +43,7 @@ public class BukkitDependencyResolver extends CommonDependencyResolver {
                 .groupId("net{}kyori")
                 .artifactId("adventure-text-serializer-plain")
                 .version(Constants.Dependency.ADVENTURE)
+                .resolveTransitiveDependencies(true)
                 .relocate(Relocation.builder()
                         .pattern("net{}kyori")
                         .relocatedPattern("me.whereareiam.socialismus.library")
@@ -53,6 +54,7 @@ public class BukkitDependencyResolver extends CommonDependencyResolver {
                 .groupId("net{}kyori")
                 .artifactId("adventure-text-serializer-gson")
                 .version(Constants.Dependency.ADVENTURE)
+                .resolveTransitiveDependencies(true)
                 .relocate(Relocation.builder()
                         .pattern("net{}kyori")
                         .relocatedPattern("me.whereareiam.socialismus.library")
@@ -63,6 +65,18 @@ public class BukkitDependencyResolver extends CommonDependencyResolver {
                 .groupId("net{}kyori")
                 .artifactId("adventure-text-minimessage")
                 .version(Constants.Dependency.ADVENTURE)
+                .resolveTransitiveDependencies(true)
+                .relocate(Relocation.builder()
+                        .pattern("net{}kyori")
+                        .relocatedPattern("me.whereareiam.socialismus.library")
+                        .build())
+                .build());
+
+        addDependency(Library.builder()
+                .groupId("net{}kyori")
+                .artifactId("adventure-platform-bukkit")
+                .version(Constants.Dependency.ADVENTURE_BUKKIT)
+                .resolveTransitiveDependencies(true)
                 .relocate(Relocation.builder()
                         .pattern("net{}kyori")
                         .relocatedPattern("me.whereareiam.socialismus.library")
@@ -74,6 +88,16 @@ public class BukkitDependencyResolver extends CommonDependencyResolver {
                 .artifactId("cloud-paper")
                 .version(Constants.Dependency.CLOUD_PAPER)
                 .resolveTransitiveDependencies(true)
+                .build());
+
+        addDependency(Library.builder()
+                .groupId("org{}incendo")
+                .artifactId("cloud-minecraft-extras")
+                .version(Constants.Dependency.CLOUD_MINECRAFT_EXTRAS)
+                .relocate(Relocation.builder()
+                        .pattern("net{}kyori")
+                        .relocatedPattern("me.whereareiam.socialismus.library")
+                        .build())
                 .build());
     }
 }

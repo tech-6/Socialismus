@@ -1,41 +1,39 @@
 package me.whereareiam.socialismus.api;
 
-public enum PluginType {
-    ALL, BUKKIT, PAPER, VELOCITY;
+import lombok.Setter;
 
-    public static PluginType getType() {
-        if (isBukkitPlugin() && isPaperPlugin() && isVelocityPlugin()) return ALL;
-        return getExactType();
-    }
+import java.io.IOException;
+import java.util.jar.Attributes;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
+
+public enum PluginType {
+    UNKNOWN, MODERN, BUKKIT, PAPER, VELOCITY;
+
+    @Setter
+    private static PluginType pluginType = UNKNOWN;
 
     public static PluginType getExactType() {
-        if (isVelocityPlugin()) return VELOCITY;
-        if (isPaperPlugin()) return PAPER;
-        if (isBukkitPlugin()) return BUKKIT;
+        return pluginType;
+    }
+
+    public static PluginType getType() {
+        String pluginType = getPluginTypeFromManifest();
+        if (pluginType != null)
+            return PluginType.valueOf(pluginType);
 
         throw new IllegalStateException("Unknown plugin type");
     }
 
-    private static boolean isBukkitPlugin() {
-        return isClassPresent("me.whereareiam.socialismus.platform.bukkit.BukkitSocialismus");
-    }
+    private static String getPluginTypeFromManifest() {
+        try (JarFile jarFile = new JarFile(PluginType.class.getProtectionDomain().getCodeSource().getLocation().getPath())) {
+            Manifest manifest = jarFile.getManifest();
+            Attributes attributes = manifest.getMainAttributes();
 
-    private static boolean isPaperPlugin() {
-        return isClassPresent("me.whereareiam.socialismus.platform.paper.PaperSocialismus");
-    }
-
-    private static boolean isVelocityPlugin() {
-        return isClassPresent("me.whereareiam.socialismus.platform.velocity.VelocitySocialismus");
-    }
-
-    private static boolean isClassPresent(String className) {
-        try {
-            Class.forName(className);
-            return true;
-        } catch (ClassNotFoundException e) {
-            return false;
-        } catch (NoClassDefFoundError e) {
-            return true;
+            return attributes.getValue("Plugin-Type");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

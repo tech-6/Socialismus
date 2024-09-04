@@ -10,6 +10,7 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 import jakarta.inject.Inject;
 import lombok.Getter;
+import me.whereareiam.socialismus.api.PluginType;
 import me.whereareiam.socialismus.common.CommonInjector;
 import me.whereareiam.socialismus.common.CommonSocialismus;
 import me.whereareiam.socialismus.common.IntegrityChecker;
@@ -53,6 +54,8 @@ public class VelocitySocialismus {
 
     @Subscribe
     public void onProxyInitializationEvent(ProxyInitializeEvent event) {
+        PluginType.setPluginType(PluginType.VELOCITY);
+
         VelocityDependencyResolver dependencyResolver = new VelocityDependencyResolver(this, logger, dataPath, proxyServer.getPluginManager());
         dependencyResolver.loadLibraries();
         dependencyResolver.resolveDependencies();

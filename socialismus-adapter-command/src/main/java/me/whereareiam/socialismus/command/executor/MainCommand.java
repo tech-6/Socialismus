@@ -7,7 +7,6 @@ import me.whereareiam.socialismus.api.model.CommandEntity;
 import me.whereareiam.socialismus.api.model.player.DummyPlayer;
 import me.whereareiam.socialismus.api.output.command.CommandBase;
 import me.whereareiam.socialismus.api.output.command.CommandCooldown;
-import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.annotations.Command;
 import org.incendo.cloud.annotations.CommandDescription;
 import org.incendo.cloud.annotations.Permission;
@@ -18,15 +17,13 @@ import java.util.Map;
 public class MainCommand extends CommandBase {
     private static final String COMMAND_NAME = "main";
     private final Provider<Map<String, CommandEntity>> commands;
-
-    private final Provider<CommandManager<DummyPlayer>> commandManager;
+    private final HelpCommand helpCommand;
 
     @Inject
-    public MainCommand(Provider<Map<String, CommandEntity>> commands, Provider<CommandManager<DummyPlayer>> commandManager) {
+    public MainCommand(Provider<Map<String, CommandEntity>> commands, HelpCommand helpCommand) {
         super(COMMAND_NAME);
         this.commands = commands;
-
-        this.commandManager = commandManager;
+        this.helpCommand = helpCommand;
     }
 
     @Command("%command." + COMMAND_NAME)
@@ -34,13 +31,7 @@ public class MainCommand extends CommandBase {
     @CommandCooldown("%cooldown." + COMMAND_NAME)
     @Permission("%permission." + COMMAND_NAME)
     public void onCommand(DummyPlayer dummyPlayer) {
-        commandManager.get().commandExecutor().executeCommand(
-                dummyPlayer,
-                getCommandEntity().getAliases().getFirst()
-                        + " "
-                        + commands.get().get("help").getAliases().getFirst()
-                        + " 1"
-        );
+        helpCommand.onCommand(dummyPlayer, 1);
     }
 
     @Override

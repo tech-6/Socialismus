@@ -58,7 +58,7 @@ public class CommandExceptionHandler {
     }
 
     public Component handleInvalidSyntaxException(ComponentCaptionFormatter<DummyPlayer> formatter, ExceptionContext<DummyPlayer, InvalidSyntaxException> exception) {
-        return getFormattedMessage(exception.context().sender(), messages.get().getCommands().getInvalidSyntax(), exception.exception().correctSyntax());
+        return getFormattedMessage(exception.context().sender(), messages.get().getCommands().getInvalidSyntax(), exception.exception().correctSyntax().replace("|", "/"));
     }
 
     public Component handleCommandExecutionException(ComponentCaptionFormatter<DummyPlayer> formatter, ExceptionContext<DummyPlayer, CommandExecutionException> exception) {

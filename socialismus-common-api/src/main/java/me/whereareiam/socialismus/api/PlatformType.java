@@ -50,7 +50,7 @@ public enum PlatformType {
     }
 
     private static boolean isPaper() {
-        return isClassPresent("com.destroystokyo.paper.PaperConfig");
+        return isClassPresent("io.papermc.paper.threadedregions.EntityScheduler");
     }
 
     private static boolean isSpigot() {

@@ -18,20 +18,18 @@ import java.util.Optional;
 @Singleton
 public class CommandSenderMapper implements SenderMapper<CommandSender, DummyPlayer> {
     private final PlayerContainerService playerContainer;
-    private final Provider<BukkitAudiences> audiencesProvider;
+    private final Provider<BukkitAudiences> audiences;
 
     @Inject
-    public CommandSenderMapper(PlayerContainerService playerContainer, Provider<BukkitAudiences> audiencesProvider) {
+    public CommandSenderMapper(PlayerContainerService playerContainer, Provider<BukkitAudiences> audiences) {
         this.playerContainer = playerContainer;
-        this.audiencesProvider = audiencesProvider;
+        this.audiences = audiences;
     }
 
     @Override
     public @NonNull DummyPlayer map(@NonNull CommandSender source) {
-        final BukkitAudiences audiences = audiencesProvider.get();
-
         if (source instanceof ConsoleCommandSender)
-            return DummyCommandPlayer.builder().commandSender(source).audience(audiences.sender(source)).build();
+            return DummyCommandPlayer.builder().commandSender(source).audience(audiences.get().sender(source)).build();
 
         Optional<DummyPlayer> dummyPlayer = playerContainer.getPlayer(source.getName());
         if (dummyPlayer.isPresent())

@@ -14,6 +14,7 @@ import me.whereareiam.socialismus.api.input.container.PlayerContainerService;
 import me.whereareiam.socialismus.api.input.event.EventManager;
 import me.whereareiam.socialismus.api.input.registry.ExtendedRegistry;
 import me.whereareiam.socialismus.api.input.registry.Registry;
+import me.whereareiam.socialismus.api.input.requirement.RequirementEvaluatorService;
 import me.whereareiam.socialismus.api.input.requirement.RequirementValidation;
 import me.whereareiam.socialismus.api.input.serializer.SerializationService;
 import me.whereareiam.socialismus.api.model.chat.message.ChatMessage;
@@ -31,6 +32,7 @@ import me.whereareiam.socialismus.common.container.PlayerContainer;
 import me.whereareiam.socialismus.common.event.EventController;
 import me.whereareiam.socialismus.common.provider.IntegrationProvider;
 import me.whereareiam.socialismus.common.provider.ReloadableProvider;
+import me.whereareiam.socialismus.common.requirement.RequirementEvaluator;
 import me.whereareiam.socialismus.common.requirement.RequirementRegistry;
 import me.whereareiam.socialismus.common.requirement.validation.*;
 import me.whereareiam.socialismus.common.serializer.Serializer;
@@ -68,5 +70,6 @@ public class CommonConfiguration extends AbstractModule {
         bind(PlaceholderRequirementValidation.class).asEagerSingleton();
         bind(ChatRequirementValidation.class).asEagerSingleton();
         bind(new TypeLiteral<ExtendedRegistry<RequirementType, RequirementValidation>>() {}).to(RequirementRegistry.class);
+        bind(RequirementEvaluatorService.class).to(RequirementEvaluator.class);
     }
 }

@@ -10,6 +10,7 @@ import me.whereareiam.socialismus.api.model.chat.message.FormattedChatMessage;
 import me.whereareiam.socialismus.api.output.integration.Integration;
 import me.whereareiam.socialismus.api.output.integration.SynchronizationIntegration;
 import me.whereareiam.socialismus.api.output.listener.DynamicListener;
+import me.whereareiam.socialismus.common.chat.ChatBroadcaster;
 import me.whereareiam.socialismus.common.chat.ChatCoordinator;
 import me.whereareiam.socialismus.common.chat.ChatMessageFactory;
 import me.whereareiam.socialismus.shared.Constants;
@@ -26,13 +27,15 @@ import java.util.stream.Collectors;
 @Singleton
 public class PlayerChatListener implements DynamicListener<AsyncPlayerChatEvent> {
     private final ChatCoordinator chatCoordinator;
+    private final ChatBroadcaster chatBroadcaster;
     private final ChatMessageFactory chatMessageFactory;
     private final Provider<Set<Integration>> integrations;
 
     @Inject
-    public PlayerChatListener(ChatCoordinator chatCoordinator, PlayerContainerService playerContainer, BukkitAudiences audiences,
+    public PlayerChatListener(ChatCoordinator chatCoordinator, PlayerContainerService playerContainer, BukkitAudiences audiences, ChatBroadcaster chatBroadcaster,
                               ChatMessageFactory chatMessageFactory, Provider<Set<Integration>> integrations) {
         this.chatCoordinator = chatCoordinator;
+        this.chatBroadcaster = chatBroadcaster;
         this.chatMessageFactory = chatMessageFactory;
         this.integrations = integrations;
     }
@@ -65,7 +68,11 @@ public class PlayerChatListener implements DynamicListener<AsyncPlayerChatEvent>
                         .collect(Collectors.toSet())
         );
 
-        event.setFormat(ComponentUtil.toString(formattedChatMessage.getFormat(), true).replace("{message}", "%2$s"));
+        event.setFormat(ComponentUtil.toString(
+                formattedChatMessage.getFormat().replaceText(
+                        chatBroadcaster.createClearReplacement(formattedChatMessage, player.getUniqueId())
+                ), true
+        ).replace("{message}", "%2$s"));
         event.setMessage(ComponentUtil.toString(formattedChatMessage.getContent(), true));
     }
 

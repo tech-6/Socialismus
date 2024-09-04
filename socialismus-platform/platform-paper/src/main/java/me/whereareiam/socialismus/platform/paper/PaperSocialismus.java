@@ -1,5 +1,6 @@
 package me.whereareiam.socialismus.platform.paper;
 
+import me.whereareiam.socialismus.api.PluginType;
 import me.whereareiam.socialismus.common.CommonInjector;
 import me.whereareiam.socialismus.common.CommonSocialismus;
 import me.whereareiam.socialismus.common.IntegrityChecker;
@@ -20,6 +21,8 @@ public class PaperSocialismus extends JavaPlugin {
 
     @Override
     public void onLoad() {
+        PluginType.setPluginType(PluginType.PAPER);
+
         PaperDependencyResolver dependencyResolver = new PaperDependencyResolver(this);
         dependencyResolver.loadLibraries();
         dependencyResolver.resolveDependencies();

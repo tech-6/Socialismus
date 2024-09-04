@@ -16,7 +16,6 @@ import me.whereareiam.socialismus.shared.Constants;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.incendo.cloud.CommandManager;
 
 public class BukkitInjectorConfiguration extends AbstractModule {
@@ -42,7 +41,7 @@ public class BukkitInjectorConfiguration extends AbstractModule {
         bind(PlatformClassLoader.class).to(BukkitClassLoader.class);
         bind(new TypeLiteral<CommandManager<DummyPlayer>>() {}).toProvider(BukkitCommandManagerProvider.class);
 
-        bind(org.bstats.bukkit.Metrics.class).toInstance(new org.bstats.bukkit.Metrics((JavaPlugin) plugin, Constants.BStats.BUKKIT_ID));
+        bind(org.bstats.bukkit.Metrics.class).toInstance(new org.bstats.bukkit.Metrics(plugin, Constants.BStats.BUKKIT_ID));
         bind(Metrics.class).to(BukkitMetrics.class);
     }
 }

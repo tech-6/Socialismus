@@ -36,28 +36,18 @@ public abstract class CommonDependencyResolver implements DependencyResolver {
                 .groupId("org{}incendo")
                 .artifactId("cloud-core")
                 .version(Constants.Dependency.CLOUD)
-                .resolveTransitiveDependencies(false)
                 .build());
 
         addDependency(Library.builder()
                 .groupId("org{}incendo")
                 .artifactId("cloud-processors-cooldown")
                 .version(Constants.Dependency.CLOUD_COOLDOWN)
-                .resolveTransitiveDependencies(false)
                 .build());
 
         addDependency(Library.builder()
                 .groupId("org{}incendo")
                 .artifactId("cloud-annotations")
                 .version(Constants.Dependency.CLOUD)
-                .resolveTransitiveDependencies(false)
-                .build());
-
-        addDependency(Library.builder()
-                .groupId("org{}incendo")
-                .artifactId("cloud-minecraft-extras")
-                .version(Constants.Dependency.CLOUD_MINECRAFT_EXTRAS)
-                .resolveTransitiveDependencies(false)
                 .build());
 
         // Jackson libraries

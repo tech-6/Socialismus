@@ -42,7 +42,7 @@ jobs:
 
       - name: Move platform jars
         run: |
-          mv socialismus-platform/platform-all/build/libs/${{ env.NAME }}-${{ env.VERSION }}-ALL.jar output/${{ env.NAME }}-ALL-${{ env.VERSION }}.jar
+          mv socialismus-platform/modern/build/libs/${{ env.NAME }}-${{ env.VERSION }}-MODERN.jar output/${{ env.NAME }}-MODERN-${{ env.VERSION }}.jar
           mv socialismus-platform/platform-paper/build/libs/${{ env.NAME }}-${{ env.VERSION }}-PAPER.jar output/${{ env.NAME }}-PAPER-${{ env.VERSION }}.jar
           mv socialismus-platform/platform-bukkit/build/libs/${{ env.NAME }}-${{ env.VERSION }}-BUKKIT.jar output/${{ env.NAME }}-BUKKIT-${{ env.VERSION }}.jar
           mv socialismus-platform/platform-velocity/build/libs/${{ env.NAME }}-${{ env.VERSION }}-VELOCITY.jar output/${{ env.NAME }}-VELOCITY-${{ env.VERSION }}.jar
@@ -53,7 +53,7 @@ jobs:
         with:
           files: |
             output/${{ env.NAME }}-API-${{ env.VERSION }}.jar
-            output/${{ env.NAME }}-ALL-${{ env.VERSION }}.jar
+            output/${{ env.NAME }}-MODERN-${{ env.VERSION }}.jar
             output/${{ env.NAME }}-PAPER-${{ env.VERSION }}.jar
             output/${{ env.NAME }}-BUKKIT-${{ env.VERSION }}.jar
             output/${{ env.NAME }}-VELOCITY-${{ env.VERSION }}.jar

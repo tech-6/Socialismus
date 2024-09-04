@@ -11,6 +11,10 @@ subprojects {
     tasks.withType<ShadowJar> {
         archiveBaseName.set(rootProject.name)
 
+        manifest {
+            attributes["Plugin-Type"] = archiveClassifier
+        }
+
         relocate("com.alessiodp.libby", "me.whereareiam.socialismus.library.libby")
         relocate("org.bstats", "me.whereareiam.socialismus.library.bStats")
 
@@ -66,8 +70,8 @@ subprojects {
             }
         }
     }
-}
 
-tasks.named<Jar>("jar") {
-    dependsOn("shadowJar")
+    tasks.named<Jar>("jar") {
+        dependsOn("shadowJar")
+    }
 }

@@ -75,7 +75,7 @@ public class ConfigManager implements Provider<ObjectMapper>, ConfigurationManag
             } else {
                 Files.createFile(this.dataPath.resolve("type=YAML"));
 
-                return ConfigurationType.JSON;
+                return ConfigurationType.YAML;
             }
         } catch (IOException e) {
             throw new RuntimeException("Failed to get configuration type", e);
