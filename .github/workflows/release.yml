@@ -8,7 +8,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
 
     steps:
@@ -30,7 +30,6 @@ jobs:
         run: |
           echo "NAME=$(grep 'rootProject.name' settings.gradle.kts | awk -F "=" '{print $2}' | tr -d ' \"\n')" >> $GITHUB_ENV
           echo "VERSION=${GITHUB_REF##*/}-${GITHUB_SHA::7}" >> $GITHUB_ENV
-
       - name: Build project
         run: ./gradlew build shadowJar
 
@@ -46,7 +45,6 @@ jobs:
           mv socialismus-platform/platform-paper/build/libs/${{ env.NAME }}-${{ env.VERSION }}-PAPER.jar output/${{ env.NAME }}-PAPER-${{ env.VERSION }}.jar
           mv socialismus-platform/platform-bukkit/build/libs/${{ env.NAME }}-${{ env.VERSION }}-BUKKIT.jar output/${{ env.NAME }}-BUKKIT-${{ env.VERSION }}.jar
           mv socialismus-platform/platform-velocity/build/libs/${{ env.NAME }}-${{ env.VERSION }}-VELOCITY.jar output/${{ env.NAME }}-VELOCITY-${{ env.VERSION }}.jar
-
       - name: Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
