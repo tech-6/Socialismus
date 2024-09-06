@@ -83,6 +83,7 @@ public class CommandMessages {
         private String noUserHistory;
         private String noIdHistory;
         private String noHistory;
+        private String notEnoughHistory;
         private String cleared;
         private String clearedAmount;
     }

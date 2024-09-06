@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import me.whereareiam.socialismus.api.input.chat.ChatHistoryService;
+import me.whereareiam.socialismus.api.input.container.ChatHistoryContainerService;
 import me.whereareiam.socialismus.api.input.serializer.SerializationService;
 import me.whereareiam.socialismus.api.model.CommandEntity;
 import me.whereareiam.socialismus.api.model.chat.ChatSettings;
@@ -32,12 +33,13 @@ public class ClearCommand extends CommandBase {
     private final Provider<ChatSettings> chatSettings;
 
     private final ChatHistoryService chatHistory;
+    private final ChatHistoryContainerService containerService;
     private final PlatformInteractor interactor;
 
     @Inject
     public ClearCommand(Provider<Map<String, CommandEntity>> commands, LoggingHelper loggingHelper, SerializationService serializer,
                         Provider<Messages> messages, Provider<ChatSettings> chatSettings, ChatHistoryService chatHistory,
-                        PlatformInteractor interactor) {
+                        ChatHistoryContainerService containerService, PlatformInteractor interactor) {
         super(COMMAND_NAME);
         this.commands = commands;
 
@@ -46,6 +48,7 @@ public class ClearCommand extends CommandBase {
         this.messages = messages;
         this.chatSettings = chatSettings;
         this.chatHistory = chatHistory;
+        this.containerService = containerService;
         this.interactor = interactor;
     }
 
@@ -81,16 +84,31 @@ public class ClearCommand extends CommandBase {
     }
 
     private void handleNumericContext(DummyPlayer dummyPlayer, int number) {
+        if (!hasMinimumMessages()) {
+            dummyPlayer.sendMessage(serializer.format(dummyPlayer, messages.get().getCommands().getClearCommand().getNotEnoughHistory()));
+            return;
+        }
+
         int count = chatHistory.removeMessages(number);
         sendResponse(dummyPlayer, count, messages.get().getCommands().getClearCommand().getClearedAmount(), messages.get().getCommands().getClearCommand().getNoHistory());
     }
 
     private void handleInvalidNumber(DummyPlayer dummyPlayer, int number) {
+        if (!hasMinimumMessages()) {
+            dummyPlayer.sendMessage(serializer.format(dummyPlayer, messages.get().getCommands().getClearCommand().getNotEnoughHistory()));
+            return;
+        }
+
         boolean removed = chatHistory.removeMessage(number);
         sendResponse(dummyPlayer, removed, messages.get().getCommands().getClearCommand().getCleared(), messages.get().getCommands().getClearCommand().getNoIdHistory().replace("{id}", String.valueOf(number)));
     }
 
     private void handleNonNumericContext(DummyPlayer dummyPlayer, String context) {
+        if (!hasMinimumMessages()) {
+            dummyPlayer.sendMessage(serializer.format(dummyPlayer, messages.get().getCommands().getClearCommand().getNotEnoughHistory()));
+            return;
+        }
+
         if (interactor.hasPermission(context, chatSettings.get().getHistory().getBypassPermission())) {
             dummyPlayer.sendMessage(serializer.format(dummyPlayer, messages.get().getCommands().getClearCommand().getBypassUser()));
             return;
@@ -98,6 +116,10 @@ public class ClearCommand extends CommandBase {
 
         int count = chatHistory.removeMessages(context);
         sendResponse(dummyPlayer, count, messages.get().getCommands().getClearCommand().getClearedAmount(), messages.get().getCommands().getClearCommand().getNoUserHistory().replace("{playerName}", context));
+    }
+
+    private boolean hasMinimumMessages() {
+        return containerService.getMessages().size() >= 5;
     }
 
     private void sendResponse(DummyPlayer dummyPlayer, int count, String successMessage, String failureMessage) {

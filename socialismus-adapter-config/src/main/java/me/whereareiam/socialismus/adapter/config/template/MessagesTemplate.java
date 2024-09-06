@@ -87,6 +87,7 @@ public class MessagesTemplate implements DefaultConfig<Messages> {
         clearCommand.setNoUserHistory("{prefix}<white>No chat history found for user <gray>{playerName}</gray></white>");
         clearCommand.setNoIdHistory("{prefix}<white>No chat history found for ID <gray>{id}</gray></white>");
         clearCommand.setNoHistory("{prefix}<white>No chat history found</white>");
+        clearCommand.setNotEnoughHistory("{prefix}<white>Not enough chat history entries to clear</white>");
         clearCommand.setCleared("{prefix}<white>Successfully deleted message from chat history</white>");
         clearCommand.setClearedAmount("{prefix}<white>Successfully cleared <gray>{amount}</gray>x chat history entries</white>");
 

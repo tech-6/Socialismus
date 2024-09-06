@@ -40,11 +40,18 @@ public class ChatHistoryContainer implements ChatHistoryContainerService {
     @Override
     public int removeMessages(int amount) {
         int removed = 0;
-        
+        List<Integer> keysToRemove = new ArrayList<>();
+
         Iterator<Integer> iterator = chatHistory.keySet().iterator();
-        while (iterator.hasNext() && removed < amount)
-            if (removeMessage(iterator.next()))
+        while (iterator.hasNext() && removed < amount) {
+            Integer key = iterator.next();
+            if (removeMessage(key)) {
+                keysToRemove.add(key);
                 removed++;
+            }
+        }
+
+        keysToRemove.forEach(chatHistory::remove);
 
         return removed;
     }
